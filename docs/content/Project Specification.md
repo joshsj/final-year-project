@@ -111,24 +111,21 @@ do not yet support the new major version.
 
 ## Action Plan
 
-| Feature               | Platforms`*` | Objective                                                                                                            | Commencing <br> (Weeks)      |
-| --------------------- | :----------: | -------------------------------------------------------------------------------------------------------------------- | :--------------------------- |
-| Identity Verification |    Mobile    | Research mobile hardware (plus APIs) usable for verification <br> Design the verification process <br> Develop, Test | 25 Oct <br> [14, 15, 16]     |
-| Location Verification |     Web      | Research and design location storage structure, Develop, Test                                                        | 15 Nov <br> [17, 18]         |
-| Job Sites             |     Web      | Design management UI <br> Design storage structure <br> Develop, Test                                                | 29 Nov <br> [19, 20]         |
-| Users                 | Web, Mobile  | Research authentication methods <br> Design roles and permissions <br> Develop, Test                                 | 13 Dec <br> [21, 24, 25, 26] |
-| Customer Integration  |              | Research approaches to integrate with possible customer payroll systems                                              | 24 Jan <br> [27]             |
-| Check-in Data         |     Web      | Design integrated and manual process, Develop, Test                                                                  | 31 Jan <br> [28, 29, 30]     |
-| User Registration     |     Web      | Design integrated and manual processes, Develop, Test                                                                | 21 Feb <br> [31, 32]         |
-| Extensions`**`        | Web, Mobile  | Attain user feedback on potential features                                                                           | 07 Mar <br> [33]             |
-|                       |              | Design, develop, and test any additional feature(s)                                                                  | 14 Mar <br> [34, 35, 36, 37] |
+| Feature               | Platforms\* | Objective                                                                                                            | Commencing <br> (Weeks)      |
+| --------------------- | :---------: | -------------------------------------------------------------------------------------------------------------------- | :--------------------------- |
+| Identity Verification |   Mobile    | Research mobile hardware (plus APIs) usable for verification <br> Design the verification process <br> Develop, Test | 25 Oct <br> [14, 15, 16]     |
+| Location Verification |     Web     | Research and design location storage structure, Develop, Test                                                        | 15 Nov <br> [17, 18]         |
+| Job Sites             |     Web     | Design management UI <br> Design storage structure <br> Develop, Test                                                | 29 Nov <br> [19, 20]         |
+| Users                 | Web, Mobile | Research authentication methods <br> Design roles and permissions <br> Develop, Test                                 | 13 Dec <br> [21, 24, 25, 26] |
+| Customer Integration  |             | Research approaches to integrate with possible customer payroll systems                                              | 24 Jan <br> [27]             |
+| Check-in Data         |     Web     | Design integrated and manual process, Develop, Test                                                                  | 31 Jan <br> [28, 29, 30]     |
+| User Registration     |     Web     | Design integrated and manual processes, Develop, Test                                                                | 21 Feb <br> [31, 32]         |
+| Extensions\*\*        | Web, Mobile | Attain user feedback on potential features                                                                           | 07 Mar <br> [33]             |
+|                       |             | Design, develop, and test any additional feature(s)                                                                  | 14 Mar <br> [34, 35, 36, 37] |
 
-**`*`** All objectives include API work
+**\*** All objectives include API work
 
-<!-- prettier-ignore-start -->
-<!-- Prettier bug misformats the asterisks -->
-**`**`** Time also usable to complete previous objective(s)
-<!-- prettier-ignore-end -->
+**\*\*** Time also usable to complete previous objective(s)
 
 ## Deadlines
 
