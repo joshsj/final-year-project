@@ -111,32 +111,17 @@ do not yet support the new major version.
 
 ## Action Plan
 
-| Feature               | Platforms `*` | Objective                                                               | Commencing |  Week  |
-| --------------------- | :-----------: | ----------------------------------------------------------------------- | :--------: | :----: |
-| Identity Verification |    Mobile     | Research mobile hardware (plus APIs) usable for verification            |   25 Oct   |   14   |
-|                       |               | Design the verification process, start development                      |   01 Nov   |   15   |
-|                       |               | Complete development, complete testing                                  |   08 Nov   |   16   |
-| Location Verification |      Web      | Research and design location storage structure                          |   15 Nov   |   17   |
-|                       |               | Develop, test                                                           |   22 Nov   |   18   |
-| Job Sites             |      Web      | Design management UI, design storage structure                          |   29 Nov   |   19   |
-|                       |               | Develop, test                                                           |   06 Dec   |   20   |
-| Users                 |  Web, Mobile  | Research authentication methods, design roles and permissions,          |   13 Dec   |   21   |
-|                       |               |                                                                         | ~~20 Dec~~ | ~~22~~ |
-|                       |               |                                                                         | ~~27 Dec~~ | ~~23~~ |
-|                       |               | Start development                                                       |   03 Jan   |   24   |
-|                       |               | Complete development                                                    |   10 Jan   |   25   |
-|                       |               | Test                                                                    |   17 Jan   |   26   |
-| Customer Integration  |               | Research approaches to integrate with possible customer payroll systems |   24 Jan   |   27   |
-| Check-in Data         |      Web      | Design integrated and manual process, start development                 |   31 Jan   |   28   |
-|                       |               | Complete development                                                    |   07 Feb   |   29   |
-|                       |               | Test                                                                    |   14 Feb   |   30   |
-| User Registration     |      Web      | Design integrated and manual processes                                  |   21 Feb   |   31   |
-|                       |               | Develop, test                                                           |   28 Feb   |   32   |
-| Extensions `**`       |  Web, Mobile  | Attain user feedback on potential features                              |   07 Mar   |   33   |
-|                       |               | Design, develop, and test new feature                                   |   14 Mar   |   34   |
-|                       |               | Design, develop, and test new feature                                   |   21 Mar   |   35   |
-|                       |               | Design, develop, and test new feature                                   |   28 Mar   |   36   |
-|                       |               | Design, develop, and test new feature                                   |   04 Apr   |   37   |
+| Feature               | Platforms`*` | Objective                                                                                                            | Commencing <br> (Weeks)      |
+| --------------------- | :----------: | -------------------------------------------------------------------------------------------------------------------- | :--------------------------- |
+| Identity Verification |    Mobile    | Research mobile hardware (plus APIs) usable for verification <br> Design the verification process <br> Develop, Test | 25 Oct <br> [14, 15, 16]     |
+| Location Verification |     Web      | Research and design location storage structure, Develop, Test                                                        | 15 Nov <br> [17, 18]         |
+| Job Sites             |     Web      | Design management UI <br> Design storage structure <br> Develop, Test                                                | 29 Nov <br> [19, 20]         |
+| Users                 | Web, Mobile  | Research authentication methods <br> Design roles and permissions <br> Develop, Test                                 | 13 Dec <br> [21, 24, 25, 26] |
+| Customer Integration  |              | Research approaches to integrate with possible customer payroll systems                                              | 24 Jan <br> [27]             |
+| Check-in Data         |     Web      | Design integrated and manual process, Develop, Test                                                                  | 31 Jan <br> [28, 29, 30]     |
+| User Registration     |     Web      | Design integrated and manual processes, Develop, Test                                                                | 21 Feb <br> [31, 32]         |
+| Extensions`**`        | Web, Mobile  | Attain user feedback on potential features                                                                           | 07 Mar <br> [33]             |
+|                       |              | Design, develop, and test any additional feature(s)                                                                  | 14 Mar <br> [34, 35, 36, 37] |
 
 **`*`** All objectives include API work
 
