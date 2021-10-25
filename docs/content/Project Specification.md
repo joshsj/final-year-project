@@ -111,7 +111,7 @@ do not yet support the new major version.
 
 ## Action Plan
 
-| Feature               | Platforms\* | Objective                                                                                                            | Commencing <br> (Weeks)      |
+| Feature               | Platforms\* | Objective                                                                                                            | Commencing <br> [Weeks]      |
 | --------------------- | :---------: | -------------------------------------------------------------------------------------------------------------------- | :--------------------------- |
 | Identity Verification |   Mobile    | Research mobile hardware (plus APIs) usable for verification <br> Design the verification process <br> Develop, Test | 25 Oct <br> [14, 15, 16]     |
 | Location Verification |     Web     | Research and design location storage structure, Develop, Test                                                        | 15 Nov <br> [17, 18]         |
