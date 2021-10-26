@@ -17,10 +17,9 @@ verify employee attendance at 'job sites', i.e., a specific
 location. Upon reaching a job site, an employee provides
 verification information to 'check-in' at a location.
 
-The service uses GPS data to verify an employee's location,
-alongside a identity verification process to ensure check-in
-is valid, i.e., ensuring the end-user cannot be another
-employee/individual.
+The service verifies the employee's location and identity to
+ensure check-in is valid, i.e., ensuring the end-user cannot
+be another employee/individual.
 
 Using the platform on the job should be as easy as possible,
 so the system will incorporate handy features to ensure its
