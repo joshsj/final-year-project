@@ -14,9 +14,8 @@
 
 RendezVous is a service for new and existing businesses to
 verify employee attendance at 'job sites', i.e., a specific
-location. Upon reaching and leaving a job site, an employee
-provides verification information to 'check-in' and
-'check-out' respectively.
+location. Upon reaching a job site, an employee provides
+verification information to 'check-in' at a location.
 
 The service uses GPS data to verify an employee's location,
 alongside a identity verification process to ensure check-in
@@ -26,7 +25,7 @@ employee/individual.
 Using the platform on the job should be as easy as possible,
 so the system will incorporate handy features to ensure its
 convenience. For example, providing notifications to users
-when entering/leaving job sites.
+when entering a job location.
 
 RendezVous also offers integration with client systems to
 register employees and forward check-in data, enabling
@@ -37,7 +36,7 @@ automated payroll for example.
 - Allow on-location workers to:
   - View their job sites
   - Check their personal details
-  - Check-in and check-out of locations
+  - Check-in at locations
   - Easily provide verification information at a job site
 - Allow administrators to:
   - Configure company job sites
@@ -56,7 +55,7 @@ automated payroll for example.
 The project will be developed as three systems: a RESTful
 API serving the backend; a website for configuration and
 management; and a cross-platform mobile application for
-checking in/out on location.
+checking in at job sites.
 
 Developing the RESTful API will be achieved using .NET Core,
 as it was the main technology with which I worked on
@@ -122,7 +121,7 @@ do not yet support the new major version.
 | Users                  | 06 Dec (20, 21, ~~22, 23~~, 24, 25) | DDT authentication                                                                   | API, Web, Mobile  |
 |                        |                                     | DDT roles and permissions                                                            | API, Web, Mobile  |
 | Job Sites              | 17 Jan (26, 27)                     | DDT job site configuration                                                           | API, Web          |
-| Check-in Data          | 31 Jan (28, 29)                     | DDT customer-integrated process                                                      | API               |
+| Check-in Forwarding    | 31 Jan (28, 29)                     | DDT customer-integrated process                                                      | API               |
 | User Registration      | 21 Feb (31, 32)                     | DDT customer-integrated process                                                      | API, Web          |
 | User Research          | 07 Mar (33)                         | Attain user feedback on existing system and potential features                       |                   |
 | Extensions             | 14 Mar (34, 35, 36, 37)             | DDT existing/additional features                                                     | API, Web? Mobile? |
