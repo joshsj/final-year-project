@@ -110,21 +110,25 @@ do not yet support the new major version.
 
 ## Action Plan
 
-| Objective              | Commencing (Weeks)                  | Aspects                                                                              | Platforms         |
-| ---------------------- | :---------------------------------- | ------------------------------------------------------------------------------------ | ----------------- |
-| Preparation            | 25 Oct (14, 15, 16)                 | Research mobile hardware, plus accompanying APIs, to implement identity verification |
-|                        |                                     | Research tools to map locations for job site configuration                           |
-|                        |                                     | Research platforms for customer integrations                                         |
-|                        |                                     | Set up projects and deployment platforms                                             |
-| Verification Processes | 15 Nov (17, 18, 19)                 | DDT identity verification                                                            | API, Mobile       |
-|                        |                                     | DDT location verification                                                            | API, Mobile       |
-| Users                  | 06 Dec (20, 21, ~~22, 23~~, 24, 25) | DDT authentication                                                                   | API, Web, Mobile  |
-|                        |                                     | DDT roles and permissions                                                            | API, Web, Mobile  |
-| Job Sites              | 17 Jan (26, 27)                     | DDT job site configuration                                                           | API, Web          |
-| Check-in Forwarding    | 31 Jan (28, 29)                     | DDT customer-integrated process                                                      | API               |
-| User Registration      | 21 Feb (31, 32)                     | DDT customer-integrated process                                                      | API, Web          |
-| User Research          | 07 Mar (33)                         | Attain user feedback on existing system and potential features                       |                   |
-| Extensions             | 14 Mar (34, 35, 36, 37)             | DDT existing/additional features                                                     | API, Web? Mobile? |
+Timescale based on
+[Sheffield Hallam Undergraduate Calendar](https://students.shu.ac.uk/regulations/UG%20Academic%20Calendar%20202122.pdf)
+
+| Feature               | Commencing (Weeks)  | Objectives                                                                     | Platforms         |
+| --------------------- | ------------------- | ------------------------------------------------------------------------------ | ----------------- |
+| Initiation            | 25 Oct (14)         | Set up deployment platforms, repository, project structures, Kanban board      | API, Web, Mobile  |
+| Users                 | 06 Dec (15, 16, 17) | DDT authentication                                                             | API, Web, Mobile  |
+|                       |                     | DDT roles and permissions configuration                                        | API, Web, Mobile  |
+| Job Site Management   | 22 Nov (18, 19)     | Research tools to select locations                                             |                   |
+|                       |                     | DDT job site management                                                        | API, Web          |
+| Location Verification | 06 Dec (20, 21)     | Research tools to map locations for job site configuration                     |                   |
+|                       |                     | DDT the process                                                                | API, Mobile       |
+| Identity Verification | 03 Jan (24, 25)     | Research mobile hardware, plus accompanying APIs, usable to identify employees |
+|                       |                     | DDT the process                                                                | API, Mobile       |
+| Customer Integration  | 17 Jan (26)         | Research common platforms/services with which to integrate                     |                   |
+| Check-in Forwarding   | 24 Jan (27, 28)     | DDT customer-integrated process                                                | API               |
+| User Registration     | 07 Feb (29, 30)     | DDT customer-integrated process                                                | API, Web          |
+| User Research         | 21 Feb (31)         | Attain user feedback on existing system and potential features                 |
+| Extensions            | 28 Feb (32+)        | DDT existing/additional features                                               | API, Web? Mobile? |
 
 <br>
 

@@ -2,5 +2,11 @@
   "[markdown]": {
     "editor.rulers": [61]
   },
-  "cSpell.words": ["Anyameluhor", "Hons", "Nnamdi"]
+  "cSpell.words": [
+    "Anyameluhor",
+    "Hons",
+    "Nnamdi",
+    "Timescale",
+    "Timescales"
+  ]
 }
