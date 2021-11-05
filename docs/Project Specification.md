@@ -69,12 +69,6 @@ processes and feature enhancements later in development. Vue
 is also a familiar choice, as I worked with it on multiple
 projects during my placement.
 
-Due to my extensive use of Vue on placement, the learning
-curve should be shallow thanks to their fundamental
-similarities. Vue was also not chosen as it's currently
-transitioning from v2 to v3 and some major libraries/tools
-do not yet support the new major version.
-
 Since .NET Core is cross-platform, it can be deployed on any
 OS along with the website.
 
