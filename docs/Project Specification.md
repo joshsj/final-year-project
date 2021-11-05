@@ -26,10 +26,6 @@ so the system will incorporate handy features to ensure its
 convenience. For example, providing notifications to users
 when entering a job location.
 
-RendezVous also offers integration with client systems to
-register employees and forward check-in data, enabling
-automated payroll for example.
-
 ## Project Aims
 
 - Allow on-location workers to:
@@ -46,14 +42,12 @@ automated payroll for example.
   and identity
 - Extend the application's ease-of-use with small,
   additional features based on user research
-- Implement method(s) for customers to integrate the service
-  with their own systems
 
 ## Project Deliverables
 
 The project will be composed of two systems: a RESTful API
-for the backend; and a PWA-enhanced website for
-configuration, management, and checking-in.
+for the backend; and a website for configuration,
+management, and checking-in.
 
 Developing the RESTful API will be achieved using .NET Core,
 as it was the main technology with which I worked on
@@ -64,15 +58,16 @@ like Visual Studio and Rider, both available for students;
 and almost any design pattern/architecture can be chosen
 using either C# or F#.
 
-The site will be developed using the React ecosystem, as it
-offers a very wide additional frameworks/libraries to handle
-all the fundamental aspects of the site, e.g., Redux for
-state management or React-Bootstrap for UI development.
-Crucially, it also offers many templates and libraries to
-develop PWAs, allowing for lower-level access to native APIs
-on Android and iOS. This widens to the scope for possible
-verification processes and feature enhancements later in
-development.
+The site will be developed using Vue 3, as it offers a very
+wide additional frameworks/libraries to handle all the
+fundamental aspects of the site, e.g., Vuex for state
+management or Vuetify for UI development. Crucially, it also
+offers many templates and libraries to develop PWAs,
+allowing for lower-level access to native APIs on Android
+and iOS. This widens to the scope for possible verification
+processes and feature enhancements later in development. Vue
+is also a familiar choice, as I worked with it on multiple
+projects during my placement.
 
 Due to my extensive use of Vue on placement, the learning
 curve should be shallow thanks to their fundamental
@@ -109,11 +104,8 @@ Timescale based on
 |                       |                    | DDT the process                                                                | API, Mobile       |
 | Identity Verification | 03 Jan (24, 25)    | Research mobile hardware, plus accompanying APIs, usable to identify employees |
 |                       |                    | DDT the process                                                                | API, Mobile       |
-| Customer Integration  | 17 Jan (26)        | Research common platforms/services with which to integrate                     |                   |
-| Check-in Forwarding   | 24 Jan (27, 28)    | DDT customer-integrated process                                                | API               |
-| User Registration     | 07 Feb (29, 30)    | DDT customer-integrated process                                                | API, Web          |
-| User Research         | 21 Feb (31)        | Attain user feedback on existing system and potential features                 |
-| Extensions            | 28 Feb (32+)       | DDT existing/additional features                                               | API, Web? Mobile? |
+| User Research         | 17 Jan (26)        | Attain user feedback on existing system and potential features                 |
+| Extensions            | 24 Feb (27+)       | DDT existing/additional features                                               | API, Web? Mobile? |
 
 <br>
 
