@@ -87,19 +87,21 @@ estimate.
 Timescale based on
 [Sheffield Hallam Undergraduate Calendar](https://students.shu.ac.uk/regulations/UG%20Academic%20Calendar%20202122.pdf)
 
-| Feature               | Commencing (Weeks) | Objectives                                                                     | Platforms         |
-| --------------------- | ------------------ | ------------------------------------------------------------------------------ | ----------------- |
-| Initiation            | 01 Nov (15)        | Set up deployment platforms, repository, project structures, Kanban board      | API, Web, Mobile  |
-| Users                 | 08 Nov (16, 17)    | DDT authentication                                                             | API, Web, Mobile  |
-|                       |                    | DDT roles and permissions configuration                                        | API, Web, Mobile  |
-| Job Site Management   | 22 Nov (18, 19)    | Research tools to select locations                                             |                   |
-|                       |                    | DDT job site management                                                        | API, Web          |
-| Location Verification | 06 Dec (20, 21)    | Research tools to map locations for job site configuration                     |                   |
-|                       |                    | DDT the process                                                                | API, Mobile       |
-| Identity Verification | 03 Jan (24, 25)    | Research mobile hardware, plus accompanying APIs, usable to identify employees |
-|                       |                    | DDT the process                                                                | API, Mobile       |
-| User Research         | 17 Jan (26)        | Attain user feedback on existing system and potential features                 |
-| Extensions            | 24 Feb (27+)       | DDT existing/additional features                                               | API, Web? Mobile? |
+| Feature               | Commencing (Weeks)  | Objectives                                                                     | Platforms         |
+| --------------------- | ------------------- | ------------------------------------------------------------------------------ | ----------------- |
+| Initiation            | 15 Nov (17)         | Set up deployment platforms, repository, project structures, Kanban board      | API, Web, Mobile  |
+| Users                 | 22 Nov (18, 19)     | DDT authentication                                                             | API, Web, Mobile  |
+|                       |                     | DDT roles and permissions configuration                                        | API, Web, Mobile  |
+| Job Site Management   | 06 Dec (20, 21)     | Research tools to select locations                                             |                   |
+|                       |                     | DDT job site management                                                        | API, Web          |
+| Christmas             | ~~20 Dec (22, 23)~~ | Relax                                                                          |
+|                       |                     | Start verification research (?)                                                |
+| Location Verification | 03 Jan (24, 25)     | Research tools to map locations for job site configuration                     |                   |
+|                       |                     | DDT the process                                                                | API, Mobile       |
+| Identity Verification | 17 Jan (26, 27)     | Research mobile hardware, plus accompanying APIs, usable to identify employees |
+|                       |                     | DDT the process                                                                | API, Mobile       |
+| User Research         | 31 Jan (28)         | Attain user feedback on existing system and potential features                 |
+| Extensions            | 07 Feb (29+)        | DDT existing/additional features                                               | API, Web? Mobile? |
 
 <br>
 
