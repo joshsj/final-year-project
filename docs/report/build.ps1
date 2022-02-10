@@ -2,6 +2,8 @@ $Name = "Project Report"
 $ReportDir = $PSScriptRoot
 $BuildDir = Join-Path $PSScriptRoot "build"
 
+Remove-Item -Force -Recurse $BuildDir | Out-Null
+
 $pdfLatex = {
   pdflatex.exe `
     -interaction=nonstopmode `
