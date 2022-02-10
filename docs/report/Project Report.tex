@@ -2,6 +2,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
+\usepackage[british]{babel}
 
 % * {outline: 1px solid black;}
 \usepackage{showframe}
@@ -13,9 +14,10 @@
 % red glossary references
 \renewcommand{\glstextformat}[1]{\color[RGB]{228, 86, 73}{#1}}
 
-\usepackage{biblatex}
-\addbibresource{../References.bib}
-% relative to build directory :/
+% requires biblatex-apa
+\usepackage{csquotes}
+\usepackage[style=apa, backend=biber]{biblatex}
+\addbibresource{../References.bib} % relative to build directory :/
 \defbibheading{bibliography}[]{\chapter{References}}
 
 % hide 'chapter n' from title
@@ -29,9 +31,7 @@
   \begin{center}
     \setlength\parskip{1ex}
 
-    \null
-
-    % required for \vfill
+    \null % required for \vfill
     \vfill
 
     { \huge Project Report }
