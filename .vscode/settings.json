@@ -2,6 +2,8 @@
   "[markdown]": {
     "editor.rulers": [61]
   },
+
+  "cSpell.language": "en-GB",
   "cSpell.words": [
     "Anyameluhor",
     "Hons",
@@ -9,5 +11,14 @@
     "Timescale",
     "Timescales",
     "anonymised"
-  ]
+  ],
+
+  "[latex]": {
+    "editor.formatOnSave": false,
+    "editor.suggestSelection": "recentlyUsedByPrefix"
+  },
+
+  "latex-workshop.latex.autoBuild.run": "never",
+  "latex-workshop.latex.external.build.command": "pwsh.exe", // powershell 7
+  "latex-workshop.latex.external.build.args": ["./docs/report/build.ps1"] // relative to workspace
 }

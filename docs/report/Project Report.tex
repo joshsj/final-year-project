@@ -1,0 +1,60 @@
+\documentclass{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+
+% * {outline: 1px solid black;}
+\usepackage{showframe}
+
+\usepackage[toc, numberedsection=nolabel]{glossaries}
+\loadglsentries{./Terms.tex}
+\makeglossaries
+
+% red glossary references
+\renewcommand{\glstextformat}[1]{\color[RGB]{228, 86, 73}{#1}}
+
+\usepackage{biblatex}
+\addbibresource{../References.bib} % relative to build directory :/
+\defbibheading{bibliography}[]{\chapter{References}}
+
+% hide 'chapter n' from title
+% display with number (like sections)
+\usepackage{titlesec}
+\titleformat{\chapter}[display]{\huge\bfseries}{}{0pt}{\thechapter\hspace{1ex}}
+
+\begin{document}
+
+\begin{titlepage}
+  \begin{center}
+  \setlength\parskip{1ex}
+
+  \null % required for \vfill
+  \vfill
+  
+  { \huge Project Report }
+
+  Joshua Sexton-Jones
+
+  \vfill
+  
+  Sheffield Hallam University
+
+  \today
+  \end{center}
+\end{titlepage}
+
+\input{./Acknowledgements.tex} \clearpage
+
+\input{./Abstract.tex} \clearpage
+
+\tableofcontents \clearpage
+
+\printglossary[title=Terminology]
+
+\input{./Introduction.tex} \clearpage
+
+\input{./Research.tex} \clearpage
+
+\printbibliography \clearpage
+
+\end{document}
