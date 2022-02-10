@@ -6,15 +6,17 @@
 % * {outline: 1px solid black;}
 \usepackage{showframe}
 
-\usepackage[toc, numberedsection=nolabel]{glossaries}
-\loadglsentries{./Terms.tex}
+\usepackage[toc,
+numberedsection=nolabel]{glossaries}
+\loadglsentries{Terms.tex}
 \makeglossaries
 
 % red glossary references
 \renewcommand{\glstextformat}[1]{\color[RGB]{228, 86, 73}{#1}}
 
 \usepackage{biblatex}
-\addbibresource{../References.bib} % relative to build directory :/
+\addbibresource{../References.bib}
+% relative to build directory :/
 \defbibheading{bibliography}[]{\chapter{References}}
 
 % hide 'chapter n' from title
@@ -26,34 +28,43 @@
 
 \begin{titlepage}
   \begin{center}
-  \setlength\parskip{1ex}
+    \setlength\parskip{1ex}
 
-  \null % required for \vfill
-  \vfill
-  
-  { \huge Project Report }
+    \null
 
-  Joshua Sexton-Jones
+    % required for \vfill
+    \vfill
 
-  \vfill
-  
-  Sheffield Hallam University
+    { \huge Project Report }
 
-  \today
-  \end{center}
-\end{titlepage}
+    Joshua Sexton-Jones
 
-\input{./Acknowledgements.tex} \clearpage
+    \vfill
 
-\input{./Abstract.tex} \clearpage
+    Sheffield Hallam University
+
+    \today \end{center} \end{titlepage}
+
+\input
+{01 acknowledgements/.tex} \clearpage
+
+\input
+{02 abstract/.tex} \clearpage
 
 \tableofcontents \clearpage
 
-\printglossary[title=Terminology]
+\printglossary[title=Terminology] \clearpage
 
-\input{./Introduction.tex} \clearpage
+\cite{hmm}
 
-\input{./Research.tex} \clearpage
+\input
+{03 introduction/.tex} \clearpage
+
+\input
+{04 research/.tex} \clearpage
+
+\input
+{05 design/.tex} \clearpage
 
 \printbibliography \clearpage
 

@@ -1,8 +1,4 @@
 {
-  "[markdown]": {
-    "editor.rulers": [61]
-  },
-
   "cSpell.language": "en-GB",
   "cSpell.words": [
     "Anyameluhor",
@@ -13,12 +9,19 @@
     "anonymised"
   ],
 
+  "[markdown]": {
+    "editor.rulers": [61]
+  },
+
   "[latex]": {
+    "editor.rulers": [61],
     "editor.formatOnSave": false,
     "editor.suggestSelection": "recentlyUsedByPrefix"
   },
 
   "latex-workshop.latex.autoBuild.run": "never",
-  "latex-workshop.latex.external.build.command": "pwsh.exe", // powershell 7
-  "latex-workshop.latex.external.build.args": ["./docs/report/build.ps1"] // relative to workspace
+  // powershell 7
+  "latex-workshop.latex.external.build.command": "pwsh.exe",
+  // relative to workspace
+  "latex-workshop.latex.external.build.args": ["./docs/report/build.ps1"]
 }
