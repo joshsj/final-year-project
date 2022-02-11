@@ -1,27 +1,36 @@
 {
   "cSpell.language": "en-GB",
   "cSpell.words": [
+    "anonymised",
     "Anyameluhor",
+    "biblatex",
     "Hons",
     "Nnamdi",
     "Timescale",
-    "Timescales",
-    "anonymised"
+    "Timescales"
   ],
 
   "[markdown]": {
-    "editor.rulers": [61]
+    "editor.rulers": [60]
   },
 
   "[latex]": {
-    "editor.rulers": [61],
-    "editor.formatOnSave": false,
-    "editor.suggestSelection": "recentlyUsedByPrefix"
+    "editor.rulers": [60],
+    "editor.suggestSelection": "recentlyUsedByPrefix",
+    "rewrap.autoWrap.enabled": true,
+    "editor.formatOnSave": false // latexindent is slow
   },
 
   "latex-workshop.latex.autoBuild.run": "never",
   // powershell 7
   "latex-workshop.latex.external.build.command": "pwsh.exe",
   // relative to workspace
-  "latex-workshop.latex.external.build.args": ["./docs/report/build.ps1"]
+  "latex-workshop.latex.external.build.args": ["./docs/report/build.ps1"],
+
+  "latex-workshop.latexindent.args": [
+    "-c=%WORKSPACE_FOLDER%/docs/report/build/",
+    "-l=%WORKSPACE_FOLDER%/latexindent.yaml",
+    "-m",
+    "%TMPFILE%"
+  ]
 }

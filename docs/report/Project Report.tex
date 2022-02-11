@@ -12,25 +12,29 @@
 \makeglossaries
 
 % red glossary references
-\renewcommand{\glstextformat}[1]{\color[RGB]{228, 86, 73}{#1}}
+\renewcommand{\glstextformat}[1]{\color[RGB]{228,86,73}{#1}}
 
 % requires biblatex-apa
 \usepackage{csquotes}
 \usepackage[style=apa, backend=biber]{biblatex}
-\addbibresource{../References.bib} % relative to build directory :/
+% relative to build directory :/
+\addbibresource{../References.bib} 
 \defbibheading{bibliography}[]{\chapter{References}}
 
 % hide 'chapter n' from title
 % display with number (like sections)
-\usepackage{titlesec}
-\titleformat{\chapter}[display]{\huge\bfseries}{}{0pt}{\thechapter\hspace{1ex}}
+% TODO fix for unnumbered chapters
+% \usepackage{titlesec}
+% \titleformat{\chapter}[display]{\huge\bfseries}{}{0pt}{\thechapter\hspace{1ex}}
+
+% equivalent spacing to paragraphs
+\usepackage{enumitem}
+\setlist{itemsep=\parskip}
 
 \begin{document}
 
 \begin{titlepage}
   \begin{center}
-    \setlength\parskip{1ex}
-
     \null % required for \vfill
     \vfill
 
@@ -42,7 +46,7 @@
 
     Sheffield Hallam University
 
-    \today 
+    \today
   \end{center}
 \end{titlepage}
 
