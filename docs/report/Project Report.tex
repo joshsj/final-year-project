@@ -1,6 +1,6 @@
 \documentclass{report}
 
-\usepackage[utf8]{inputenc}
+\usepackage[utf8x]{inputenc}
 \usepackage{hyperref}
 \usepackage[british]{babel}
 
@@ -16,7 +16,11 @@
 
 % requires biblatex-apa
 \usepackage{csquotes}
-\usepackage[style=apa, backend=biber]{biblatex}
+\usepackage[
+  style=apa,
+  backend=biber,
+  block=ragged % helps with line breaks for urls
+]{biblatex}
 % relative to build directory :/
 \addbibresource{../References.bib} 
 \defbibheading{bibliography}[]{\chapter{References}}
@@ -50,20 +54,21 @@
   \end{center}
 \end{titlepage}
 
-\input{01 acknowledgements/.tex} \clearpage
+\input{01 acknowledgements/.tex}
 
-\input{02 abstract/.tex} \clearpage
+\input{02 abstract/.tex}
 
 \tableofcontents \clearpage
 
-\printglossary[title=Terminology] \clearpage
+\printglossary[title=Terminology]
 
-\input{03 introduction/.tex} \clearpage
+\input{03 introduction/.tex}
 
-\input{04 research/.tex} \clearpage
+\input{04 research/.tex}
 
-\input{05 design/.tex} \clearpage
 
-\printbibliography \clearpage
+\input{05 design/.tex}
+
+\printbibliography
 
 \end{document}

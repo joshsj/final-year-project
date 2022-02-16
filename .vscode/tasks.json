@@ -1,0 +1,42 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build Report",
+      "command": "./build.ps1",
+      "options": {
+        "shell": { "executable": "pwsh.exe" },
+        "cwd": "${workspaceFolder}/docs/report"
+      },
+      "type": "shell",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "new",
+        "showReuseMessage": false,
+        "clear": true
+      }
+    },
+    {
+      "label": "Build Report (Full)",
+      "command": "./build.ps1",
+      "args": ["-full"],
+      "options": {
+        "shell": { "executable": "pwsh.exe" },
+        "cwd": "${workspaceFolder}/docs/report"
+      },
+      "type": "shell",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "new",
+        "showReuseMessage": false,
+        "clear": true
+      }
+    }
+  ]
+}
