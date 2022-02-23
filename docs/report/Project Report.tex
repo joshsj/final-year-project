@@ -1,8 +1,13 @@
 \documentclass{report}
 
 \usepackage[utf8x]{inputenc}
-\usepackage{hyperref}
 \usepackage[british]{babel}
+\usepackage[autostyle]{csquotes}
+\usepackage{hyperref}
+\usepackage{lipsum}  
+\usepackage{graphicx}  
+\usepackage{subcaption}  
+\usepackage{float}  
 
 % * {outline: 1px solid black;}
 \usepackage{showframe}
@@ -10,9 +15,6 @@
 \usepackage[toc, numberedsection=nolabel]{glossaries}
 \loadglsentries{Terms.tex}
 \makeglossaries
-
-% red glossary references
-\renewcommand{\glstextformat}[1]{\color[RGB]{228,86,73}{#1}}
 
 % requires biblatex-apa
 \usepackage{csquotes}
@@ -22,18 +24,20 @@
   block=ragged % helps with line breaks for urls
 ]{biblatex}
 % relative to build directory :/
-\addbibresource{../References.bib} 
+\addbibresource{../03 introduction/references.bib} 
+\addbibresource{../04 research/references.bib} 
 \defbibheading{bibliography}[]{\chapter{References}}
-
-% hide 'chapter n' from title
-% display with number (like sections)
-% TODO fix for unnumbered chapters
-% \usepackage{titlesec}
-% \titleformat{\chapter}[display]{\huge\bfseries}{}{0pt}{\thechapter\hspace{1ex}}
 
 % equivalent spacing to paragraphs
 \usepackage{enumitem}
 \setlist{itemsep=\parskip}
+
+% red glossary references
+\renewcommand{\glstextformat}[1]{\color[RGB]{228,86,73}{#1}}
+
+% italic quotes
+\let\oldenquote\enquote
+\renewcommand{\enquote}[1]{\textit{\oldenquote{#1}}} 
 
 \begin{document}
 

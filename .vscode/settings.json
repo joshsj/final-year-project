@@ -5,9 +5,14 @@
     "Anyameluhor",
     "biblatex",
     "Hons",
+    "HOTP",
+    "Multifactor",
     "Nnamdi",
     "Timescale",
-    "Timescales"
+    "Timescales",
+    "timestep",
+    "TOTP",
+    "userbase"
   ],
 
   "[markdown]": {
@@ -15,10 +20,7 @@
   },
 
   "[latex]": {
-    "editor.rulers": [60],
-    "editor.suggestSelection": "recentlyUsedByPrefix",
-    "rewrap.autoWrap.enabled": true,
-    "editor.formatOnSave": false // latexindent is slow
+    "editor.rulers": [60]
   },
 
   "latex-workshop.latex.autoBuild.run": "never",
