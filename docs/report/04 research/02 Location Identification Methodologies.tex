@@ -1,11 +1,48 @@
 \section{Location Identification Technologies}
 
+Location identification simply refers to establishing the
+physical location of a device on the planet.
+In theory, this also includes the location of the user
+associated with the device.
+
+\subsection{Cellular Positioning}
+
+Cellular positioning uses the Global System for Mobile
+communication (or GSM): \enquote{a digital mobile network
+  that is widely used by mobile phone users in Europe and
+  other parts of the world} \parencite{whatIsGSM}.
+
+Devices using the GSM network require a SIM card, typically
+found in mobile phones.
+The SIM card is identified using its International Mobile
+Subscriber Identity (IMSI), and the phone with its
+International Mobile Equipment Identity (IMEI)
+\parencite{trackingSuspectByPhone}.
+
+The GSM network consists of base stations with fixed
+geographical positions.
+Each tower is allocated a Cell-ID and a Location Area
+Identifier (LAI) to uniquely identify a tower and its
+geographic position respectively.
+This is the simplest way to identify a device's physical
+location using GSM \parencite{suveryOfCellPos}.
+
+More accurate measurements use cell tower
+\enquote{triangulation} \parencite{howCellTowerTriWorks},
+or \enquote{trilateration} \parencite{suveryOfCellPos}).
+When a device is within range of three cell towers, the
+overlap of its distances from each can establish its
+location up to an accuracy of \nicefrac{3}{4} miles
+\parencite{howCellTowerTriWorks}.
+
 \subsection{GPS}
 
 \subsection{Geofencing}
 
 \subsection{Bluetooth Beacons}
 
-% TODO \subsection{check user's connection on current network}
+\subsection{IP Address-based}
 
 \subsection{Conclusions}
+
+% cant trust the cient

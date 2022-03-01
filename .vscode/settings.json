@@ -23,6 +23,10 @@
     "editor.rulers": [60]
   },
 
+  "[bibtex]": {
+    "editor.rulers": [60]
+  },
+
   "latex-workshop.latex.autoBuild.run": "never",
   // powershell 7
   "latex-workshop.latex.external.build.command": "pwsh.exe",
