@@ -6,43 +6,74 @@ In theory, this also includes the location of the user
 associated with the device.
 
 \subsection{Cellular Positioning}
-
+\label{ss:cellPos}
 Cellular positioning uses the Global System for Mobile
 communication (or GSM): \enquote{a digital mobile network
   that is widely used by mobile phone users in Europe and
   other parts of the world} \parencite{whatIsGSM}.
 
-Devices using the GSM network require a SIM card, typically
-found in mobile phones.
+Devices using the GSM network require a SIM card,
+conventionally found in mobile phones.
 The SIM card is identified using its International Mobile
 Subscriber Identity (IMSI), and the phone with its
 International Mobile Equipment Identity (IMEI)
 \parencite{trackingSuspectByPhone}.
 
 The GSM network consists of base stations with fixed
-geographical positions.
-Each tower is allocated a Cell-ID and a Location Area
-Identifier (LAI) to uniquely identify a tower and its
-geographic position respectively.
-This is the simplest way to identify a device's physical
-location using GSM \parencite{suveryOfCellPos}.
+geographical positions, or 'cell towers'.
+The distance of a connected device from a cell tower can be
+approximated using Time of Arrival (ToA)\label{t:toa} and
+Angle of Arrival (AoA); ToA measures the time taken for a
+signal to reach a device, and AoA measures the angle of
+received signals to compare against the geography within
+range of the tower \parencite{suveryOfCellPos}.
 
 More accurate measurements use cell tower
-\enquote{triangulation} \parencite{howCellTowerTriWorks},
-or \enquote{trilateration} \parencite{suveryOfCellPos}).
+\gls{triangulation} \parencite{howCellTowerTriWorks}, or
+\gls{trilateration} \parencite{suveryOfCellPos}).
 When a device is within range of three cell towers, the
-overlap of its distances from each can establish its
-location up to an accuracy of \nicefrac{3}{4} miles
-\parencite{howCellTowerTriWorks}.
+overlap in the towers' ranges can establish its location.
+According to \cite{locationComparison}, cellular
+positioning was the least accurate technology to find an
+iPhone 3G's location with a \enquote{median error of 600 m
+  for 64 observations}.
+
+its location up to an accuracy of \nicefrac{3}{4} miles
+\parencite{howCellTowerTriWorks}, though less accurate
+measurements can be taken with only two.
+
+Device's themselves and the GSM infrastructure can
+determine a device's location, hence its use by police
+forces in America \parencite{howCellTowerTriWorks}, however
+access to the infrastructure is restricted to paying
+customers (e.g., mobile cell carriers) and law enforcement.
 
 \subsection{GPS}
+
+Similar to \hyperref[ss:cellPos]{cellular positioning}, the
+
+Global Positioning System (GPS) uses 24 satellites in
+earth's orbit to locate devices via \gls{trilateration}.
+Unlike cell positioning, it calculates distance exclusively
+using the \hyperref[p:toa]{time taken} by a signal
+\parencite{suveryOfCellPos})}.
+
+\cite{locationComparison} states \enquote{most newer model
+  cell phones are GPS-enabled}; given the age of the report
+and the ever-increasing capabilities of smartphones, GPS
+has become an everyday technology.
+To reduce power consumption and improve
+'time-to-first-fix', most smartphones implement Assisted
+GPS (A-GPS), which delegates many complexities of a GPS
+receiver to the server with a sacrifice to accuracy.
+
+Although \cite{locationComparison} determined A-GPS to be
+less accurate than a standard GPS receiver, with an
+\enquote{average median error of 8 m}, it concluded A-GPS
+appears sufficient for most location-based services.
 
 \subsection{Geofencing}
 
 \subsection{Bluetooth Beacons}
 
 \subsection{IP Address-based}
-
-\subsection{Conclusions}
-
-% cant trust the cient
