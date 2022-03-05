@@ -1,7 +1,7 @@
 \documentclass[a4paper]{report}
 
 % * {outline: 1px solid black;}
-% \usepackage{showframe}
+\usepackage{showframe}
 
 % better text rendering
 % https://tex.stackexchange.com/questions/664/why-should-i-use-usepackaget1fontenc
@@ -15,16 +15,12 @@
 \usepackage{subcaption}  
 \usepackage{float}  
 \usepackage{nicefrac}
-\usepackage{hyperref}  
+\usepackage{hyperref}
+\usepackage{makecell}  
+\usepackage{lipsum}
 
 % language 
 \usepackage[british]{babel}
-
-% list customisation
-% \usepackage{enumitem}
-% equivalent spacing to paragraphs
-% \let\defaultparskip\parskip
-% \setlist{itemsep=\defaultparskip}
 
 % paragraph stying
 \usepackage{parskip}
@@ -32,9 +28,11 @@
 % proper quotations for language
 \usepackage[autostyle]{csquotes}
 
-% italic quotes
-\let\oldenquote\enquote
-\renewcommand{\enquote}[1]{\textit{\oldenquote{#1}}} 
+% TODO consider italic quotes
+% \let\oldenquote\enquote
+% \let\oldblockquote\blockquote
+% \renewcommand{\enquote}[1]{\textit{\oldenquote{#1}}} 
+% \renewcommand{\blockquote}[1]{\textit{\oldblockquote{#1}}} 
 
 \usepackage
 [
@@ -59,6 +57,13 @@
 % underlined links
 \renewcommand{\glstextformat}[1]{\underline{#1}}
 \newcommand{\labelref}[2]{\underline{\hyperref[#1]{#2}}}
+
+% helper
+\newcommand{\subfigwidth}{0.49\linewidth}
+
+% tighter, taller tables
+\setlength{\tabcolsep}{0.5ex}
+\renewcommand{\arraystretch}{2}
 
 \begin{document}
 

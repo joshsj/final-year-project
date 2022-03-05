@@ -1,12 +1,9 @@
 \section{User Authentication Methodologies}
 
-\enquote{Authentication is a term that refers to the
-  process of proving that some fact or some document is
-  genuine} \parencite{whatIsAuth}.
-In the context of users, authentication is proving to the
-system who you are; e.g., a daily average of 217 million
-people authenticate themselves on Twitter by logging in to
-their account \parencite[][Q4]{twitterUsage}.
+In the context of users, \gls{authentication} is proving a
+the system who you are; e.g., a daily average of 217
+million people authenticate themselves on Twitter by
+logging in to their account \parencite[][Q4]{twitterUsage}.
 
 In such a case, a user may provide their Twitter username
 and password, known as \textbf{credentials}; i.e.,
@@ -37,13 +34,14 @@ describes \textbf{two-factor authentication} (2FA) as
 
 \begin{figure}[H]
   \centering
-  \begin{subfigure}{0.49\linewidth}
+  \begin{subfigure}{\subfigwidth}
     \centering
     \includegraphics[width=0.75\linewidth]{04
       research/assets/github factor 1.png}
-    \caption{First factor: \labelref{p:passwords}{password}}
+    \caption{First factor:
+      \labelref{p:passwords}{password}}
   \end{subfigure}
-  \begin{subfigure}{0.49\linewidth}
+  \begin{subfigure}{\subfigwidth}
     \centering
     \includegraphics[width=0.75\linewidth]{04
       research/assets/github factor 2.png}
@@ -108,9 +106,9 @@ and \href{https://play.google.com/store/apps/details?
   id=com.google.android.apps.authenticator2}{Google}.
 In this case, an OTP can be categorised as a knowledge
 factor\parencite{surveyOnAuthFactors, evalOfAuthMethods}.
-Alternatively, proprietary devices named 'tokens' can also
-generate OTPs, including RSA SecurID, USB tokens such as
-Yubikey2, and RFID keys.
+Alternatively, proprietary devices named \enquote{tokens}
+can also generate OTPs, including RSA SecurID, USB tokens
+such as Yubikey2, and RFID keys.
 \cite{evalOfAuthMethods} considers tokens
 as a possession factor, whereas
 \cite{surveyOnAuthFactors} considers them as
@@ -118,14 +116,14 @@ knowledge.
 
 \begin{figure}[H]
   \centering
-  \begin{subfigure}{0.49\linewidth}
+  \begin{subfigure}{\subfigwidth}
     \centering
     \includegraphics[width=0.6\linewidth]{04
       research/assets/google authenticator.png}
     \caption{Google Authentication}
     \parencite{img:googleAuth}
   \end{subfigure}
-  \begin{subfigure}{0.49\linewidth}
+  \begin{subfigure}{\subfigwidth}
     \centering
     \includegraphics[width=0.8\linewidth]{04
       research/assets/hardware authentication.jpg}
@@ -136,10 +134,10 @@ knowledge.
   \caption{Methods of accessing OTPs}
 \end{figure}
 
-Generating OTPs first requires a 'seed': a secret value
-unique to each user account.
-It also requires a 'moving factor', which changes with each
-request for an OTP.
+Generating OTPs first requires a \enquote{seed}: a secret
+value unique to each user account.
+It also requires a \enquote{moving factor}, which changes
+with each request for an OTP.
 With this data, an OTP can be generated using many
 industry-standard algorithms like SHA-1
 \parencite{whatIsOtp}.
@@ -147,12 +145,12 @@ industry-standard algorithms like SHA-1
 With an HOTP (Hash-based Message Authentication Code
 One-time Password), the moving factor is a counter
 incremented every time an OPT is successfully verified.
-Time-based OTPs (or TOTP) use a 'timestep' as its moving
-factor, which specifies a short window a time relative to
-its time-of-generation in which the TOTP is valid
-\parencite{whatIsOtp}.
+Time-based OTPs (or TOTP) use a \enquote{timestep} as its
+moving factor, which specifies a short window a time
+relative to its time-of-generation in which the TOTP is
+valid \parencite{whatIsOtp}.
 
-\subsection{Biometrics}
+\subsection{Biometrics} \label{ss:biometrics}
 
 Biometrics identify individuals using \enquote{distinctive
   physical characteristics}, categorised within the inherent
