@@ -1,62 +1,81 @@
-\documentclass{report}
+\documentclass[a4paper]{report}
 
-\usepackage[utf8x]{inputenc}
-\usepackage[british]{babel}
-\usepackage[autostyle]{csquotes}
-\usepackage{hyperref}
-\usepackage{lipsum}  
+% * {outline: 1px solid black;}
+% \usepackage{showframe}
+
+% better text rendering
+% https://tex.stackexchange.com/questions/664/why-should-i-use-usepackaget1fontenc
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{lmodern}
+
+% general stuff
 \usepackage{graphicx}  
 \usepackage{subcaption}  
 \usepackage{float}  
-\usepackage{nicefrac}  
+\usepackage{nicefrac}
+\usepackage{hyperref}  
 
-% * {outline: 1px solid black;}
-\usepackage{showframe}
+% language 
+\usepackage[british]{babel}
 
-\usepackage[toc, numberedsection=nolabel]{glossaries}
-\makeglossaries
-\loadglsentries{Terms.tex}
-
-% requires biblatex-apa
-\usepackage{csquotes}
-\usepackage[
-  style=apa,
-  backend=biber,
-  block=ragged % helps with line breaks for urls
-]{biblatex}
-% relative to build directory :/
-\addbibresource{../03 introduction/references.bib} 
-\addbibresource{../04 research/references.bib} 
-\defbibheading{bibliography}[]{\chapter{References}}
-
+% list customisation
+% \usepackage{enumitem}
 % equivalent spacing to paragraphs
-\usepackage{enumitem}
-\setlist{itemsep=\parskip}
+% \let\defaultparskip\parskip
+% \setlist{itemsep=\defaultparskip}
 
-% red glossary references
-\renewcommand{\glstextformat}[1]{\color[RGB]{228,86,73}{#1}}
+% paragraph stying
+\usepackage{parskip}
+
+% proper quotations for language
+\usepackage[autostyle]{csquotes}
 
 % italic quotes
 \let\oldenquote\enquote
 \renewcommand{\enquote}[1]{\textit{\oldenquote{#1}}} 
 
+\usepackage
+[
+  style=apa,
+  backend=biber,
+  block=ragged % helps with line breaks for urls
+]{biblatex}
+% relative to build directory :/
+\addbibresource{../00 terms/references.bib} 
+\addbibresource{../03 introduction/references.bib} 
+\addbibresource{../04 research/references.bib} 
+\defbibheading{bibliography}[]{\chapter{References}}
+
+\usepackage
+[
+  toc,
+  numberedsection=nolabel
+]{glossaries}
+\makeglossaries
+\loadglsentries{00 terms/.tex}
+
+% underlined links
+\renewcommand{\glstextformat}[1]{\underline{#1}}
+\newcommand{\labelref}[2]{\underline{\hyperref[#1]{#2}}}
+
 \begin{document}
 
 \begin{titlepage}
-  \begin{center}
-    \null % required for \vfill
-    \vfill
+  \centering
+  \null % required for \vfill
+  \vfill
 
-    { \huge Project Report }
+  { \huge \bfseries Project Report }
 
-    Joshua Sexton-Jones
+  Joshua Sexton-Jones
 
-    \vfill
+  \vfill
 
-    Sheffield Hallam University
+  Sheffield Hallam University
 
-    \today
-  \end{center}
+  2022
 \end{titlepage}
 
 \input{01 acknowledgements/.tex}

@@ -14,9 +14,13 @@
         "echo": true,
         "reveal": "silent",
         "focus": false,
-        "panel": "new",
+        "panel": "dedicated",
         "showReuseMessage": false,
         "clear": true
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
       }
     },
     {
@@ -33,9 +37,13 @@
         "echo": true,
         "reveal": "silent",
         "focus": false,
-        "panel": "new",
+        "panel": "dedicated",
         "showReuseMessage": false,
         "clear": true
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
       }
     }
   ]

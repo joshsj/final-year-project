@@ -24,7 +24,7 @@ authentication schemes at once.
 As such, factors save time and effort when determining the
 viability of authentication schemes for a system.
 For example, any scheme within the
-\hyperref[p:knowledge]{knowledge factor} would not be
+\labelref{p:knowledge}{knowledge factor} would not be
 appropriate for a userbase with memory impairment.
 
 Moreover, factors can be used in tandem to create a more
@@ -41,15 +41,13 @@ describes \textbf{two-factor authentication} (2FA) as
     \centering
     \includegraphics[width=0.75\linewidth]{04
       research/assets/github factor 1.png}
-    \caption{First factor:
-      \hyperref[p:passwords]{password}}
+    \caption{First factor: \labelref{p:passwords}{password}}
   \end{subfigure}
   \begin{subfigure}{0.49\linewidth}
     \centering
     \includegraphics[width=0.75\linewidth]{04
       research/assets/github factor 2.png}
-    \caption{Second factor:
-      \hyperref[p:otp]{OTP}}
+    \caption{Second factor: \labelref{p:otp}{OTP}}
 
   \end{subfigure}
 
@@ -68,7 +66,7 @@ common authentication factors are:
 
   \item \textbf{Possession} refers to \enquote{something
           that a user [physically] possesses}, such as an
-        \hyperref[p:otp]{OTP}.
+        \labelref{p:otp}{OTP}.
 
   \item \textbf{Inherence} refers to \enquote{something
           that a user is}.
@@ -122,16 +120,17 @@ knowledge.
   \centering
   \begin{subfigure}{0.49\linewidth}
     \centering
-    \includegraphics[width=0.8\linewidth]{04
+    \includegraphics[width=0.6\linewidth]{04
       research/assets/google authenticator.png}
     \caption{Google Authentication}
+    \parencite{img:googleAuth}
   \end{subfigure}
   \begin{subfigure}{0.49\linewidth}
     \centering
     \includegraphics[width=0.8\linewidth]{04
       research/assets/hardware authentication.jpg}
-    \caption{Proprietary
-      Tokens}\parencite{hardwareAuthSecurityKeys}
+    \caption{Proprietary Tokens}
+    \parencite{img:authToken}
   \end{subfigure}
 
   \caption{Methods of accessing OTPs}

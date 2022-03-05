@@ -5,12 +5,28 @@ physical location of a device on the planet.
 In theory, this also includes the location of the user
 associated with the device.
 
-\subsection{Cellular Positioning}
-\label{ss:cellPos}
+All the technologies explored below follow the same basic
+principle: 
+
+\begin{itemize} 
+
+  \item An infrastructure is composed of signal
+        transmitters/receivers		  
+
+  \item Devices in-range of transmitter(s) send/receive data
+        using signals 
+
+  \item The infrastructure and/or devices analyse the signal
+        to approximate the device's location 
+
+\end{itemize} 
+
+\subsection{Cellular Positioning} \label{ss:cellPos}
 Cellular positioning uses the Global System for Mobile
 communication (or GSM): \enquote{a digital mobile network
   that is widely used by mobile phone users in Europe and
   other parts of the world} \parencite{whatIsGSM}.
+% %%
 
 Devices using the GSM network require a SIM card,
 conventionally found in mobile phones.
@@ -19,44 +35,33 @@ Subscriber Identity (IMSI), and the phone with its
 International Mobile Equipment Identity (IMEI)
 \parencite{trackingSuspectByPhone}.
 
-The GSM network consists of base stations with fixed
-geographical positions, or 'cell towers'.
-The distance of a connected device from a cell tower can be
-approximated using Time of Arrival (ToA)\label{t:toa} and
-Angle of Arrival (AoA); ToA measures the time taken for a
-signal to reach a device, and AoA measures the angle of
-received signals to compare against the geography within
-range of the tower \parencite{suveryOfCellPos}.
-
-More accurate measurements use cell tower
+The infrastructure of the GSM network consists of base
+stations with fixed geographical positions on the planet's
+surface, known as 'cell towers'; \gls{aoa}, \gls{toa}, and
+\gls{tdoa} can be used to calculate the geographical
+location of a device by comparing against the geography
+within range of the tower.
+The accuracy of these calculations is improved using
 \gls{triangulation} \parencite{howCellTowerTriWorks}, or
 \gls{trilateration} \parencite{suveryOfCellPos}).
-When a device is within range of three cell towers, the
-overlap in the towers' ranges can establish its location.
+
 According to \cite{locationComparison}, cellular
 positioning was the least accurate technology to find an
 iPhone 3G's location with a \enquote{median error of 600 m
   for 64 observations}.
 
-its location up to an accuracy of \nicefrac{3}{4} miles
-\parencite{howCellTowerTriWorks}, though less accurate
-measurements can be taken with only two.
+Only the GSM infrastructure can determine a device's
+location, however access to the infrastructure is
+restricted to paying customers (e.g., mobile cell carriers)
+and law enforcement \parencite{howCellTowerTriWorks}.
 
-Device's themselves and the GSM infrastructure can
-determine a device's location, hence its use by police
-forces in America \parencite{howCellTowerTriWorks}, however
-access to the infrastructure is restricted to paying
-customers (e.g., mobile cell carriers) and law enforcement.
+\subsection{GPS} \label{ss:gps}
 
-\subsection{GPS}
-
-Similar to \hyperref[ss:cellPos]{cellular positioning}, the
-
+Similar to \labelref{ss:cellPos}{cellular positioning},
 Global Positioning System (GPS) uses 24 satellites in
 earth's orbit to locate devices via \gls{trilateration}.
 Unlike cell positioning, it calculates distance exclusively
-using the \hyperref[p:toa]{time taken} by a signal
-\parencite{suveryOfCellPos})}.
+using \gls{toa} \parencite{suveryOfCellPos}.
 
 \cite{locationComparison} states \enquote{most newer model
   cell phones are GPS-enabled}; given the age of the report
@@ -74,6 +79,62 @@ appears sufficient for most location-based services.
 
 \subsection{Geofencing}
 
+According to \cite{whatIsGeofencing}, a geofence is a
+\enquote{virtual geographic boundary around a physical
+  location}.
+Geofencing is an aspect of \gls{contextualAwareness} in
+mobile devices, enabling functionality to trigger depending
+on a user's location.
+For example, customers expecting a package can be alerted
+when its courier is approaching.
+
+Any device with a GPS connection can use geofencing
+functionality; both Android and iOS have native
+implementations to detect/embed geofences into apps
+\parencite{androidGeofencingApi,iosGeofencingApi}.
+Inherently, the accuracy of geofencing is defined by the
+accuracy of its GPS receiver.
+
+\subsection{WiFi Positioning}
+
+As opposed to maintaining a global infrastructure like
+\labelref{ss:gps}{GPS}, WiFi positioning uses WLAN access
+points (AP) instead, which has a major advantage of indoor
+coverage in comparison to GPS and
+\labelref{ss:cellPos}{cellular positioning}
+\parencite{locationComparison}.
+
+WiFi positioning can use \gls{trilateration} via \gls{aoa}
+and \gls{toa} to determine locations, as well as
+fingerprinting.
+Since APs do not store their own geographical position,
+external services/resources are required to acquire this
+data.
+Instead, fingerprinting places a device at a known
+location, and gathers the signal strengths to nearby APs
+using \gls{rssi} (the calibration phase).
+This dataset allows a device to determine its geographical
+position at unknown location by comparing its current
+signal strengths to the dataset (the positioning phase)
+\parencite{locationComparison}.
+
+Across 58 observations, \cite{locationComparison} found a
+median error of 74m using WiFi positioning, also revealing
+\enquote{erratic spatial patterns resulting from the design
+  of the calibration effort underlying the WiFi positioning
+  system}.
+
 \subsection{Bluetooth Beacons}
 
-\subsection{IP Address-based}
+Beacons are a small, one-way, signal transmitter.
+A bluetooth beacon specifically uses \gls{ble} to transmit
+small packets of data at regular intervals.
+This data is only usable by software designed for its
+application; e.g., an app for a museum which provides
+information about the nearest exhibits
+\parencite{usingBluetoothBeacons}.
+
+\cite{bluetoothBeaconAccuracy} investigated the accuracy of
+5 commercial bluetooth beacons, using 23 smartphones at
+ranges of 1, 2, and 10 meters, concluding an average
+accuracy \enquote{between 0.79 meters to 2.28 meters}.
