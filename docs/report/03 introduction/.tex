@@ -1,6 +1,6 @@
 \chapter{Introduction}
 
-\section{Project Motivation}
+\section{Project Motivation} \label{s:motivation}
 
 At present, the employee-worker relationship is changing at
 an apparent rate.
@@ -33,31 +33,56 @@ Additionally, times and locations add further
 complications; a festival can have tens of tents, stages,
 and bars, each of which may change every day.
 
-This project looks at  reducing or eliminating the
-responsibility of an individual to  monitor employee
-attendance in these environments.
+This project looks at reducing/eliminating the
+responsibility placed on individuals to monitor employee
+attendance in these environments with a software
+application named \enquote{\projectname}.
+
+The use-case of the system also presents an intrinsic
+problem, in that \labelref{s:authAuth}{conventional
+  authentication techniques} do not account for
+\gls{conspiring-users}.
+Given that \glsdisp{check-in}{checking into} a job could
+directly result in an assignment of wages, it is a fair
+assumption  that users of \projectname may pose as another
+user to obtain additional wages.
+% TODO link to discussion on future potential for the system
+As such, the application must minimise/eliminate the
+ability to imitate other users.
 
 \section{Project Objectives}
 
-\paragraph{Goal}
+\subsection{Goal} \label{ss:goal}
 The goal of this project is to implement a process for
 employees to \gls{check-in} and \gls{check-out} of a job,
 which concerns the critical functionality of the
 application: the verification of an employee's identity and
 location.
 
-\paragraph{Aims}
+As a guideline, the process should be as 'universal' as
+possible; specifically:
+
+\begin{itemize}
+  \item Consistent --- quick and reliable for its users
+  \item Flexible --- simple configuration, minimal
+        infrastructure
+  \item Accessible --- no requirement(s) for specific
+        human abilities
+  \item Platform independent --- no proprietary hardware
+        or software should be required
+\end{itemize}
+
+\subsection{Aims}
 To achieve the project's goal, the following aims must be
 addressed:
 
 \begin{itemize}
   \item Research existing applications concerned with
-        \glsdisp{check-in}{checking-in} employees
-  \item Investigate methodologies to identify people,
-        locations, and assets; along with their associated
-        technologies
-  \item Devise and design a theoretical user and location
-        verification methodology
+        checking-in employees
+  \item Investigate approaches in identifying people,
+        locations, and assets
+  \item Devise and design a theoretical identity and
+        location verification methodology
   \item Design the system architecture, user interfaces,
         and technical implementation of the
         verification methodology
@@ -70,6 +95,5 @@ addressed:
   \item Develop and test the application
   \item Evaluate the successes of the methodology in the
         completed application
-  \item Discuss potential improvements to increase its
-        viability
+  \item Discuss its real-world viability and potential
 \end{itemize}

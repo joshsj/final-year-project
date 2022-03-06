@@ -11,7 +11,7 @@ principle:
 \begin{itemize} 
 
   \item An infrastructure is composed of signal
-        transmitters/receivers			
+        transmitters/receivers 
 
   \item Devices in-range of transmitter(s) send/receive data
         using signals 
@@ -26,7 +26,6 @@ Cellular positioning uses the Global System for Mobile
 communication (or GSM): \enquote{a digital mobile network
   that is widely used by mobile phone users in Europe and
   other parts of the world} \parencite{whatIsGSM}.
-% %%
 
 Devices using the GSM network require a SIM card,
 conventionally found in mobile phones.
@@ -50,10 +49,10 @@ positioning was the least accurate technology to find an
 iPhone 3G's location with a \enquote{median error of 600 m
   for 64 observations}.
 
-Only the GSM infrastructure can determine a device's
-location, however access to the infrastructure is
-restricted to paying customers (e.g., mobile cell carriers)
-and law enforcement \parencite{howCellTowerTriWorks}.
+Access to the GSM network is restricted to paying customers
+(e.g., mobile cell carriers), and only law enforcement can
+locate a device using the network
+\parencite{howCellTowerTriWorks}.
 
 \subsection{GPS} \label{ss:gps}
 
@@ -138,3 +137,32 @@ information about the nearest exhibits
 5 commercial bluetooth beacons, using 23 smartphones at
 ranges of 1, 2, and 10 meters, concluding an average
 accuracy \enquote{between 0.79 meters to 2.28 meters}.
+
+\subsection{Conclusions}
+
+An ideal technology to use in the location identification
+methodology would be able to locate devices from the
+infrastructure-side, rather than using functionality on the
+a device to locate itself.
+
+Cellular position has this advantage, access to this
+feature is restricted to law enforcement.
+It would also add costs to the application and \projectname
+users would require SIM-enabled devices.
+On balance, it is not suitable to locate users in this
+application.
+
+(At this point, the remaining technologies cannot locate
+devices infrastructure-side.)
+
+Despite the high accuracy of a bluetooth beacon, its
+installation requirements conflict with the application's
+\labelref{ss:goal}{flexibility guideline} and is thus
+unsuitable.
+
+WiFi positioning suffers from a similar complexity; it
+relies on infrastructure which may not be present at a
+particular job location, so it is also unsuitable.
+
+GPS, plus the potential for geofencing, is henceforth the
+technology to use.

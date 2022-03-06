@@ -1,5 +1,5 @@
 param (
-  [switch] $full
+  [switch] $Full
 )
 
 $Name = "Project Report"
@@ -16,10 +16,19 @@ $pdfLatex = {
 Set-Location $ReportDir
 Invoke-Command $pdfLatex
 
-if ($full -eq $true) {
-  # directory switching required as makeindex doesn't play nicely with paths
+if ($Full -eq $true) {
+  # directory switching required as latex packages don't play nicely with paths
+  
+  # generate glossary files
   Set-Location $BuildDir
   makeglossaries-lite.exe $Name
+  
+  # print the glossary to enable citations
+  Set-Location $ReportDir
+  Invoke-Command $pdfLatex
+  
+  # generate bibliography
+  Set-Location $BuildDir
   biber.exe $Name
   
   Set-Location $ReportDir

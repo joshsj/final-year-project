@@ -1,4 +1,5 @@
 \section{User Authentication Methodologies}
+\label{s:authAuth}
 
 In the context of users, \gls{authentication} is proving a
 the system who you are; e.g., a daily average of 217
@@ -72,9 +73,6 @@ common authentication factors are:
         fingerprint, or cognitive, which authenticates by reading
         an individuals thought processes.
 \end{itemize}
-
-% TODO maybe explain use-case of application, hence no 
-% research into immediately inappropriate schemes
 
 \subsection{Passwords}
 \label{p:passwords}
@@ -175,3 +173,28 @@ Android and iOS both allow devices to be unlocked using a
 fingerprint or facial recognition, with further support for
 iris scanning on Android \parencite{androidBiometrics,
   touchId, faceId}.
+An important characteristic of these authentication
+mechanisms is the verification process is generalised to
+anyone with biometric data registered to the device, as
+opposed to a specific user/account \parencite[][Return
+  value of getAuthenticationType()]
+{androidBiometricAuthResult}.
+
+\subsection{Conclusions}
+
+Affirming the remarks in the 
+\labelref{s:motivation}{project motivation}, the
+conventional authentication factors explored above do not
+account for conspiring users. Passwords and OTPs can be
+easily shared, and biometrics cannot identify a specific 
+account associated to the credential.
+
+Furthermore, biometrics may constrain the potential
+userbase: some people wear religious facial garments, some
+people don't have fingerprints.
+
+In a context with the potential for \gls{conspiring-users},
+these methodologies alone are not adequate to authenticate
+users, meaning \projectname's identification process 
+must incorporate additional data to securely check-in 
+employees.
