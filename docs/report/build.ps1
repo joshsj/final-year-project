@@ -6,7 +6,7 @@ $Name = "Project Report"
 $ReportDir = $PSScriptRoot
 $BuildDir = Join-Path $PSScriptRoot "build"
 
-$pdfLatex = {
+$build = {
   pdflatex.exe `
     -interaction=nonstopmode `
     -output-directory $BuildDir `
@@ -14,7 +14,7 @@ $pdfLatex = {
 }
 
 Set-Location $ReportDir
-Invoke-Command $pdfLatex
+Invoke-Command $build
 
 if ($Full -eq $true) {
   # directory switching required as latex packages don't play nicely with paths
@@ -25,13 +25,13 @@ if ($Full -eq $true) {
   
   # print the glossary to enable citations
   Set-Location $ReportDir
-  Invoke-Command $pdfLatex
+  Invoke-Command $build
   
   # generate bibliography
   Set-Location $BuildDir
   biber.exe $Name
   
   Set-Location $ReportDir
-  Invoke-Command $pdfLatex
-  Invoke-Command $pdfLatex
+  Invoke-Command $build
+  Invoke-Command $build
 }

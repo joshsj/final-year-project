@@ -1,4 +1,4 @@
-\documentclass[a4paper]{report}
+\documentclass[a4paper,11pt]{report}
 
 % i am so decisive
 \newcommand{\projectname}{RendezVouz}
@@ -11,10 +11,11 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{microtype}
-\usepackage{lmodern}
+% \usepackage{lmodern}
+\usepackage[l]{plex-serif}
 
 % general stuff
-\usepackage{hyperref}
+\usepackage[british]{babel}
 \usepackage{graphicx}  
 \usepackage{subcaption}  
 \usepackage{float}  
@@ -22,20 +23,18 @@
 \usepackage{makecell}  
 \usepackage{lipsum}
 
-% language 
-\usepackage[british]{babel}
+\usepackage
+[
+  allbordercolors=black,
+  pdfborderstyle={/S/U/W 1} % underline
+]{hyperref}
 
 % paragraph stying
 \usepackage{parskip}
+\linespread{1.3} % 1.5 line spacing (?)
 
 % proper quotations for language
 \usepackage[autostyle]{csquotes}
-
-% TODO consider italic quotes
-% \let\oldenquote\enquote
-% \let\oldblockquote\blockquote
-% \renewcommand{\enquote}[1]{\textit{\oldenquote{#1}}} 
-% \renewcommand{\blockquote}[1]{\textit{\oldblockquote{#1}}}
 
 \usepackage
 [
@@ -47,7 +46,6 @@
 \addbibresource{../00 terms/.bib}
 \addbibresource{../03 introduction/.bib}
 \addbibresource{../04 research/.bib}
-\defbibheading{bibliography}[]{\chapter{References}}
 
 \usepackage[toc,section,numberedsection=nolabel]{glossaries}
 
@@ -58,10 +56,6 @@
 \loadglsentries[t]{00 terms/Technical.tex}
 
 \makeglossaries
-
-% underlined links
-\renewcommand{\glstextformat}[1]{\underline{#1}}
-\newcommand{\labelref}[2]{\underline{\hyperref[#1]{#2}}}
 
 % helper
 \newcommand{\subfigwidth}{0.49\linewidth}
@@ -110,6 +104,7 @@
 
 \input{05 design/.tex}
 
-\printbibliography
+\chapter{References} 
+\printbibliography[heading=none]
 
 \end{document}
