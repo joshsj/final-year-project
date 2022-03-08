@@ -26,14 +26,15 @@ For example, any scheme within the
 appropriate for a userbase with memory impairment.
 
 Moreover, factors can be used in tandem to create a more
-complex authentication process.
-\cite{whatIsAuth}
-describes \textbf{two-factor authentication} (2FA) as
+complex authentication process, as shown in
+Figure~\ref{fig:github2fa}.
+\cite{whatIsAuth} describes
+\textbf{two-factor authentication} (2FA) as
 \enquote{authentication mechanism based on two categories
   of credentials}, with additional factors generalised as
 \textbf{multi-factor} (MFA).
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
   \begin{subfigure}{\subfigwidth}
     \centering
@@ -51,6 +52,7 @@ describes \textbf{two-factor authentication} (2FA) as
   \end{subfigure}
 
   \caption{2FA with Github}
+  \label{fig:github2fa}
 \end{figure}
 
 Described by \cite{surveyOnAuthFactors}, the three most
@@ -97,7 +99,7 @@ securely to the user to be entered and subsequently
 verified \parencite{surveyOnAuthFactors}.
 
 Any device with SMS capabilities can receive one-time
-passcodes; smartphones are also able to receive/generate
+passwords; smartphones are also able to receive/generate
 OTPs using dedicated apps like
 \href{https://www.twilio.com/authy/features/totp}{Authy}
 and \href{https://play.google.com/store/apps/details?
@@ -107,12 +109,14 @@ factor\parencite{surveyOnAuthFactors, evalOfAuthMethods}.
 Alternatively, proprietary devices named \enquote{tokens}
 can also generate OTPs, including RSA SecurID, USB tokens
 such as Yubikey2, and RFID keys.
+Figure~\ref{fig:otp} demonstrates both devices used to
+receive one-time passwords.
 \cite{evalOfAuthMethods} considers tokens
 as a possession factor, whereas
 \cite{surveyOnAuthFactors} considers them as
 knowledge.
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
   \begin{subfigure}{\subfigwidth}
     \centering
@@ -130,6 +134,7 @@ knowledge.
   \end{subfigure}
 
   \caption{Methods of accessing OTPs}
+  \label{fig:otp}
 \end{figure}
 
 Generating OTPs first requires a \enquote{seed}: a secret
@@ -182,12 +187,13 @@ opposed to a specific user/account \parencite[][Return
 
 \subsection{Conclusions}
 
-Affirming the remarks in the 
+Affirming the remarks in the
 \hyperref[s:motivation]{project motivation}, the
 conventional authentication factors explored above do not
-account for conspiring users. Passwords and OTPs can be
-easily shared, and biometrics cannot identify a specific 
-account associated to the credential.
+account for conspiring users.
+Passwords and OTPs can be easily shared, and biometrics
+cannot identify a specific account associated to the
+credential.
 
 Furthermore, biometrics may constrain the potential
 userbase: some people wear religious facial garments, some
@@ -195,6 +201,5 @@ people don't have fingerprints.
 
 In a context with the potential for \gls{conspiring-users},
 these methodologies alone are not adequate to authenticate
-users, meaning \projectname's identification process 
-must incorporate additional data to securely check-in 
-employees.
+users, meaning \projectname{}'s identification process must
+incorporate additional data to securely check-in employees.

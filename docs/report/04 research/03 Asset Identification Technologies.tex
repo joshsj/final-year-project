@@ -10,7 +10,8 @@ using \hyperref[ss:rfid]{RFID}-based security tags.
 
 \subsection{Barcodes} \label{ss:barcodes}
 
-\glsdisp{barcode}{Barcodes} have been used in shops to identify products
+\glsdisp{barcode}{Barcodes} have been used in shops to
+identify products
 since 1974, designed to transfer data more quickly and
 reliably and eliminate human error when identifying assets
 \parencite{whatIsABarcode}.
@@ -27,7 +28,32 @@ Some standards also employ a \enquote{guard pattern}:
 specific markings at the start and end of a barcode to
 indicate so \parencite{whatIsABarcode}.
 
-\begin{figure}[H]
+As scanning technology has improved, so have barcodes.
+Two-dimensional barcodes contain information horizontally
+and vertically, thus storing more data relative to their
+size.
+See Figure~\ref{fig:barcodes} for an example of each.
+Common standards include QR codes, used in automotive and
+commercial marketing applications, and Aztec codes, used
+for mobile ticketing \parencite{whatIsABarcode}.
+As well as a quiet zone, 2D barcodes require a finder
+pattern and a clocking pattern: 
+
+\begin{displayquote}
+  The finder pattern is the L-shaped
+  pattern located around the outside edge of two sides of the
+  2D code.
+  This is used to ensure proper orientation during decoding.
+  Opposite the finder pattern is the clocking pattern, a
+  series of alternating black and white cells that define how
+  big a single cell is and the size of the code (number of
+  rows and columns) for decoding.
+  The quiet zone is similar to that of 1D barcodes; for 2D
+  codes, however, it must surround the entire code
+  \parencite{whatIsABarcode}.
+\end{displayquote}
+
+\begin{figure}[h]
   \centering
   \begin{subfigure}{\subfigwidth}
     \centering
@@ -43,31 +69,10 @@ indicate so \parencite{whatIsABarcode}.
     \caption{QR Code (2D)}
     \parencite{img:qrCode}
   \end{subfigure}
+
   \caption{Barcode Standards}
+  \label{fig:barcodes}
 \end{figure}
-
-As scanning technology has improved, so have barcodes.
-Two-dimensional barcodes contain information horizontally
-and vertically, thus storing more data relative to their
-size.
-Common standards include QR codes, used in automotive and
-commercial marketing applications, and Aztec codes, used by
-for ticketing \parencite{whatIsABarcode}.
-As well as a quiet zone, 2D barcodes require a finder
-pattern and a clocking pattern: 
-
-\blockquote { The finder pattern is the L-shaped pattern
-  located around the outside edge of two sides of the 2D
-  code.
-  This is used to ensure proper orientation during decoding.
-  Opposite the finder pattern is the clocking pattern, a
-  series of alternating black and white cells that define how
-  big a single cell is and the size of the code (number of
-  rows and columns) for decoding.
-  The quiet zone is similar to that of 1D barcodes; for 2D
-  codes, however, it must surround the entire code
-  \parencite{whatIsABarcode}.
-}
 
 Although dedicated hardware is produced for barcode
 scanning, it is absolutely not required due to minimal
@@ -83,12 +88,12 @@ issues:
 
 \begin{itemize} 
 
-  \item \enquote{Unreadable labels} --- a barcode is
-        only as durable as the material onto which it is
-        printed/screen on which it is displayed 
+  \item \enquote{Unreadable labels} --- a barcode is only as
+        durable as the material onto which it is printed/screen on
+        which it is displayed 
 
-  \item \enquote{Broken scanning equipment} --- an
-        issue inherent to technology 
+  \item \enquote{Broken scanning equipment} --- an issue
+        inherent to technology 
 
 \end{itemize} 
 
@@ -109,7 +114,7 @@ requiring induction which allows electromagnetic waves to
 \enquote{couple} with the reader \parencite{whatIsRfid}.
 
 Another aspect of an RFID system is signal frequency.
-Refer to Table \ref{tbl:rfidFreq} for a comparison, adapted
+Refer to Table~\ref{tbl:rfidFreq} for a comparison, adapted
 from \cite{whatIsRfid}.
 
 \begin{table}[ht]
@@ -138,36 +143,32 @@ Because \gls{nfc} is not a single standard, rather a set of
 standards, its operation at a technical level cannot be
 explained in general terms.
 
-
 At a functional level, NFC is fast becoming an abundant
 technology in mobile devices like
 \hyperref[ss:biometrics]{biometrics}; 90\% of new phones
-are NFC-enabled \parencite{nfcHandsetStats}. Devices must be
-within a few centimetres to communicate. The wireless
-connection transfers data up to 424Kbps, also compatible 
-with Wi-Fi and Bluetooth \parencite{nfc}. Ultimately, it has
-an extensive range of applications as identified by 
-\cite{nfc}: 
+are NFC-enabled \parencite{nfcHandsetStats}.
+Devices must be within a few centimetres to communicate.
+The wireless connection transfers data up to 424Kbps, also
+compatible with Wi-Fi and Bluetooth \parencite{nfc}.
+Ultimately, it has an extensive range of applications as
+identified by \cite{nfc}: 
 
-\begin{itemize}
-  \item Contactless payments on mobile devices
-        (e.g., \cite{androidPayWithPhone, applePay})
-  \item Electronic ticketing for transportation
-        (e.g., \cite{digitalTickets})
-  \item Device pairing
-  \item Access/inventory control
-\end{itemize}
+\begin{itemize} \item Contactless payments on mobile
+        devices (e.g., \cite{androidPayWithPhone, applePay}) \item
+        Electronic ticketing for transportation (e.g.,
+        \cite{digitalTickets}) \item Device pairing \item
+        Access/inventory control \end{itemize} 
 
-\subsection{Conclusions}
+\subsection{Conclusions} 
 
 With its huge span of ranges, RFID has good potential to
-integrate with the identification methodology. Nonetheless,
-its proprietary hardware requirements conflict with the 
-\hyperref[ss:goal]{desired flexibility}. 
+integrate with the identification methodology.
+Nonetheless, its proprietary hardware requirements conflict
+with the \hyperref[ss:goal]{desired flexibility}.
 
 Both barcodes and NFC have hardware requirements: a camera
-and an NFC implementation respectively. Due to the
-versatility of barcodes and the scale of camera-equipped
-devices (e.g., PCs with webcams, laptops, tablets,
-smartphones), they are the best option for the 
+and an NFC implementation respectively.
+Due to the versatility of barcodes and the scale of
+camera-equipped devices (e.g., PCs with webcams, laptops,
+tablets, smartphones), they are the best option for the
 identification methodology.
