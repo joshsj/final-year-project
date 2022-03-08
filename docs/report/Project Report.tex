@@ -11,7 +11,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{microtype}
-% \usepackage{lmodern}
+% \usepackage[nomath]{lmodern}
 \usepackage[l]{plex-serif}
 
 % general stuff
@@ -22,6 +22,19 @@
 \usepackage{nicefrac}
 \usepackage{makecell}  
 \usepackage{lipsum}
+\usepackage{ulem}
+
+\usepackage
+[
+  explicit % allow placement of name with arg
+]{titlesec}
+
+\newcommand{\titlesep}{|\enspace}
+
+\titleformat{name=\chapter}{}{}{0pt}{\bfseries\Huge#1\hfill\titlesep\thechapter}
+\titleformat{name=\chapter,numberless}{}{}{0pt}{\bfseries\Huge#1}
+\titleformat{\section}{}{}{0pt}{\bfseries\LARGE#1\hfill\titlesep\thesection}
+\titleformat{\subsection}{}{}{0pt}{\bfseries\Large#1\hfill\titlesep\thesubsection}
 
 \usepackage
 [
@@ -95,6 +108,7 @@
 \tableofcontents \clearpage
 
 \chapter{Terminology} 
+
 \printglossary[type=ps]
 \printglossary[type=t] \clearpage
 
