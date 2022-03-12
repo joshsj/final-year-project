@@ -47,6 +47,24 @@
       }
     },
     {
+      "label": "Build Tikz",
+      "command": "pdflatex.exe -interaction=nonstopmode '${fileBasename}'; Remove-Item * -Exclude *.tex, *.pdf",
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "type": "shell",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "group": "build"
+    },
+    {
       "label": "Word Count",
       "command": "texcount.exe",
       "args": ["-utf8", "-inc", "-brief", "-strict", "./Project Report.tex"],

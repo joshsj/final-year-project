@@ -1,0 +1,59 @@
+\section{Solution Structure}
+
+The solution structure establishes the main subsystems in
+the application, any required external systems, and their
+connections.
+
+Determining the best structure for \projectname{} is a
+balancing act.
+The \hyperref[ss:goal]{project goal} sets a guideline to be
+as universal as possible, yet the verification methodology
+should be as strong as possible using the
+\hyperref[s:concept]{technologies \& methodologies}
+available from the research.
+Hence, if a specific technology constrained the
+universality of the application, should the goal or
+methodology be prioritised?
+
+Fortunately, the only technology which presents this
+challenge is \hyperref[ss:nfc]{NFC}, due to its reduced
+availability in devices.
+Since it was concluded as an alternative to barcodes, its
+benefits do not outweigh its restriction on
+\projectname{}'s device compatibility.
+
+\subsection{Backend}
+
+As discussed by \cite{soaVsMicroservices}, trends in modern
+software development are leaning towards microservices and
+server-oriented architecture (SOA), with the main
+advantages of separation and scalability.
+
+Given the small scope of the \projectname{} application, a
+simpler and easier approach is more suitable, so a monolith
+will form the backend of the \projectname{} system; i.e., a
+single container for most/all functionality, decomposed
+into separate components internally \parencite{monoliths}.
+
+The functionality contained within the backend will be
+presented using an API following REST principles, primarily
+because I have the most experience with REST by far.
+It's also \enquote{simple, well-known, and widely used}
+\parencite{protocols}, and it's rivals are legacy (SOAP);
+opinionated and restrictive in approach (GraphQL); and only
+supported on HTTP/2 (gRPC).
+
+Alongside the server application, a database will also be
+required for data persistence.
+
+\subsection{Frontend}
+
+The device coverage and compatibility provided by the web
+is unparalleled, so a web application is the ideal
+solution.
+Modern browsers support access to device hardware such as
+the camera \parencite{browserCamera}, enabling all the
+remaining researched technologies, and interacting with an
+API is standard practice on the web.
+
+% architecture overview

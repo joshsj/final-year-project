@@ -23,8 +23,7 @@
 \usepackage{makecell}  
 \usepackage{lipsum}
 \usepackage{ulem}
-\usepackage[dvipsnames]{xcolor}
-\usepackage{tikz}
+\usepackage{xcolor}
 
 \usepackage
 [
@@ -61,6 +60,7 @@
 \addbibresource{../00 terms/.bib}
 \addbibresource{../03 introduction/.bib}
 \addbibresource{../04 research/.bib}
+\addbibresource{../05 design/.bib}
 
 \usepackage[toc,section,numberedsection=nolabel]{glossaries}
 
@@ -74,6 +74,13 @@
 
 % helpers
 \newcommand{\subfigwidth}{0.49\linewidth}
+\newcommand
+{\captiondesc}
+[1]
+{
+  \vspace{0.5em}
+  \parbox{0.8\linewidth}{\footnotesize{}#1}
+}
 
 % tighter, taller tables
 \setlength{\tabcolsep}{0.25em}
@@ -119,6 +126,8 @@
 \input{04 research/.tex}
 
 \input{05 design/.tex}
+
+\input{06 implementation/.tex}
 
 \chapter{References} 
 \printbibliography[heading=none]
