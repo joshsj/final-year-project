@@ -1,0 +1,31 @@
+\begin{tikzpicture}
+  [
+    latex-,
+    sibling distance=8em,
+    every node/.style=
+      {
+        shape=rectangle,
+        align=center
+      },
+    confirmed/.style={text=white, fill=ForestGreen},
+    unconfirmed/.style={fill=Goldenrod}
+  ]
+
+  \node [confirmed] {Principle Verifier}
+  child
+    {
+      node [confirmed] {Confirmed}
+      child
+        {
+          node [unconfirmed] {Unconfirmed}
+        }
+    }
+  child
+    {
+      node [unconfirmed] {Unconfirmed}
+      child
+        {
+          node [text=white, fill=Mahogany] {Illegal}
+        }
+    };
+\end{tikzpicture}
