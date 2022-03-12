@@ -36,7 +36,7 @@
   "latex-workshop.latex.external.build.args": ["./docs/report/build.ps1"],
 
   "latex-workshop.latexindent.args": [
-    "-c=%WORKSPACE_FOLDER%/docs/report/build/",
+    // "-c=%WORKSPACE_FOLDER%/docs/report/build/",
     "-l=%WORKSPACE_FOLDER%/latexindent.yaml",
     "-m",
     "%TMPFILE%"

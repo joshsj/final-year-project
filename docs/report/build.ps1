@@ -3,8 +3,10 @@ param (
 )
 
 $Name = "Project Report"
-$ReportDir = $PSScriptRoot
-$BuildDir = Join-Path $PSScriptRoot "build"
+$ReportDir = Join-Path $PSScriptRoot ".."
+$BuildDir = Join-Path $ReportDir "build"
+
+Write-Output $BuildDir
 
 $build = {
   pdflatex.exe `
