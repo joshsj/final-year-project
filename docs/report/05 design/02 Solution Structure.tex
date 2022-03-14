@@ -1,7 +1,7 @@
 \section{Solution Structure}
 
-The solution structure establishes the main subsystems in
-the application, any required external systems, and their
+The solution structure covers the main subsystems in the
+application, any required external systems, and their
 connections.
 
 Determining the best structure for \projectname{} is a
@@ -15,15 +15,9 @@ Hence, if a specific technology constrained the
 universality of the application, should the goal or
 methodology be prioritised?
 
-Fortunately, the only technology which presents this
-challenge is \hyperref[ss:nfc]{NFC}, due to its reduced
-availability in devices.
-Since it was concluded as an alternative to barcodes, its
-benefits do not outweigh its restriction on
-\projectname{}'s device compatibility.
+\subsection{Architecture}
 
-\subsection{Backend}
-
+\paragraph{Backend}
 As discussed by \cite{soaVsMicroservices}, trends in modern
 software development are leaning towards microservices and
 server-oriented architecture (SOA), with the main
@@ -44,10 +38,10 @@ opinionated and restrictive in approach (GraphQL); and only
 supported on HTTP/2 (gRPC).
 
 Alongside the server application, a database will also be
-required for data persistence.
+required for data persistence and file system access for
+handling configuration files.
 
-\subsection{Frontend}
-
+\paragraph{Frontend}
 The device coverage and compatibility provided by the web
 is unparalleled, so a web application is the ideal
 solution.
@@ -55,5 +49,82 @@ Modern browsers support access to device hardware such as
 the camera \parencite{browserCamera}, enabling all the
 remaining researched technologies, and interacting with an
 API is standard practice on the web.
+
+A caveat of developing website is, at present, no support
+for NFC; an alternative could be a native mobile
+application for Android and/or iOS, as the both provide
+APIs for using NFC.
+On balance, limiting \projectname{}'s compatibility to
+these operating systems does not outweigh the value of NFC
+support, as barcodes provide a worthy alternative.
+
+\subsection{Technologies}
+
+The variety in languages \& frameworks for developing
+contemporary web applications is huge: any can accomplish
+the project goal.
+Ergo, the most important factor for the following decisions
+is my familiarity and comfortability with the framework and
+its language(s).
+
+\paragraph{Backend}
+
+Frameworks for creating web APIs are seemingly endless:
+Django, Flask, Ruby on Rails, Laravel, etc. I have the most
+experience using ASP.NET (natively) and Node.js with
+express.
+
+Both platforms have a wealth of community support,
+including project templates, used to architect solutions
+cleanly and effectively; and libraries aimed at validation,
+authentication, authorization, databases plus ORM/ODM,
+CORS, etc. They are also both cross-platform, meaning they
+can be deployed on Windows or UNIX subsystems.
+
+One difference between the platforms is performance: across
+a range of tests, \cite{webFrameworkBenchmarks} allocated
+relative scores of 60.7\% to .NET Core and 15.6\% to
+Node.js.
+
+Another difference is their language.
+C\# is the main choice for .NET Core, and Javascript, plus
+Typescript, for Node.js.
+Both languages share some features (e.g., types plus
+generics, async/await, lambdas, functional array methods,
+null handling operators) \parencite{csharp,ts}, however C\#
+preserves its types at runtime, which is inherently safer
+and enables reflection.
+Typescript offers more functional approaches natively, with
+null typing and unions, but these features are appearing in
+C\# also.
+
+Overall, my preference lies with .NET Core; libraries like
+Entity Framework, LINQ, and Identity Server handle an APIs
+most complex functionality better than the Node.js
+alternatives, and it performance benefits should result in
+a smoother experience using \projectname{} as a whole.
+
+\paragraph{Frontend}
+Websites serving an API can be constructed using \gls{ssr}
+or a \gls{spa}; see Table \ref{tbl:webTechComparison} for a
+comparison between their functionalities.
+
+\begin{table}[h]
+  \centering
+  \small
+  \input{05 design/assets/web tech comparison tabular.tex}
+  \caption{Frontend Web Technology Comparison}
+  \label{tbl:webTechComparison}
+\end{table}
+
+Personally, I have decent experience with SSR using
+WebForms in ASP.NET and moustache
+templates within PHP and Javascript
+frameworks, but my experience with Vue.js
+surpasses both, as well as other SPAs like React and
+Angular.
+An SPA is also more suited to the discreet functionality of
+the verification methodology, so the frontend will be
+developed with Vue.
 
 % architecture overview
