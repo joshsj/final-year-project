@@ -15,12 +15,12 @@
   \node[confirmed] (pv) {Principle Verifier};
   \node[confirmed] (c) [below=of pv] {Confirmed};
   \node[unconfirmed] (uc1) [below=of c] {Unconfirmed};
-  \node[unconfirmed] (uc2) [right=of c] {Unconfirmed};
+  \node[unconfirmed] (uc2) [right=of pv] {Unconfirmed};
   \node[illegal] (i) [below=of uc2] {Unconfirmed};
 
   \draw (c) -- (pv);
   \draw (uc1) -- (c);
-  \draw (uc2) -- (c);
+  \draw (uc2) -- (pv);
   \draw (i) -- (uc2);
 
 \end{tikzpicture}
