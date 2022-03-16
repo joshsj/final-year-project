@@ -47,7 +47,7 @@ Like .NET, an authentication process (or \enquote{flow})
 for an Auth0 application can be configured for SPAs, and
 they maintain Javascript packages to integrate these flows.
 
-\paragraph{Using Social Accounts}
+% TODO check these are the right accounts
 
 \paragraph{Associating Users}
 Some associations in a \gls{rdb} require the data to exist.
@@ -68,6 +68,15 @@ This data is updated within the
     field is the identifier for the user.}
   \label{fig:auth0Data}
 \end{figure}
+
+\paragraph{Using Social Accounts}
+To ensure valid user data is present, the normal login
+mechanism using a dedicated Auth0 account will be disabled,
+replaced with Google and Apple login.
+Given the popularity of device requiring these accounts
+(i.e., any Apple device, Gmail, Android phones), it's
+highly unlikely for the average user not to have at least
+one available account.
 
 \paragraph{Authentication Flow}
 \label{p:authFlow}
