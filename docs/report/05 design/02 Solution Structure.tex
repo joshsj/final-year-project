@@ -98,11 +98,21 @@ Typescript offers more functional approaches natively, with
 null typing and unions, but these features are appearing in
 C\# also.
 
-Overall, my preference lies with .NET Core; libraries like
+Overall, my preference lies with .NET; libraries like
 Entity Framework, LINQ, and Identity Server handle an APIs
 most complex functionality better than the Node.js
 alternatives, and it performance benefits should result in
 a smoother experience using \projectname{} as a whole.
+
+\paragraph{Database}
+For the \projectname{} application, an \gls{rdb} using SQL is the
+better choice, as opposed to a \gls{nrdb} (No-SQL) offering.
+\cite{databaseComparison} identifies scalability, dynamic
+models, and data abstraction as pros of No-SQL, whereas SQL 
+has a smaller data footprint and strong integrity. The
+advantages of No-SQL are almost irrelevant to a small system
+like \projectname{}, and data integrity with a reduced 
+footprint is never a bad thing.
 
 \paragraph{Frontend}
 Websites serving an API can be constructed using \gls{ssr}

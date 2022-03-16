@@ -1,0 +1,114 @@
+\section{Concrete Verification Methodology}
+
+\subsection{Identity}
+
+Identifying users will rely on
+\hyperref[s:userAuth]{existing user authentication
+  methodologies}.
+
+The first option is a custom implementation; broadly
+speaking, the development community (rightly) discredits
+this approach.
+\cite{noCustomAuth} identifies these drawbacks:
+
+\begin{itemize}
+
+  \item Complexity --- implementing different credentials,
+        integrated into multiple
+        factors, in accordance to industry-wide
+        protocols/standards is difficult
+
+  \item Risk --- data breaches will discourage new users
+        and tarnish customer trust; incompatibility with
+        industry standards can deter enterprise clients
+
+\end{itemize}
+
+Alternatively, the .NET 6 ecosystem has a comprehensive
+identity platform, encompassing \enquote{users, passwords,
+  profile data, roles, claims, tokens, email confirmation},
+plus project templates for \gls{spa} technologies
+\parencite{netIdentity}.
+This is a viable solution, but it too has drawbacks: no SPA
+template for Vue exists, and altering a template would be
+difficult and lengthy; the components \& pages for
+authentication are implemented in Razor pages alongside the
+SPA, which are difficult to debug and customise.
+
+The Auth0 \gls{identityProvider} will instead be
+responsible for user authentication, outsourcing a lot of
+application complexity and improving usability.
+By default, Auth0 provides its own account registration \&
+sign-in mechanism, but also offers external providers
+(e.g., Google, LinkedIn, Twitter).
+Once signed in, user data is stored on their servers,
+accessed via their API.
+Like .NET, an authentication process (or \enquote{flow})
+for an Auth0 application can be configured for SPAs, and
+they maintain Javascript packages to integrate these flows.
+
+\paragraph{Using Social Accounts}
+
+\paragraph{Associating Users}
+Some associations in a \gls{rdb} require the data to exist.
+This presents an problem to associate users, as Auth0
+stores user data separate from the application's database.
+
+To enable such associations, the \code{User} table will
+only store basic user information (e.g., name) and the
+unique identifier for their user on Auth0.
+This data is updated within the
+\hyperref[p:authFlow]{authentication flow}.
+
+\begin{figure}
+  \lstinputlisting{05 design/assets/auth0 jwt.json}
+  \caption{Auth0 User Data}
+  \captiondesc{Specifically, a JWT for a new account
+    created with a Github no-reply email; the \code{sub}
+    field is the identifier for the user.}
+  \label{fig:auth0Data}
+\end{figure}
+
+\paragraph{Authentication Flow}
+\label{p:authFlow}
+
+\begin{enumerate}
+
+  \item An employee opens the \projectname{} website and
+        clicks \enquote{register} or \enquote{login}
+
+  \item The page redirects to Auth0, offering social
+        services with which to authenticate
+
+  \item Once signed in, they are redirected back to the
+        \projectname{} site
+
+  \item In the background:
+        \begin{enumerate}
+          \item An API call from the frontend notifies the
+                backend to update the employee's
+                personal data
+
+          \item The API retrieves the employee's
+                information from Auth0 and persists it
+        \end{enumerate}
+
+  \item The employee can now use the website
+\end{enumerate}
+
+% TODO flowchart
+
+\subsection{Location}
+
+At the core of
+
+% Job Location:
+% stored at lat, long, radius
+% configurable accuracy threshold, based on research, configurable, tested 
+% employee assigned to them
+
+% gps
+
+\subsection{Confirmation}
+
+% factors

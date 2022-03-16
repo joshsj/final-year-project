@@ -13,6 +13,7 @@
 \usepackage{microtype}
 % \usepackage[nomath]{lmodern}
 \usepackage[l]{plex-serif}
+\usepackage[nomap]{plex-mono}
 
 % general stuff
 \usepackage[british]{babel}
@@ -24,6 +25,22 @@
 \usepackage{lipsum}
 \usepackage{ulem}
 \usepackage{xcolor}
+
+\usepackage{listings} 
+\lstset 
+{
+  basicstyle=\ttfamily,
+  breaklines,
+  columns=fixed,
+  showstringspaces=false,
+  tabsize=2,
+  extendedchars=true,
+  % atom light colors
+  % keywordstyle=\color[RGB]{166, 38, 164},
+  % numberstyle=\color[RGB]{160, 161, 167}\ttfamily,
+  % stringstyle=\color[RGB]{80, 161, 79},
+  % commentstyle=\color[RGB]{160, 161, 167},
+}
 
 \usepackage
 [
@@ -74,13 +91,18 @@
 
 % helpers
 \newcommand{\subfigwidth}{0.49\linewidth}
+
+\newcommand{\code}[1]{\lstinline{#1}}
+
 \newcommand
 {\captiondesc}
 [1]
 {
+  \centering
   \vspace{0.5em}
   \parbox{0.8\linewidth}{\footnotesize{}#1}
 }
+
 
 % tighter, taller tables
 \setlength{\tabcolsep}{0.25em}
