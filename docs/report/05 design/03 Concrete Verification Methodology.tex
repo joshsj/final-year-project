@@ -138,9 +138,9 @@ in Figure \ref{fig:geolocationApi}.
   \parencite{geolocationApi}
 \end{figure}
 
-To restrict who can confirm their attendance at a job, they
-will be assigned to each job in the database, along with an
-expected date/time for their check-in and check-out.
+To restrict who can confirm their attendance at a job,
+employees are assigned to jobs with an expected date/time
+for their check-in and check-out.
 
 \subsection{Confirmation}
 
@@ -159,7 +159,7 @@ By applying a time constraint, it becomes harder for
 \gls{conspiring-users} to share confirmation data.
 Moreover, the confirmer can actively prevent this since the
 process is performed in-person and it would be obvious if
-an employee attempted to distribute the exchange data.
+an employee attempted to distribute the OTP.
 
 \paragraph{Data Format Constraint}
 
@@ -180,7 +180,8 @@ verifier will be assigned to the first employee to
 \gls{check-in} at a job site.
 More complex approaches may be more appropriate in a
 business context, but they would inherently be a business
-decision which is not of concern in this project.
+decision which is not of concern for the scope of this
+project.
 
 % TODO \paragraph{Verification Factors}
 
