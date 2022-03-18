@@ -29,7 +29,7 @@
     \attributes
     {
       PK & Id	        & uniqueidentifier \\
-         & Title      & datetime2        \\
+         & Name       & datetime2        \\
          & ProviderId & nvarchar(30)
     }
   \end{object}
@@ -38,8 +38,8 @@
     \attributes
     {
       PK & Id         & uniqueidentifier \\
-      FK & EmployeeId & uniqueidentifier \\
       FK & JobId      & uniqueidentifier \\
+      FK & EmployeeId & uniqueidentifier \\
       FK & CheckInId  & uniqueidentifier \\
       FK & CheckOutId & uniqueidentifier
     }
@@ -59,7 +59,7 @@
     \attributes
     {
       PK  & Id	                & uniqueidentifier \\
-          & Name	              & datetime2        \\
+          & Title               & datetime2        \\
           & Longitude           & decimal          \\
           & Latitude            & decimal          \\
           & Radius              & decimal          \\
