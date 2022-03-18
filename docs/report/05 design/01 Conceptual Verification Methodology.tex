@@ -39,38 +39,43 @@ level.
 
 \paragraph{Verification Chain}
 
-For an employee to \gls{check-in} at a job, they are
-required to confirm their check-in with another employee at
-the same job.
+For an employee to \gls{check-in} and \gls{check-out} of at
+a job, they are required to confirm so with another
+employee on the same job.
 
 By storing confirmations, a \enquote{verification chain} is
 preserved, holding each employee accountable for any
 employees whom they checked in.
 In case of suspected foul play, an employer can review the
 chain to identify the employee(s) who illegitimately
-confirmed a check-in.
+confirmed a check-in/check-out.
 
 \paragraph{Principle Verifier}
 
-To strengthen the verification chain, only employees with a
-confirmed check-in are allowed to confirm others, meaning
-one employee must be designated as the \enquote{principle
-verifier}; i.e., the start of the chain. Refer to Figure
-\ref{fig:verificationTree} for a diagram of the verification
-chain.
+To strengthen the verification chain, only confirmed
+employees are allowed to confirm others, meaning one
+employee must be designated as the \enquote{principle
+  verifier}; i.e., the start of the chain.
+Refer to Figure \ref{fig:verificationTree} for a diagram of
+the verification chain.
 
 \begin{figure}[h]
   \centering
   \includegraphics{05 design/assets/verification tree.pdf}
   \caption{Verification Chain}
-  \captiondesc{The first two \enquote{unconfirmed} employees can
-  confirm their verification with the principle verifier or
-  through the \enquote{confirmed} employee. The final
-  \enquote{unconfirmed} employee is attempting to confirm with
-  an another unconfirmed employee --- illegal.}
+  \captiondesc{The first two \enquote{unconfirmed}
+    employees can
+    confirm their verification with the principle verifier
+    or
+    through the \enquote{confirmed} employee.
+    The final \enquote{unconfirmed} employee is attempting to
+    confirm with an another unconfirmed employee --- illegal.
+  }
   \label{fig:verificationTree}
-\end{figure} 
+\end{figure}
 
 Designating the principle verifier can be as simple as
 automatically designating the first employee to check-in;
-it could also be pre-configured as a supervisor on-site.
+it could also be pre-configured as a supervisor on-site or
+determined programmatically based on employee reliability,
+trustworthy, punctuality, etc.

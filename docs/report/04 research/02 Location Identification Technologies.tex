@@ -167,3 +167,24 @@ particular job location, so it is also unsuitable.
 
 GPS, plus the potential for geofencing, is henceforth the
 technology to use.
+
+\subsection{Coordinate Systems}
+\label{ss:coordSystems}
+
+Coordinate systems allow geographic locations to be
+recorded using \gls{latitude} and \gls{longitude}, denoted
+with \gls{dd} or \gls{dms}.
+For example, the Adsetts library at Sheffield Hallam (my
+current home-from-home) measures
+\dddd{53.38023189804642}{-1.4658417761103937} using DD and
+\dmsdms{53}{22}{48}{-1}{27}{57} using DMS.
+
+On earth, latitude is usually measured relative to the
+equator.
+Longitude is measured in relation to the \enquote{Greenwich
+  Meridian}, which passes through the Royal Observatory in
+Greenwich \parencite{coordSystems}.
+
+Finally, the haversine formula can be used to measure the
+distance between two spherical coordinates 
+\parencite{haversine}.

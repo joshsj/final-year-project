@@ -25,6 +25,7 @@
 \usepackage{lipsum}
 \usepackage{ulem}
 \usepackage{xcolor}
+\usepackage{siunitx}
 
 \usepackage{listings} 
 \lstset 
@@ -104,9 +105,15 @@
 }
 
 
+\newcommand{\dd}[1]{\ensuremath{#1}}
+\newcommand{\dddd}[2]{\ensuremath{\dd{#1},\,\dd{#2}}}
+
+\newcommand{\dms}[3]{\ensuremath{\ang{#1}\,#2'\,#3''}}
+\newcommand{\dmsdms}[6]{\ensuremath{\dms{#1}{#2}{#3},\,\dms{#4}{#5}{#6}}}
+
 % tighter, taller tables
 \setlength{\tabcolsep}{0.25em}
-\renewcommand{\arraystretch}{2}
+\renewcommand{\arraystretch}{2} 
 
 \begin{document}
 

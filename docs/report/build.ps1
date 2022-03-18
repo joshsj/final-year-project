@@ -2,6 +2,8 @@ param (
   [switch] $Full
 )
 
+Push-Location
+
 $Name = "Project Report"
 $ReportDir = $PSScriptRoot
 $BuildDir = Join-Path $PSScriptRoot "build"
@@ -35,3 +37,5 @@ if ($Full -eq $true) {
   Invoke-Command $build
   Invoke-Command $build
 }
+
+Pop-Location

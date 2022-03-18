@@ -47,33 +47,35 @@ Like .NET, an authentication process (or \enquote{flow})
 for an Auth0 application can be configured for SPAs, and
 they maintain Javascript packages to integrate these flows.
 
-% TODO check these are the right accounts
-
 \paragraph{Associating Users}
+% TODO check these are the right accounts
 Some associations in a \gls{rdb} require the data to exist.
 This presents an problem to associate users, as Auth0
 stores user data separate from the application's database.
 
-To enable such associations, the \code{User} table will
-only store basic user information (e.g., name) and the
-unique identifier for their user on Auth0.
-This data is updated within the
-\hyperref[p:authFlow]{authentication flow}, as shown in
-Figure \ref{fig:auth0Data}.
+To enable such associations, the database will include
+\code{User} table, storing basic user information and the
+unique identifier for their user on Auth0 (see Figure
+\ref{fig:auth0Data}).
+This data is maintained within the
+\hyperref[p:authFlow]{authentication flow}
 
-\begin{figure}
-  \lstinputlisting{05 design/assets/auth0 jwt.json}
-  \caption{Auth0 User Data}
-  \captiondesc{Specifically, a JWT for a new account
-    created with a Github no-reply email; the \code{sub}
-    field is the identifier for the user.}
+\begin{figure} \lstinputlisting{05 design/assets/auth0
+    jwt.json} \caption{Auth0 User Data}
+  \captiondesc{Specifically, a JWT for a new account created
+    with a Github no-reply email; the \code{sub} field is the
+    identifier for the user.
+  }
   \label{fig:auth0Data}
 \end{figure}
 
 \paragraph{Using Social Accounts}
-To ensure valid user data is present, the normal login
-mechanism using a dedicated Auth0 account will be disabled,
-replaced with Google and Apple login.
+When users authenticate using a social provider like
+Twitter, Auth0 acquires user data from the account (e.g.,
+name, email, profile photo, etc.)
+To ensure this basic user information is available, the
+normal login mechanism using a dedicated Auth0 account will
+be disabled, replaced with Google and Apple login.
 Given the popularity of device requiring these accounts
 (i.e., any Apple device, Gmail, Android phones), it's
 highly unlikely for the average user not to have at least
@@ -85,7 +87,7 @@ one available account.
 \begin{enumerate}
 
   \item An employee opens the \projectname{} website and
-        clicks \enquote{register} or \enquote{login}
+        clicks a button to register/log in.
 
   \item The page redirects to Auth0, offering social
         services with which to authenticate
@@ -93,32 +95,93 @@ one available account.
   \item Once signed in, they are redirected back to the
         \projectname{} site
 
-  \item In the background:
-        \begin{enumerate}
-          \item An API call from the frontend notifies the
-                backend to update the employee's
-                personal data
+  \item[{}] In the background:
+    \begin{enumerate}
+      \item An API call from the frontend notifies the
+            backend to update the employee's
+            personal data
 
-          \item The API retrieves the employee's
-                information from Auth0 and persists it
-        \end{enumerate}
+      \item The API retrieves the employee's
+            information from Auth0 and persists it
+    \end{enumerate}
 
   \item The employee can now use the website
 \end{enumerate}
 
-% TODO flowchart
+% TODO sequence diagram
 
 \subsection{Location}
 
-At the core of
+The core of location verification is the storage of jobs
+and their locations.
+In addition to a latitude and longitude, a job location
+will also include a accuracy radius to identify the
+physical size of the job site.
 
-% Job Location:
-% stored at lat, long, radius
-% configurable accuracy threshold, based on research, configurable, tested 
-% employee assigned to them
+Using the \hyperref[ss:coordSystems]{haversine formula},
+the distance between the user's current location and a job
+location is measured and compared against the accuracy
+radius; if their location is outside this radius, they
+cannot verify their attendance at the job.
 
-% gps
+Sourcing employee's location data will use the browser's
+Geolocation API, which returns their longitude and latitude
+in the \gls{dd} format \parencite{geolocationApi}, as seen
+in Figure \ref{fig:geolocationApi}.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.5\linewidth]{05
+    design/assets/geolocation api.png}
+  \caption{Device location provided by the Geolocation API}
+  \label{fig:geolocationApi}
+  \parencite{geolocationApi}
+\end{figure}
+
+To restrict who can confirm their attendance at a job, they
+will be assigned to each job in the database, along with an
+expected date/time for their check-in and check-out.
 
 \subsection{Confirmation}
 
-% factors
+The implementation of the verification chain relies on a
+exchange of data from the \gls{confirmee}'s device to the
+\gls{confirmer}'s device.
+In addition to the accountability element, the data
+exchange is secured using two additional constraints to
+deter employees from circumventing the mechanism.
+
+\paragraph{Time Constraint}
+
+Firstly, the data exchanged between the two devices will be
+a time-based \hyperref[ss:otp]{one-time password}.
+By applying a time constraint, it becomes harder for
+\gls{conspiring-users} to share confirmation data.
+Moreover, the confirmer can actively prevent this since the
+process is performed in-person and it would be obvious if
+an employee attempted to distribute the exchange data.
+
+\paragraph{Data Format Constraint}
+
+Additionally, the confirmation process will exchange data
+using \hyperref[ss:barcodes]{QR codes}.
+Not only are they are quick \& easy to generate \& scan,
+but their representation cannot be described by humans,
+preventing employees from sharing the exchange data
+linguistically.
+Instead, the image of the QR code would need transferred
+online using email, SMS, a messaging service, etc.,
+applying further pressure to the time constraint.
+
+\paragraph{Principle Verifier}
+Drawing the from the options proposed in the
+\hyperref[s:concept]{concept}, the role of principle
+verifier will be assigned to the first employee to
+\gls{check-in} at a job site.
+More complex approaches may be more appropriate in a
+business context, but they would inherently be a business
+decision which is not of concern in this project.
+
+% TODO \paragraph{Verification Factors}
+
+% TODO ER diagram
