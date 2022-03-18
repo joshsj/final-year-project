@@ -8,6 +8,7 @@
     "biblatex",
     "confirmee",
     "confirmer",
+    "datetime",
     "geofence",
     "geofences",
     "Hons",
@@ -17,10 +18,12 @@
     "microservices",
     "multifactor",
     "Nnamdi",
+    "nvarchar",
     "timescale",
     "timescales",
     "timestep",
     "TOTP",
+    "uniqueidentifier",
     "userbase"
   ],
 

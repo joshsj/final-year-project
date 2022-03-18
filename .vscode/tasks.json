@@ -48,7 +48,7 @@
     },
     {
       "label": "Build Tikz",
-      "command": "pdflatex.exe -interaction=nonstopmode '${fileBasename}'; Remove-Item * -Exclude *.tex, *.pdf",
+      "command": "pdflatex.exe -interaction=nonstopmode '${fileBasename}'; Remove-Item * -Include *.aux, *.log",
       "options": {
         "cwd": "${fileDirname}"
       },

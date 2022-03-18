@@ -6,14 +6,9 @@
 % * {outline: 1px solid black;}
 % \usepackage{showframe}
 
-% better text rendering
-% https://tex.stackexchange.com/questions/664/why-should-i-use-usepackaget1fontenc
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{microtype}
-% \usepackage[nomath]{lmodern}
-\usepackage[l]{plex-serif}
-\usepackage[nomap]{plex-mono}
+\input{snippets.tex}
+\usefonts{}
+\usepackage{plex-mono}
 
 % general stuff
 \usepackage[british]{babel}
@@ -68,6 +63,10 @@
 % proper quotations for language
 \usepackage[autostyle]{csquotes}
 
+% tighter, taller tables
+\setlength{\tabcolsep}{0.25em}
+\renewcommand{\arraystretch}{2}
+
 \usepackage
 [
   style=apa,
@@ -89,31 +88,6 @@
 \loadglsentries[t]{00 terms/Technical.tex}
 
 \makeglossaries
-
-% helpers
-\newcommand{\subfigwidth}{0.49\linewidth}
-
-\newcommand{\code}[1]{\lstinline{#1}}
-
-\newcommand
-{\captiondesc}
-[1]
-{
-  \centering
-  \vspace{0.5em}
-  \parbox{0.8\linewidth}{\footnotesize{}#1}
-}
-
-
-\newcommand{\dd}[1]{\ensuremath{#1}}
-\newcommand{\dddd}[2]{\ensuremath{\dd{#1},\,\dd{#2}}}
-
-\newcommand{\dms}[3]{\ensuremath{\ang{#1}\,#2'\,#3''}}
-\newcommand{\dmsdms}[6]{\ensuremath{\dms{#1}{#2}{#3},\,\dms{#4}{#5}{#6}}}
-
-% tighter, taller tables
-\setlength{\tabcolsep}{0.25em}
-\renewcommand{\arraystretch}{2} 
 
 \begin{document}
 

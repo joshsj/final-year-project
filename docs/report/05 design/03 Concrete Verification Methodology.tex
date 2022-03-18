@@ -58,13 +58,15 @@ To enable such associations, the database will include
 unique identifier for their user on Auth0 (see Figure
 \ref{fig:auth0Data}).
 This data is maintained within the
-\hyperref[p:authFlow]{authentication flow}
+\hyperref[p:authFlow]{authentication flow}.
 
-\begin{figure} \lstinputlisting{05 design/assets/auth0
-    jwt.json} \caption{Auth0 User Data}
-  \captiondesc{Specifically, a JWT for a new account created
-    with a Github no-reply email; the \code{sub} field is the
-    identifier for the user.
+\begin{figure}
+  \lstinputlisting{05 design/assets/auth0
+    jwt.json}
+  \caption{Auth0 User Data}
+  \captiondesc{Specifically, a JWT for a new account
+    created with a Github no-reply email; the \code{sub}
+    field is the identifier for the user.
   }
   \label{fig:auth0Data}
 \end{figure}
@@ -163,15 +165,44 @@ an employee attempted to distribute the OTP.
 
 \paragraph{Data Format Constraint}
 
-Additionally, the confirmation process will exchange data
-using \hyperref[ss:barcodes]{QR codes}.
+Additionally, the confirmation process will exchange the
+OTPs using \hyperref[ss:barcodes]{QR codes}.
 Not only are they are quick \& easy to generate \& scan,
 but their representation cannot be described by humans,
 preventing employees from sharing the exchange data
 linguistically.
-Instead, the image of the QR code would need transferred
-online using email, SMS, a messaging service, etc.,
-applying further pressure to the time constraint.
+Instead, the image of the QR code would need to be
+transferred online using email, SMS, a messaging service,
+etc., applying further pressure to the time constraint.
+
+By using images, the user's location can also be
+cross-referenced.
+Modern camera/smartphones store metadata alongside the raw
+pixels, known as \enquote{EXIF data} \parencite{exif},
+which includes the capture date/time and geolocation.
+If present in the captured image, the website can validate
+this metadata as an additional control.
+See Figure \ref{fig:exif} for an example.
+
+\begin{figure}[h]
+  \centering
+
+  \begin{subfigure}{\subfigwidth}
+    \centering
+    \includegraphics[width=0.75\linewidth]{05
+      design/assets/exif source.jpg}
+    \caption{Source image}
+  \end{subfigure}
+  \begin{subfigure}{\subfigwidth}
+    \centering
+    \includegraphics[width=0.75\linewidth]{05
+      design/assets/exif data.png}
+    \caption{Selected metadata}
+  \end{subfigure}
+
+  \caption{EXIF data}
+  \label{fig:exif}
+\end{figure}
 
 \paragraph{Principle Verifier}
 Drawing the from the options proposed in the
@@ -182,7 +213,5 @@ More complex approaches may be more appropriate in a
 business context, but they would inherently be a business
 decision which is not of concern for the scope of this
 project.
-
-% TODO \paragraph{Verification Factors}
 
 % TODO ER diagram
