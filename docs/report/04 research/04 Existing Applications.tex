@@ -79,8 +79,22 @@ overlap with this project identically; they clock-in and
 clock-out employees.
 However, the BuddyPunch system is sold as a service to
 individual companies, as opposed to the goal of a shared
-system among all companies using \projectname{}. As such,
-employees would be much less accountable for their own
-clock-ins. 
+system among all companies using \projectname{} meaning the
+systems must be much less susceptible to false clock-ins.
 
-% TODO continue
+Facial recognition is a reliable mechanism for identifying
+people, but it inherently requires very personal data to be
+stored by a third party who is objectionable. It also has
+huge safety implications if leaked so it's protection is
+crucial. Lastly, its reliability and accuracy depends on:
+camera availability and quality, lighting conditions, and
+facial access (i.e., absence of masks, dirt, religious
+covering, disfigurement).
+
+GPS is ultimately circumventable, regardless of safeguarding
+as it's a client-side technology. Device locking is complete
+unfeasible for \projectname{} as it is aimed to be
+device/infrastructure independent, plus copying a cookie or
+spoofing an IP is also achievable with minimal expertise. 
+
+% TODO sources
