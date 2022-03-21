@@ -42,7 +42,7 @@ The use-case of the system also presents an intrinsic
 problem, in that \hyperref[s:userAuth]{conventional
   authentication techniques} do not account for
 \gls{conspiring-users}.
-Given that \glsdisp{check-in}{checking into} a job could
+Given that \glsdisp{clock-in}{clocking into} work can
 directly result in an assignment of wages, it is a fair
 assumption that users of \projectname{} may pose as another
 user to obtain additional wages.
@@ -54,10 +54,9 @@ ability to imitate other users.
 
 \subsection{Goal} \label{ss:goal}
 The goal of this project is to implement a process for
-employees to \gls{check-in} and \gls{check-out} of a job,
-which concerns the critical functionality of the
-application: the verification of an employee's identity and
-location.
+employees to \gls{clock-in}/\gls{clock-out} of a job, which
+concerns the critical functionality of the application: the
+verification of an employee's identity and location.
 
 As a guideline, the process should be as 'universal' as
 possible; specifically:
@@ -68,8 +67,10 @@ possible; specifically:
         infrastructure
   \item Accessible --- no requirement(s) for specific
         human abilities
-  \item Platform independent --- no proprietary hardware
-        or software should be required
+  \item Platform agnostic --- no restriction to specific
+        hardware/software
+  \item Independent --- a shared system for companies to
+        buy into
 \end{itemize}
 
 \subsection{Aims}
@@ -78,7 +79,7 @@ addressed:
 
 \begin{itemize}
   \item Research existing applications concerned with
-        checking-in employees
+        clocking-in employees
   \item Investigate approaches in identifying people,
         locations, and assets
   \item Devise and design a theoretical identity and

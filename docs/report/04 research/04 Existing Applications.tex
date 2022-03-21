@@ -1,10 +1,86 @@
 \section{Existing Applications}
 
-\subsection{Application 1}
+The following applications are \gls{time-clock} systems,
+all of which employ security mechanisms to prevent
 
-\subsection{Application 2}
+\glsdisp{buddy-punch}{buddy punching}.
 
-\subsection{Application 3}
+\subsection{Dedicated Time Clock Devices}
+
+Clocking into one's shift at work has been around since
+1888, after Willard Legrand Bundy invented the
+\gls{time-clock}.
+Since then, time clocks have been developed to integrate
+with spreadsheets and payroll systems
+\parencite{clockingHistory}.
+
+Looking at time clocks from ClockingSystems
+\parencite{clockingSystems} and Time Systems UK
+\parencite{timeSystemsUk}, modern devices employ complex
+security mechanisms using many aforementioned technologies:
+\hyperref[ss:biometrics]{biometrics}, using fingerprints,
+hand readers, palm readers, and face recognition; and
+proximity-based solutions using \hyperref[ss:rfid]{RFID}.
+Devices can communicate using WiFi and GSM.
+They offer devices for permanent installation (i.e., on a
+wall) or robust portable devices to use on-location.
+
+They also feature business functionalities such as
+auto-deductions for lateness, auto-deductions for lunch
+breaks, handling of sickness, and reporting, plus
+integrations with other business applications such as Sage
+and Jira.
+
+\subsection{Time Clock Applications}
+
+Time clocks are also available to companies as online
+applications, offering the same business functionalities
+and integrations as the device-based options above.
+They can be used on the web, or using native applications
+for iOS and Android.
+
+Among the many example of these application (e.g.,
+QuickBooks Time, Connecteam, Hubstaff, Clockify),
+BuddyPunch is the most transparent about the security of
+their system through their documentation
+\parencite{buddyPunchDocs}.
+
+Their main security component uses \hyperref[ss:gps]{GPS}
+to determine employee locations, optionally with
+\hyperref[ss:geofencing]{geofences} to define job
+locations.
+In their FAQ about spoofing GPS data, they only specify
+their Android safeguard; \enquote{[users] must disable Mock
+  Locations first in order to punch time}.
+
+Another security component uses pictures taken of them whe
+clocking in/out, with an option to configure physical
+\enquote{positions} to ensure the photo is taken
+at-present.
+
+The device lock feature allows managers to \enquote{lock
+  employees to specific devices}.
+It is only available through the browser, as it stores a
+unique cookie to identify the device.
+Similarly, an IP address lock is also offered.
+
+Lastly, facial recognition is offered using their
+proprietary system or FaceID on iOS devices.
 
 \subsection{Conclusions}
 
+Dedicated devices is simply irrelevant to \projectname{};
+they are, by nature, an implementation for a single company
+which opposes the \enquote{universal} guideline stated in
+the \hyperref[s:goal]{project goal}.
+
+Unsurprisingly, existing time clock applications share some
+overlap with this project identically; they clock-in and
+clock-out employees.
+However, the BuddyPunch system is sold as a service to
+individual companies, as opposed to the goal of a shared
+system among all companies using \projectname{}. As such,
+employees would be much less accountable for their own
+clock-ins. 
+
+% TODO continue
