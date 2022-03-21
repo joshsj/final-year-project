@@ -105,14 +105,18 @@ alternatives, and it performance benefits should result in
 a smoother experience using \projectname{} as a whole.
 
 \paragraph{Database}
-For the \projectname{} application, an \gls{rdb} using SQL is the
-better choice, as opposed to a \gls{nrdb} (No-SQL) offering.
+For the \projectname{} application, an \gls{rdb} using SQL
+is the better choice, as opposed to a \gls{nrdb} (No-SQL)
+offering.
 \cite{databaseComparison} identifies scalability, dynamic
-models, and data abstraction as pros of No-SQL, whereas SQL 
-has a smaller data footprint and strong integrity. The
-advantages of No-SQL are almost irrelevant to a small system
-like \projectname{}, and data integrity with a reduced 
-footprint is never a bad thing.
+models, and data abstraction as pros of No-SQL, whereas SQL
+
+has a smaller data footprint and strong integrity.
+The advantages of No-SQL are almost irrelevant to a small
+system like \projectname{}, and data integrity with a
+reduced footprint is never a bad thing.
+
+% TODO add testing frameworks ?
 
 \paragraph{Frontend}
 Websites serving an API can be constructed using \gls{ssr}
@@ -128,13 +132,106 @@ comparison between their functionalities.
 \end{table}
 
 Personally, I have decent experience with SSR using
-WebForms in ASP.NET and moustache
-templates within PHP and Javascript
-frameworks, but my experience with Vue.js
+WebForms in ASP.NET and moustache templates within PHP and
+Javascript frameworks, but my experience with Vue.js
 surpasses both, as well as other SPAs like React and
 Angular.
 An SPA is also more suited to the discreet functionality of
 the verification methodology, so the frontend will be
 developed with Vue.
 
-% architecture overview
+% TODO add testing frameworks ?
+
+% TODO architecture overview
+
+\subsection{Management}
+
+\cite{agileVsTraditional} describe five strategies for
+project management in software applications: two are
+traditional, three are agile.
+
+\paragraph{Traditional}
+
+The linear project management strategy is a traditional
+approach consisting of \enquote{dependent, sequential
+  phases that are executed with no feedback loops}; an
+infamous example is the waterfall method which strictly
+follows a phase of: (1) requirements, (2) analysis, (3)
+design, (4) development, (5) testing, and (6) operations.
+There is a single solution, produced at the end of the
+final phase.
+
+A similar approach is the incremental strategy, which
+follows the same processes but releases a partial solution
+at the end of each phase, producing business value much
+earlier to accommodate for change requests.
+
+Ultimately, traditional strategies are long, rigid
+processes which rely on a \enquote{clearly defined goal,
+  solution, and requirements}.
+
+\paragraph{Agile}
+In contrast, agile approaches allow for ignorance in the
+project goal and/or requirements and/or end-solution.
+
+With an iterative strategy, the goal and requirements are
+known upfront.
+To guide the end-solution towards the requirements, a
+feedback loop with the customer is introduced following
+groups of phases to receive suggestions and accommodate for
+scope changes.
+
+The adaptive strategy takes this further.
+Both the end-solution and requirements are unknown, so the
+feedback loop determines the requirements for the
+subsequent phases, knows as \enquote{continuous change}.
+Scrum is considered an adaptive strategy.
+
+Finally, extreme strategies know nothing upfront; the range
+of acceptable solutions is wide; feedback loops redefine
+the scope of the project as a whole.
+
+On balance, an iterative strategy is most appropriate to
+create \projectname{}; the \hyperref[ss:goal]{goal} and
+\hyperref[s:requirements]{requirements} are known, but the
+end-solution is subject to change throughout development
+and testing.
+
+\paragraph{Decomposition}
+
+For development and testing, the workload will first be
+broken down into epics; i.e., a major piece of
+functionality within the project such as
+\enquote{Authentication} \parencite{agile}.
+Epics only require a description for additional
+information/context.
+
+Within an epic, the work will be decomposed into user
+stories: a feature described from a user's perspective
+\parencite{agile}.
+They will include: a description, also for additional
+information/context; any wireframes for the frontend UI;
+and acceptance tests, which state how the system should
+function against which to test.
+
+Within a story, tasks will represent the actual work.
+A task is a small, achievable unit of work.
+
+\paragraph{Tracking}
+
+In alignment with agile, Kanban boards allow decomposed
+work follow a set workflow to track progress.
+They are structured with columns which represent status
+(e.g., \enquote{Todo}, \enquote{In Progress} \&
+\enquote{Done}), with task displayed as a card
+\enquote{card} to show its most important information
+\parencite{kanban}.
+See Table \ref{tbl:kanbanSprint} for a comparison to Scrum.
+
+\begin{table}[h]
+  \centering
+  \input{05 design/assets/kanban sprint comparison tabular.tex}
+  \caption{Kanban vs. Scrum}
+  \parencite{kanban}
+  \label{tbl:kanbanSprint}
+\end{table}
