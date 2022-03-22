@@ -23,14 +23,20 @@
     "multifactor",
     "Nnamdi",
     "nvarchar",
+    "Rendez",
+    "RendezVous",
     "timescale",
     "timescales",
     "timestep",
     "TOTP",
     "trilateration",
     "uniqueidentifier",
-    "userbase"
+    "userbase",
+    "Vouz"
   ],
+
+  "omnisharp.enableEditorConfigSupport": true,
+  "omnisharp.enableRoslynAnalyzers": true,
 
   "[markdown]": {
     "editor.rulers": [60]
