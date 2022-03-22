@@ -20,6 +20,7 @@ public class Program
 
         builder.Services.AddDbContextPool<RendezVousDbContext>(opt =>
         {
+            // https://github.com/dotnet/efcore/issues/21361
             opt.UseSqlServer(configuration.DatabaseConnectionString);
         });
 
@@ -50,6 +51,12 @@ public class Program
         if (isDevelopment)
         {
             app.UseSwagger().UseSwaggerUI();
+
+            using var scope = app.Services.CreateAsyncScope();
+            scope.ServiceProvider
+                .GetRequiredService<RendezVousDbContext>()
+                .Database
+                .Migrate();
         }
 
         TypeAdapterConfig.GlobalSettings.RequireExplicitMapping = true;
