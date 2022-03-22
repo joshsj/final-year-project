@@ -81,6 +81,8 @@ public class Program
 
             builder.Services.AddSingleton(options);
         }
+
+        ConfigureOptions<ConfigurationOptions>();
     }
 
     private static T GetOptions<T>(WebApplicationBuilder builder) where T : class
