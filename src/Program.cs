@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Mapster;
 using RendezVouz.Domain.Options;
+using RendezVouz.Controllers.Common.Filters;
 
 namespace RendezVouz;
 
@@ -22,7 +23,10 @@ public class Program
             opt.UseSqlServer(configuration.DatabaseConnectionString);
         });
 
-        builder.Services.AddControllers();
+        builder.Services.AddControllers(opt =>
+        {
+            opt.Filters.Add<RendezVousExceptionFilterAttribute>();
+        });
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
