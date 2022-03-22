@@ -1,4 +1,4 @@
-namespace RendezVouz.Domain.Options;
+namespace RendezVous.Domain.Options;
 
 public class ConfigurationOptions
 {

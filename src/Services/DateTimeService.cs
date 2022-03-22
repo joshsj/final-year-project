@@ -1,7 +1,7 @@
 using System;
-using RendezVouz.Services.Common.Interfaces;
+using RendezVous.Services.Common.Interfaces;
 
-namespace RendezVouz.Services;
+namespace RendezVous.Services;
 
 public class DateTimeService : IDateTimeService
 {

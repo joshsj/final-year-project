@@ -1,4 +1,4 @@
-﻿namespace RendezVouz.Domain.Common;
+﻿namespace RendezVous.Domain.Common;
 
 public class BaseEntity
 {

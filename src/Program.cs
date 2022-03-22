@@ -1,13 +1,13 @@
-using RendezVouz.Repositories.Common;
-using RendezVouz.Services;
-using RendezVouz.Services.Common.Interfaces;
+using RendezVous.Repositories.Common;
+using RendezVous.Services;
+using RendezVous.Services.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Mapster;
-using RendezVouz.Domain.Options;
-using RendezVouz.Controllers.Common.Filters;
+using RendezVous.Domain.Options;
+using RendezVous.Controllers.Common.Filters;
 
-namespace RendezVouz;
+namespace RendezVous;
 
 public class Program
 {

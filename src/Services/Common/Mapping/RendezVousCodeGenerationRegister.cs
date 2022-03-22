@@ -1,6 +1,6 @@
 using Mapster;
 
-namespace RendezVouz.Services.Common.Mapping;
+namespace RendezVous.Services.Common.Mapping;
 
 public class RendezVousCodeGenerationRegister : ICodeGenerationRegister
 {

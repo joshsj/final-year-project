@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace RendezVouz.Repositories.Common;
+namespace RendezVous.Repositories.Common;
 
 public class RendezVousDbContext : DbContext
 {

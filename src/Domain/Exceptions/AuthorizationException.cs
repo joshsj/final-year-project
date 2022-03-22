@@ -1,4 +1,4 @@
-namespace RendezVouz.Domain.Exceptions;
+namespace RendezVous.Domain.Exceptions;
 
 public class AuthorizationException : Exception
 {

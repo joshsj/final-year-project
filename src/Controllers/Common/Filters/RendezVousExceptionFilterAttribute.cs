@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using RendezVouz.Domain.Exceptions;
+using RendezVous.Domain.Exceptions;
 
-namespace RendezVouz.Controllers.Common.Filters;
+namespace RendezVous.Controllers.Common.Filters;
 
 public class RendezVousExceptionFilterAttribute : ExceptionFilterAttribute
 {

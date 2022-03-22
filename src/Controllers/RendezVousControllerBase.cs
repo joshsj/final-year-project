@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace RendezVouz.Controllers;
+namespace RendezVous.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

@@ -1,6 +1,6 @@
 using System;
 
-namespace RendezVouz.Services.Common.Interfaces;
+namespace RendezVous.Services.Common.Interfaces;
 
 public interface IDateTimeService
 {

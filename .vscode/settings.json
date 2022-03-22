@@ -23,8 +23,7 @@
     "multifactor",
     "Nnamdi",
     "nvarchar",
-    "Rendez",
-    "RendezVous",
+    "rendez",
     "timescale",
     "timescales",
     "timestep",
@@ -32,7 +31,7 @@
     "trilateration",
     "uniqueidentifier",
     "userbase",
-    "Vouz"
+    "vous"
   ],
 
   "omnisharp.enableEditorConfigSupport": true,
