@@ -2,104 +2,88 @@ using RendezVous.Repositories.Common;
 using RendezVous.Services;
 using RendezVous.Services.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.SqlServer;
 using Mapster;
 using RendezVous.Domain.Options;
 using RendezVous.Controllers.Common.Filters;
 
-namespace RendezVous;
+var builder = WebApplication.CreateBuilder(args);
+var isDevelopment = builder.Environment.IsDevelopment();
 
-public class Program
+var configuration = GetOptions<ConfigurationOptions>(builder);
+
+builder.Services.AddDbContextPool<RendezVousDbContext>(opt =>
 {
-    public static void Main(string[] args)
+    // https://github.com/dotnet/efcore/issues/21361
+    opt.UseSqlServer(configuration.DatabaseConnectionString);
+});
+
+builder.Services.AddControllers(opt =>
+{
+    opt.Filters.Add<RendezVousExceptionFilterAttribute>();
+});
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddOpenApiDocument(opt =>
+{
+    opt.Title = "RendezVous API";
+    opt.Version = "v1";
+});
+
+// options
+ConfigureOptions<ConfigurationOptions>(builder);
+
+// repositories
+builder.Services
+    .AddTransient<RendezVousDbContext>();
+
+// services
+builder.Services
+    .AddTransient<IDateTimeService, DateTimeService>();
+
+if (isDevelopment)
+{
+    builder.Logging.AddConsole();
+}
+
+var app = builder.Build();
+
+app.UseStaticFiles();
+app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
+
+if (isDevelopment)
+{
+    app.UseSwaggerUi3(opt =>
     {
-        var builder = WebApplication.CreateBuilder(args);
-        var isDevelopment = builder.Environment.IsDevelopment();
+        opt.DocumentPath = "openApiSpecification.json";
+    });
 
-        var configuration = GetOptions<ConfigurationOptions>(builder);
+    using var scope = app.Services.CreateAsyncScope();
+    scope.ServiceProvider
+        .GetRequiredService<RendezVousDbContext>()
+        .Database
+        .Migrate();
+}
 
-        builder.Services.AddDbContextPool<RendezVousDbContext>(opt =>
-        {
-            // https://github.com/dotnet/efcore/issues/21361
-            opt.UseSqlServer(configuration.DatabaseConnectionString);
-        });
+TypeAdapterConfig.GlobalSettings.RequireExplicitMapping = true;
+TypeAdapterConfig.GlobalSettings.RequireDestinationMemberSource = true;
 
-        builder.Services.AddControllers(opt =>
-        {
-            opt.Filters.Add<RendezVousExceptionFilterAttribute>();
-        });
-        builder.Services.AddHttpContextAccessor();
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+app.Run();
 
-        ConfigureOptions(builder);
-        ConfigureRepositoryDependencies(builder);
-        ConfigureServiceDependencies(builder);
+static void ConfigureOptions<T>(WebApplicationBuilder builder) where T : class
+{
+    var options = GetOptions<T>(builder);
 
-        if (isDevelopment)
-        {
-            ConfigureTestDependencies(builder);
-        }
+    if (options is null) { return; }
 
-        var app = builder.Build();
+    builder.Services.AddSingleton(options);
+}
 
-        app.UseHttpsRedirection();
-        app.UseAuthentication();
-        app.UseAuthorization();
-        app.MapControllers();
-
-        if (isDevelopment)
-        {
-            app.UseSwagger().UseSwaggerUI();
-
-            using var scope = app.Services.CreateAsyncScope();
-            scope.ServiceProvider
-                .GetRequiredService<RendezVousDbContext>()
-                .Database
-                .Migrate();
-        }
-
-        TypeAdapterConfig.GlobalSettings.RequireExplicitMapping = true;
-        TypeAdapterConfig.GlobalSettings.RequireDestinationMemberSource = true;
-
-        app.Run();
-    }
-
-    private static void ConfigureRepositoryDependencies(WebApplicationBuilder builder)
-    {
-        builder.Services
-            .AddTransient<RendezVousDbContext>();
-    }
-
-    private static void ConfigureServiceDependencies(WebApplicationBuilder builder)
-    {
-        builder.Services
-            .AddTransient<IDateTimeService, DateTimeService>();
-    }
-
-    private static void ConfigureTestDependencies(WebApplicationBuilder builder)
-    {
-        builder.Logging.AddConsole();
-    }
-
-    private static void ConfigureOptions(WebApplicationBuilder builder)
-    {
-        void ConfigureOptions<T>() where T : class
-        {
-            var options = GetOptions<T>(builder);
-
-            if (options is null) { return; }
-
-            builder.Services.AddSingleton(options);
-        }
-
-        ConfigureOptions<ConfigurationOptions>();
-    }
-
-    private static T GetOptions<T>(WebApplicationBuilder builder) where T : class
-    {
-        return builder.Configuration
-            .GetSection(typeof(T).Name.Replace("Options", ""))
-            .Get<T>();
-    }
+static T GetOptions<T>(WebApplicationBuilder builder) where T : class
+{
+    return builder.Configuration
+        .GetSection(typeof(T).Name.Replace("Options", ""))
+        .Get<T>();
 }
