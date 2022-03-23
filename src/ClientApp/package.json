@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "scripts": {
     "start": "vite",
+    "start-for-dotnet": "echo Starting the development server && npm run start",
     "test": "cypress open"
   },
   "dependencies": {

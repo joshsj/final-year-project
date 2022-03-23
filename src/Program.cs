@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Mapster;
 using RendezVous.Domain.Options;
 using RendezVous.Controllers.Common.Filters;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 
 var builder = WebApplication.CreateBuilder(args);
 var isDevelopment = builder.Environment.IsDevelopment();
@@ -28,6 +29,7 @@ builder.Services.AddOpenApiDocument(opt =>
     opt.Title = "RendezVous API";
     opt.Version = "v1";
 });
+builder.Services.AddRazorPages();
 
 // options
 ConfigureOptions<ConfigurationOptions>(builder);
@@ -47,17 +49,31 @@ if (isDevelopment)
 
 var app = builder.Build();
 
+app.UseRouting();
 app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller}/{action=Index}/{id?}");
+    endpoints.MapRazorPages();
+});
 
 if (isDevelopment)
 {
     app.UseSwaggerUi3(opt =>
     {
         opt.DocumentPath = "openApiSpecification.json";
+    });
+    app.UseSpa(spa =>
+    {
+        spa.Options.SourcePath = "ClientApp";
+        spa.Options.DevServerPort = 3000;
+
+        spa.UseReactDevelopmentServer(npmScript: "start-for-dotnet");
     });
 
     using var scope = app.Services.CreateAsyncScope();

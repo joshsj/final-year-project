@@ -18,6 +18,10 @@
     "noImplicitReturns": true,
     "noUncheckedIndexedAccess": true,
     "strictNullChecks": true,
-    "strictPropertyInitialization": true
+    "strictPropertyInitialization": true,
+
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   }
 }
