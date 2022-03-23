@@ -2,104 +2,104 @@ using RendezVous.Repositories.Common;
 using RendezVous.Services;
 using RendezVous.Services.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.SqlServer;
 using Mapster;
 using RendezVous.Domain.Options;
 using RendezVous.Controllers.Common.Filters;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 
-namespace RendezVous;
+var builder = WebApplication.CreateBuilder(args);
+var isDevelopment = builder.Environment.IsDevelopment();
 
-public class Program
+var configuration = GetOptions<ConfigurationOptions>(builder);
+
+builder.Services.AddDbContextPool<RendezVousDbContext>(opt =>
 {
-    public static void Main(string[] args)
+    // https://github.com/dotnet/efcore/issues/21361
+    opt.UseSqlServer(configuration.DatabaseConnectionString);
+});
+
+builder.Services.AddControllers(opt =>
+{
+    opt.Filters.Add<RendezVousExceptionFilterAttribute>();
+});
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddOpenApiDocument(opt =>
+{
+    opt.Title = "RendezVous API";
+    opt.Version = "v1";
+});
+builder.Services.AddRazorPages();
+
+// options
+ConfigureOptions<ConfigurationOptions>(builder);
+
+// repositories
+builder.Services
+    .AddTransient<RendezVousDbContext>();
+
+// services
+builder.Services
+    .AddTransient<IDateTimeService, DateTimeService>();
+
+if (isDevelopment)
+{
+    builder.Logging.AddConsole();
+}
+
+var app = builder.Build();
+
+app.UseRouting();
+app.UseStaticFiles();
+app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller}/{action=Index}/{id?}");
+    endpoints.MapRazorPages();
+});
+
+if (isDevelopment)
+{
+    app.UseSwaggerUi3(opt =>
     {
-        var builder = WebApplication.CreateBuilder(args);
-        var isDevelopment = builder.Environment.IsDevelopment();
-
-        var configuration = GetOptions<ConfigurationOptions>(builder);
-
-        builder.Services.AddDbContextPool<RendezVousDbContext>(opt =>
-        {
-            // https://github.com/dotnet/efcore/issues/21361
-            opt.UseSqlServer(configuration.DatabaseConnectionString);
-        });
-
-        builder.Services.AddControllers(opt =>
-        {
-            opt.Filters.Add<RendezVousExceptionFilterAttribute>();
-        });
-        builder.Services.AddHttpContextAccessor();
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
-
-        ConfigureOptions(builder);
-        ConfigureRepositoryDependencies(builder);
-        ConfigureServiceDependencies(builder);
-
-        if (isDevelopment)
-        {
-            ConfigureTestDependencies(builder);
-        }
-
-        var app = builder.Build();
-
-        app.UseHttpsRedirection();
-        app.UseAuthentication();
-        app.UseAuthorization();
-        app.MapControllers();
-
-        if (isDevelopment)
-        {
-            app.UseSwagger().UseSwaggerUI();
-
-            using var scope = app.Services.CreateAsyncScope();
-            scope.ServiceProvider
-                .GetRequiredService<RendezVousDbContext>()
-                .Database
-                .Migrate();
-        }
-
-        TypeAdapterConfig.GlobalSettings.RequireExplicitMapping = true;
-        TypeAdapterConfig.GlobalSettings.RequireDestinationMemberSource = true;
-
-        app.Run();
-    }
-
-    private static void ConfigureRepositoryDependencies(WebApplicationBuilder builder)
+        opt.DocumentPath = "openApiSpecification.json";
+    });
+    app.UseSpa(spa =>
     {
-        builder.Services
-            .AddTransient<RendezVousDbContext>();
-    }
+        spa.Options.SourcePath = "ClientApp";
+        spa.Options.DevServerPort = 3000;
 
-    private static void ConfigureServiceDependencies(WebApplicationBuilder builder)
-    {
-        builder.Services
-            .AddTransient<IDateTimeService, DateTimeService>();
-    }
+        spa.UseReactDevelopmentServer(npmScript: "start-for-dotnet");
+    });
 
-    private static void ConfigureTestDependencies(WebApplicationBuilder builder)
-    {
-        builder.Logging.AddConsole();
-    }
+    using var scope = app.Services.CreateAsyncScope();
+    scope.ServiceProvider
+        .GetRequiredService<RendezVousDbContext>()
+        .Database
+        .Migrate();
+}
 
-    private static void ConfigureOptions(WebApplicationBuilder builder)
-    {
-        void ConfigureOptions<T>() where T : class
-        {
-            var options = GetOptions<T>(builder);
+TypeAdapterConfig.GlobalSettings.RequireExplicitMapping = true;
+TypeAdapterConfig.GlobalSettings.RequireDestinationMemberSource = true;
 
-            if (options is null) { return; }
+app.Run();
 
-            builder.Services.AddSingleton(options);
-        }
+static void ConfigureOptions<T>(WebApplicationBuilder builder) where T : class
+{
+    var options = GetOptions<T>(builder);
 
-        ConfigureOptions<ConfigurationOptions>();
-    }
+    if (options is null) { return; }
 
-    private static T GetOptions<T>(WebApplicationBuilder builder) where T : class
-    {
-        return builder.Configuration
-            .GetSection(typeof(T).Name.Replace("Options", ""))
-            .Get<T>();
-    }
+    builder.Services.AddSingleton(options);
+}
+
+static T GetOptions<T>(WebApplicationBuilder builder) where T : class
+{
+    return builder.Configuration
+        .GetSection(typeof(T).Name.Replace("Options", ""))
+        .Get<T>();
 }
