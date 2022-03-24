@@ -5,11 +5,20 @@ import {
   RouteRecordRaw,
 } from "vue-router";
 import Home from "@/views/Home.vue";
+import { app } from ".";
 
-type RouteDef<T> = RouteRecordRaw &
-  Required<Pick<RouteRecordRaw, "meta">> & {
-    helper: (arg: T) => RouteLocationRaw;
-  };
+declare module "vue-router" {
+  interface RouteMeta {
+    authenticated: boolean;
+  }
+}
+
+type RouteRecordRawWithMeta = RouteRecordRaw &
+  Required<Pick<RouteRecordRaw, "meta">>;
+
+type RouteDef<T> = RouteRecordRawWithMeta & {
+  helper: (arg: T) => RouteLocationRaw;
+};
 
 type Routes = typeof routes;
 type RouteName = keyof Routes;
@@ -21,7 +30,7 @@ type HelperArg<T extends RouteName> = Parameters<
   : Parameters<Routes[T]["helper"]>[0];
 
 const route = <T extends object | void = void>(
-  raw: RouteRecordRaw & Required<Pick<RouteRecordRaw, "meta">>
+  raw: RouteRecordRawWithMeta
 ): RouteDef<T> => {
   const helper = (arg: T) =>
     arg
@@ -38,13 +47,13 @@ const routes = {
   home: route({
     path: "/",
     component: Home,
-    meta: { auth: "none" },
+    meta: { authenticated: false },
   }),
 
   noPath: route({
     path: "/:noPath(.*)*",
     redirect: "/",
-    meta: { auth: "none" },
+    meta: { authenticated: false },
   }),
 };
 
@@ -57,6 +66,10 @@ const createRouter = () => {
     routes: Object.values(routes),
     history: createWebHistory(),
   });
+
+  router.beforeEach(({ meta: { authenticated } }) =>
+    !authenticated || app.$auth0.isAuthenticated.value ? undefined : "/"
+  );
 
   return router;
 };

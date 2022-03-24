@@ -19,7 +19,7 @@
     "noUncheckedIndexedAccess": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
-
+    "types": ["element-plus/global"],
     "paths": {
       "@/*": ["./src/*"]
     }

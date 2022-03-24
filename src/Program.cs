@@ -68,10 +68,12 @@ if (isDevelopment)
     {
         opt.DocumentPath = "openApiSpecification.json";
     });
+
     app.UseSpa(spa =>
     {
         spa.Options.SourcePath = "ClientApp";
         spa.Options.DevServerPort = 3000;
+        spa.Options.StartupTimeout = TimeSpan.FromMinutes(2);
 
         spa.UseReactDevelopmentServer(npmScript: "start-for-dotnet");
     });
