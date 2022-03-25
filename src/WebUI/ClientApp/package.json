@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@auth0/auth0-vue": "^1.0.0",
+    "@element-plus/icons-vue": "^1.1.4",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
     "element-plus": "^2.1.4",
