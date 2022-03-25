@@ -1,13 +1,12 @@
 import "./styles.scss";
 import ElementPlus from "element-plus";
 import App from "@/App.vue";
-import { createApp } from "vue";
+import { ComponentPublicInstance, createApp } from "vue";
 import { createRouter } from "@/router";
 import { createAuth0 } from "@auth0/auth0-vue";
 
-const app = createApp(App)
+const app: ComponentPublicInstance = createApp(App)
   .use(ElementPlus)
-  .use(createRouter())
   .use(
     createAuth0({
       domain: import.meta.env.VITE_AUTH0_DOMAIN,
@@ -15,6 +14,5 @@ const app = createApp(App)
       redirect_uri: location.origin,
     })
   )
+  .use(createRouter(() => app))
   .mount("#app");
-
-export { app };

@@ -7,6 +7,7 @@
 }
 
 body {
+  // user agent styles
   margin: 0;
 }
 
@@ -18,4 +19,9 @@ body {
   &.left {
     margin-right: 0.25em;
   }
+}
+
+// allow full-width content
+.el-page-header__content {
+  flex: 1;
 }

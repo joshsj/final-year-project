@@ -1,19 +1,40 @@
 <script setup lang="ts">
+import { Back } from "@element-plus/icons-vue";
+import { useRouter } from "vue-router";
+import { route } from "@/router";
+
+const { push } = useRouter();
+
 defineProps({
   title: { type: String, required: true },
 });
 </script>
 
 <template>
-  <el-row justify="space-between" align="bottom">
-    <h2>{{ title }}</h2>
+  <header>
+    <el-row justify="space-between" align="middle">
+      <el-row align="middle">
+        <el-button
+          id="back"
+          type="primary"
+          :icon="Back"
+          circle
+          @click="push(route({ name: 'home' }))" />
 
-    <aside></aside>
-  </el-row>
+        <h2>My {{ title }}</h2>
+      </el-row>
+
+      <aside></aside>
+    </el-row>
+  </header>
 </template>
 
 <style scoped>
 h2 {
   margin: 0;
+}
+
+#back {
+  margin-right: 1rem;
 }
 </style>

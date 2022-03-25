@@ -4,8 +4,10 @@ import {
   RouteLocationRaw,
   RouteRecordRaw,
 } from "vue-router";
-import Home from "@/views/Home.vue";
-import { app } from ".";
+import Home from "@/pages/Home.vue";
+import Jobs from "@/pages/Jobs.vue";
+import Account from "@/pages/Account.vue";
+import { ComponentPublicInstance } from "vue";
 
 declare module "vue-router" {
   interface RouteMeta {
@@ -50,6 +52,18 @@ const routes = {
     meta: { authenticated: false },
   }),
 
+  jobs: route({
+    path: "/jobs",
+    component: Jobs,
+    meta: { authenticated: false },
+  }),
+
+  account: route({
+    path: "/account",
+    component: Account,
+    meta: { authenticated: false },
+  }),
+
   noPath: route({
     path: "/:noPath(.*)*",
     redirect: "/",
@@ -61,16 +75,22 @@ const routeHelper = <T extends RouteName>(
   args: { name: T } & HelperArg<T>
 ): RouteLocationRaw => routes[args.name].helper(args as never);
 
-const createRouter = () => {
+const createRouter = (_app: () => ComponentPublicInstance | undefined) => {
   const router = createVueRouter({
     routes: Object.values(routes),
     history: createWebHistory(),
   });
 
-  router.beforeEach(({ meta: { authenticated } }) =>
-    !authenticated || app.$auth0.isAuthenticated.value ? undefined : "/"
-  );
+  router.beforeEach(({ meta: { authenticated } }) => {
+    const app = _app();
+
+    // ensure homepage if app is unavailable
+    return !app || !authenticated || app.$auth0.isAuthenticated.value
+      ? undefined
+      : "/";
+  });
 
   return router;
 };
+
 export { createRouter, routeHelper as route };
