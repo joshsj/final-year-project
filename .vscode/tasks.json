@@ -86,7 +86,7 @@
       "label": "NSwag",
       "command": "nswag run nswag.json /runtime:Net60",
       "options": {
-        "cwd": "${workspaceFolder}/src"
+        "cwd": "${workspaceFolder}/src/WebUI"
       },
       "type": "shell",
       "problemMatcher": [],

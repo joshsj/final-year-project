@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <RootNamespace>RendezVous.Application</RootNamespace>
+        <AssemblyName>RendezVous.Application</AssemblyName>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.4" />
+        <PackageReference Include="Mapster" Version="7.3.0" />
+        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Domain\Domain.csproj" />
+    </ItemGroup>
+
+     <Target Name="Mapster" AfterTargets="PostBuildEvent">
+        <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet tool restore" />
+        <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet mapster extension -n RendezVous.Application.Common.Mapping -o Common/Mapping -a &quot;$(TargetDir)$(AssemblyName).dll&quot;" />
+    </Target>
+
+</Project>
