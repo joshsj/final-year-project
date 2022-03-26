@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "scripts": {
     "start": "vite",
-    "start-for-dotnet": "echo Starting the development server && vite --base=/client-app/",
+    "start-for-dotnet": "echo Starting the development server && vite",
+    "_start-for-dotnet": "echo Starting the development server && vite --base=/client-app/",
     "test": "cypress open"
   },
   "dependencies": {

@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { store } from "@/store";
+
+import { useAuth0 } from "@auth0/auth0-vue";
+
+const { isLoading } = useAuth0();
 </script>
 
 <template>
@@ -7,7 +11,7 @@ import { store } from "@/store";
     id="root"
     justify="center"
     align="middle"
-    v-loading="store.page.loading">
+    v-loading="store.page.loading || isLoading">
     <el-col :span="23" :sm="16" :md="12">
       <router-view />
     </el-col>

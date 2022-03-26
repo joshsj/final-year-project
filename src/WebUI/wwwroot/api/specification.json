@@ -5,5 +5,28 @@
     "title": "RendezVous API",
     "version": "v1"
   },
+  "paths": {
+    "/api/Employee": {
+      "put": {
+        "tags": [
+          "Employee"
+        ],
+        "operationId": "Employee_Put",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
   "components": {}
 }

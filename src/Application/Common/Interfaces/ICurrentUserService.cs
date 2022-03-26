@@ -2,5 +2,6 @@
 
 public interface ICurrentUserService
 {
-    Guid? UserId { get; }
+    string? GetProviderId();
+    Task<Guid?> GetUserId();
 }

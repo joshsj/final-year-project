@@ -20,7 +20,7 @@
     "RendezVous.WebUI": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "/",
+      "launchUrl": "",
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development"
       },

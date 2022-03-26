@@ -26,13 +26,14 @@ public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRe
         if (authorizeAttributes.Any())
         {
             // Must be authenticated user
-            if (!_currentUserService.UserId.HasValue)
+            if (_currentUserService.GetProviderId() == default)
             {
                 throw new UnauthorizedAccessException();
             }
 
             // Role-based authorization
             var authorizeAttributesWithRoles = authorizeAttributes.Where(a => !string.IsNullOrWhiteSpace(a.Roles));
+            var currentUserId = (await _currentUserService.GetUserId()).Value;
 
             if (authorizeAttributesWithRoles.Any())
             {
@@ -42,7 +43,7 @@ public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRe
                 {
                     foreach (var role in roles)
                     {
-                        var isInRole = await _identityService.IsInRoleAsync(_currentUserService.UserId.Value, role.Trim());
+                        var isInRole = await _identityService.IsInRoleAsync(currentUserId, role.Trim());
                         if (isInRole)
                         {
                             authorized = true;
@@ -64,7 +65,7 @@ public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRe
             {
                 foreach (var policy in authorizeAttributesWithPolicies.Select(a => a.Policy))
                 {
-                    var authorized = await _identityService.AuthorizeAsync(_currentUserService.UserId.Value, policy);
+                    var authorized = await _identityService.AuthorizeAsync(currentUserId, policy);
 
                     if (!authorized)
                     {

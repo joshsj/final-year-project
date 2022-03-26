@@ -20,7 +20,7 @@ public class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest> where T
     public async Task Process(TRequest request, CancellationToken cancellationToken)
     {
         var requestName = typeof(TRequest).Name;
-        var userId = _currentUserService.UserId;
+        var userId = await _currentUserService.GetUserId();
         var userName = userId.HasValue
             ? await _identityService.GetUserNameAsync(userId.Value)
             : "";

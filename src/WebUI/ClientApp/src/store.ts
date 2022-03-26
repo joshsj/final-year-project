@@ -5,6 +5,7 @@ type Store = {
     loading: boolean;
     load: <T>(f: () => Promise<T>) => Promise<T>;
   };
+  accessToken: string | undefined;
 };
 
 const store: UnwrapNestedRefs<Store> = reactive<Store>({
@@ -16,6 +17,7 @@ const store: UnwrapNestedRefs<Store> = reactive<Store>({
       return f().finally(() => (store.page.loading = false));
     },
   },
+  accessToken: undefined,
 });
 
 export { store };

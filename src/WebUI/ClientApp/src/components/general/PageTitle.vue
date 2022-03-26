@@ -30,6 +30,10 @@ defineProps({
 </template>
 
 <style scoped>
+header {
+  margin-bottom: 1rem;
+}
+
 h2 {
   margin: 0;
 }

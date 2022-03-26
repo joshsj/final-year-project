@@ -4,26 +4,33 @@ import { useAuth0 } from "@auth0/auth0-vue";
 import { ArrowDownBold } from "@element-plus/icons-vue";
 import { route } from "@/router";
 import { useRouter } from "vue-router";
+import { onMounted } from "vue";
 
 const { push } = useRouter();
-
 const {
-  user,
+  isLoading,
   isAuthenticated,
-  loginWithRedirect,
+  loginWithPopup,
   logout: _logout,
+  getAccessTokenSilently,
 } = useAuth0();
 
-const login = () => {
-  // indicate loading before page refresh
-  store.page.loading = true;
-  loginWithRedirect();
-};
+const login = () =>
+  store.page
+    .load(loginWithPopup)
+    .then(saveAccessToken)
+    .catch(() => void 0);
 
 const logout = () => {
   store.page.loading = true;
   _logout({ returnTo: location.origin });
 };
+
+const saveAccessToken = async () => {
+  store.accessToken = await getAccessTokenSilently();
+};
+
+onMounted(saveAccessToken);
 </script>
 
 <template>
@@ -38,7 +45,7 @@ const logout = () => {
 
         <el-dropdown trigger="click">
           <el-button type="primary" round>
-            {{ user?.given_name ?? "Account" }}
+            Account
             <el-icon class="right"><arrow-down-bold /></el-icon>
           </el-button>
 
