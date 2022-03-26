@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace RendezVous.Infrastructure.Persistence;
 
-public class RendezVousDbContext : DbContext, IApplicationDbContext
+public class RendezVousDbContext : DbContext, IRendezVousDbContext
 {
     private readonly ICurrentUserService _currentUserService;
     private readonly IDateTime _dateTime;

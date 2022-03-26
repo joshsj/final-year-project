@@ -17,7 +17,7 @@ public static class DependencyInjection
                 configuration.GetConnectionString("DefaultConnection"),
                 b => b.MigrationsAssembly(typeof(RendezVousDbContext).Assembly.FullName)));
 
-        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<RendezVousDbContext>());
+        services.AddScoped<IRendezVousDbContext>(provider => provider.GetRequiredService<RendezVousDbContext>());
 
         services.AddScoped<IDomainEventService, DomainEventService>();
 
