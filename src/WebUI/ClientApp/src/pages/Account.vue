@@ -17,13 +17,18 @@ const keys = readonly<Key[]>([
   "email_verified",
 ]);
 
-const prettyKey = (k: Key) => k.split("_").map(capitalize).join(" ");
+const prettyKeys: { [K in Key]?: string } = {
+  sub: "Id",
+  nickname: "Username",
+};
+const prettyKey = (k: Key): string =>
+  prettyKeys[k] ?? k.split("_").map(capitalize).join(" ");
 </script>
 
 <template>
   <rv-page-title title="Account" />
 
   <p v-for="k in keys" :key="k">
-    <b>{{ prettyKey(k) }}</b> {{ user[k] }}
+    <b>{{ prettyKey(k) }}:</b> {{ user[k] }}
   </p>
 </template>

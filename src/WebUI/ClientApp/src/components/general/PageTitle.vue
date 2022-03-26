@@ -24,7 +24,7 @@ defineProps({
         <h2>My {{ title }}</h2>
       </el-row>
 
-      <aside></aside>
+      <aside><slot /></aside>
     </el-row>
   </header>
 </template>
