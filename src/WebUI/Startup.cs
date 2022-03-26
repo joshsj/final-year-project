@@ -23,7 +23,7 @@ public class Startup
         services
             .AddApplication()
             .AddInfrastructure(Configuration);
-        services.AddSingleton<ICurrentUserService, CurrentUserService>();
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
 
         services.AddControllers(opt =>
         {

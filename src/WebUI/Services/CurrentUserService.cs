@@ -8,14 +8,10 @@ namespace RendezVous.WebUI.Services;
 public class CurrentUserService : ICurrentUserService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IRendezVousDbContext _rendezVousDbContext;
 
-    public CurrentUserService(
-        IHttpContextAccessor httpContextAccessor,
-        IRendezVousDbContext rendezVousDbContext)
+    public CurrentUserService(IHttpContextAccessor httpContextAccessor)
     {
         _httpContextAccessor = httpContextAccessor;
-        _rendezVousDbContext = rendezVousDbContext;
     }
 
     public string? GetProviderId()
@@ -28,9 +24,11 @@ public class CurrentUserService : ICurrentUserService
 
     public async Task<Guid?> GetUserId()
     {
-        return (await _rendezVousDbContext
-            .Employees
-            .FirstOrDefaultAsync(e => e.ProviderId == GetProviderId()))
-            ?.Id;
+        // TODO: fix
+        throw new NotImplementedException();
+        // return (await _rendezVousDbContext
+        //     .Employees
+        //     .FirstOrDefaultAsync(e => e.ProviderId == GetProviderId()))
+        //     ?.Id;
     }
 }
