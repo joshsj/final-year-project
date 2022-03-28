@@ -27,7 +27,9 @@ public class RendezVousDbContext : DbContext, IRendezVousDbContext
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
-        var currentUserId = await _currentUserService.GetUserId();
+        var currentUserId = (await Employees.FirstOrDefaultAsync(
+            x => x.ProviderId == _currentUserService.ProviderId,
+            cancellationToken))?.Id;
 
         foreach (var entry in ChangeTracker.Entries<AuditableEntity>())
         {

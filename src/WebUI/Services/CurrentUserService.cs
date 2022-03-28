@@ -14,21 +14,9 @@ public class CurrentUserService : ICurrentUserService
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public string? GetProviderId()
-    {
-        return _httpContextAccessor
+    public string? ProviderId => 
+        _httpContextAccessor
             .HttpContext
             ?.User
             ?.FindFirstValue(ClaimTypes.NameIdentifier);
-    }
-
-    public async Task<Guid?> GetUserId()
-    {
-        // TODO: fix
-        throw new NotImplementedException();
-        // return (await _rendezVousDbContext
-        //     .Employees
-        //     .FirstOrDefaultAsync(e => e.ProviderId == GetProviderId()))
-        //     ?.Id;
-    }
 }

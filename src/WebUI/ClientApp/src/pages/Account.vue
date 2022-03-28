@@ -11,10 +11,8 @@ const { user } = useAuth0();
 type Key = keyof RemoveIndex<User>;
 const keys = readonly<Key[]>([
   "sub",
-  "nickname",
   "name",
   "email",
-  "email_verified",
 ]);
 
 const prettyKeys: { [K in Key]?: string } = {

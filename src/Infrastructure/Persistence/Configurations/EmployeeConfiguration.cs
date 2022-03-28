@@ -10,7 +10,6 @@ public class EmployeeConfiguration : EntityConfiguration<Employee>
         base.Configure(builder);
 
         builder.Property(x => x.Name).IsRequired();
-        builder.Property(x => x.Username).IsRequired();
         builder.Property(x => x.Email).IsRequired();
         builder.Property(x => x.ProviderId).IsRequired();
 

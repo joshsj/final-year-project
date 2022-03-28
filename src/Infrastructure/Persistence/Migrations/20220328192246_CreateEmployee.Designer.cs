@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RendezVous.Infrastructure.Persistence;
 
@@ -11,9 +12,10 @@ using RendezVous.Infrastructure.Persistence;
 namespace RendezVous.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(RendezVousDbContext))]
-    partial class RendezVousDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220328192246_CreateEmployee")]
+    partial class CreateEmployee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,6 +41,10 @@ namespace RendezVous.Infrastructure.Persistence.Migrations
                     b.Property<string>("ProviderId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

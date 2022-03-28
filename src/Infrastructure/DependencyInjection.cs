@@ -1,5 +1,4 @@
 ﻿using RendezVous.Application.Common.Interfaces;
-using RendezVous.Infrastructure.Identity;
 using RendezVous.Infrastructure.Persistence;
 using RendezVous.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using RendezVous.Domain.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using Microsoft.Extensions.Options;
 
 namespace RendezVous.Infrastructure;
 
@@ -26,9 +26,9 @@ public static class DependencyInjection
         services.AddScoped<IDomainEventService, DomainEventService>();
 
         services.AddTransient<IDateTime, DateTimeService>();
-        services.AddTransient<IIdentityService, IdentityService>();
 
-        var auth0Options = configuration.GetSection("Auth0").Get<Auth0Options>();
+        var serviceProvider = services.BuildServiceProvider();
+        var auth0Options =  serviceProvider.GetRequiredService<IOptions<Auth0Options>>().Value;
 
         services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

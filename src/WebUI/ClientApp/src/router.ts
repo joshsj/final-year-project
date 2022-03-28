@@ -85,7 +85,7 @@ const createRouter = (_app: () => ComponentPublicInstance | undefined) => {
     const app = _app();
 
     // ensure homepage if app is unavailable
-    return !app || !authenticated || app.$auth0.isAuthenticated.value
+    return !authenticated || (app && app.$auth0.isAuthenticated.value)
       ? undefined
       : "/";
   });
