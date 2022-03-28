@@ -1,10 +1,8 @@
 ﻿using RendezVous.Application.Common.Interfaces;
-using RendezVous.Infrastructure.Identity;
 using RendezVous.Infrastructure.Persistence;
 using RendezVous.WebUI;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -55,8 +53,9 @@ public class Testing
         }
 
         // Register testing version
-        services.AddTransient(provider =>
-            Mock.Of<ICurrentUserService>(s => s.UserId == _currentUserId));
+        // TODO fix
+        // services.AddTransient(provider =>
+        // Mock.Of<ICurrentUserService>(s => s. == _currentUserId));
 
         _scopeFactory = services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
 

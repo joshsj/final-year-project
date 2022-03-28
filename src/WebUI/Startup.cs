@@ -5,6 +5,7 @@ using RendezVous.WebUI.Filters;
 using RendezVous.WebUI.Services;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using RendezVous.Domain;
 
 namespace RendezVous.WebUI;
 
@@ -15,19 +16,22 @@ public class Startup
         Configuration = configuration;
     }
 
-    public IConfiguration Configuration { get; }
+    private IConfiguration Configuration { get; }
 
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
         services
+            .AddDomain(Configuration)
             .AddApplication()
             .AddInfrastructure(Configuration);
-        services.AddSingleton<ICurrentUserService, CurrentUserService>();
+        
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
 
         services.AddControllers(opt =>
         {
             opt.Filters.Add<RendezVousExceptionFilterAttribute>();
+            opt.Filters.Add<EmployeeUpsertFilterAttribute>();
         }).AddFluentValidation(x => x.AutomaticValidationEnabled = false);
         services.AddRazorPages();
 
@@ -48,8 +52,10 @@ public class Startup
         app.UseRouting();
         app.UseStaticFiles();
         app.UseHttpsRedirection();
+
         app.UseAuthentication();
         app.UseAuthorization();
+
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllerRoute(

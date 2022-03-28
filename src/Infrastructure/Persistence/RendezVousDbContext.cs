@@ -2,10 +2,11 @@
 using RendezVous.Application.Common.Interfaces;
 using RendezVous.Domain.Common;
 using Microsoft.EntityFrameworkCore;
+using RendezVous.Domain.Entities;
 
 namespace RendezVous.Infrastructure.Persistence;
 
-public class RendezVousDbContext : DbContext, IApplicationDbContext
+public class RendezVousDbContext : DbContext, IRendezVousDbContext
 {
     private readonly ICurrentUserService _currentUserService;
     private readonly IDateTime _dateTime;
@@ -22,19 +23,25 @@ public class RendezVousDbContext : DbContext, IApplicationDbContext
         _dateTime = dateTime;
     }
 
+    public DbSet<Employee> Employees => Set<Employee>();
+
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
+        var currentUserId = (await Employees.FirstOrDefaultAsync(
+            x => x.ProviderId == _currentUserService.ProviderId,
+            cancellationToken))?.Id;
+
         foreach (var entry in ChangeTracker.Entries<AuditableEntity>())
         {
             switch (entry.State)
             {
                 case EntityState.Added:
-                    entry.Entity.CreatedBy = _currentUserService.UserId;
+                    entry.Entity.CreatedBy = currentUserId;
                     entry.Entity.Created = _dateTime.Now;
                     break;
 
                 case EntityState.Modified:
-                    entry.Entity.LastModifiedBy = _currentUserService.UserId;
+                    entry.Entity.LastModifiedBy = currentUserId;
                     entry.Entity.LastModified = _dateTime.Now;
                     break;
             }

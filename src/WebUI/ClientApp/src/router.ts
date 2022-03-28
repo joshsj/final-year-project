@@ -4,12 +4,23 @@ import {
   RouteLocationRaw,
   RouteRecordRaw,
 } from "vue-router";
-import Home from "@/views/Home.vue";
+import Home from "@/pages/Home.vue";
+import Jobs from "@/pages/Jobs.vue";
+import Account from "@/pages/Account.vue";
+import { ComponentPublicInstance } from "vue";
 
-type RouteDef<T> = RouteRecordRaw &
-  Required<Pick<RouteRecordRaw, "meta">> & {
-    helper: (arg: T) => RouteLocationRaw;
-  };
+declare module "vue-router" {
+  interface RouteMeta {
+    authenticated: boolean;
+  }
+}
+
+type RouteRecordRawWithMeta = RouteRecordRaw &
+  Required<Pick<RouteRecordRaw, "meta">>;
+
+type RouteDef<T> = RouteRecordRawWithMeta & {
+  helper: (arg: T) => RouteLocationRaw;
+};
 
 type Routes = typeof routes;
 type RouteName = keyof Routes;
@@ -21,7 +32,7 @@ type HelperArg<T extends RouteName> = Parameters<
   : Parameters<Routes[T]["helper"]>[0];
 
 const route = <T extends object | void = void>(
-  raw: RouteRecordRaw & Required<Pick<RouteRecordRaw, "meta">>
+  raw: RouteRecordRawWithMeta
 ): RouteDef<T> => {
   const helper = (arg: T) =>
     arg
@@ -38,13 +49,25 @@ const routes = {
   home: route({
     path: "/",
     component: Home,
-    meta: { auth: "none" },
+    meta: { authenticated: false },
+  }),
+
+  jobs: route({
+    path: "/jobs",
+    component: Jobs,
+    meta: { authenticated: false },
+  }),
+
+  account: route({
+    path: "/account",
+    component: Account,
+    meta: { authenticated: false },
   }),
 
   noPath: route({
     path: "/:noPath(.*)*",
     redirect: "/",
-    meta: { auth: "none" },
+    meta: { authenticated: false },
   }),
 };
 
@@ -52,12 +75,22 @@ const routeHelper = <T extends RouteName>(
   args: { name: T } & HelperArg<T>
 ): RouteLocationRaw => routes[args.name].helper(args as never);
 
-const createRouter = () => {
+const createRouter = (_app: () => ComponentPublicInstance | undefined) => {
   const router = createVueRouter({
     routes: Object.values(routes),
     history: createWebHistory(),
   });
 
+  router.beforeEach(({ meta: { authenticated } }) => {
+    const app = _app();
+
+    // ensure homepage if app is unavailable
+    return !authenticated || (app && app.$auth0.isAuthenticated.value)
+      ? undefined
+      : "/";
+  });
+
   return router;
 };
+
 export { createRouter, routeHelper as route };

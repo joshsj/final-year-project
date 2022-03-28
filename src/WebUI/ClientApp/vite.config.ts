@@ -4,7 +4,6 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [vue()],
-  base: "/client-app/",
   server: {
     hmr: {
       protocol: "ws",
