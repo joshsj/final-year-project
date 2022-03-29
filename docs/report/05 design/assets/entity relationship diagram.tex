@@ -25,7 +25,7 @@
 \begin{tikzpicture}
   \ttfamily
 
-  \begin{object}[text width=20em]{Employee}{0,-1em}
+  \begin{object}[text width=20em]{Employee}{0,0}
     \attributes
     {
       PK & Id	         & uniqueidentifier \\
@@ -36,7 +36,7 @@
   \end{object}
 
 
-  \begin{object}[text width=20em]{Job}{60em,-1em}
+  \begin{object}[text width=20em]{Job}{60em,0}
     \attributes
     {
       PK  & Id	         & uniqueidentifier \\
@@ -47,12 +47,20 @@
     }
   \end{object}
 
-  \begin{object}[text width=20em]{Clock}{30em,0}
+  \begin{object}[text width=20em]{Assignment}{30em,-1em}
     \attributes
     {
-      PK  & Id         & uniqueidentifier \\
-      FK  & JobId      & uniqueidentifier \\ 
-      FK  & EmployeeId & uniqueidentifier \\
+      PK & Id         & uniqueidentifier \\
+      FK & JobId      & uniqueidentifier \\ 
+      FK & EmployeeId & uniqueidentifier
+    }
+  \end{object}
+
+  \begin{object}[text width=20em]{Clock}{30em,-12em}
+    \attributes
+    {
+      PK  & Id           & uniqueidentifier \\
+      FK  & AssignmentId & uniqueidentifier \\
       FK? & ParentId   & uniqueidentifier \\
           & Type       & nvarchar(3) \\
           & ExpectedAt & datetime2 \\
@@ -60,17 +68,20 @@
     }
   \end{object}
 
-  \association{Employee}{1}{}{Clock}{0..*}{}
-  \association{Job}{1}{}{Clock}{0..*}{}
+  \association{Employee}{1}{}{Assignment}{0..*}{}
+  \association{Job}{1}{}{Assignment}{0..*}{}
+  \association{Clock}{}{2}{Assignment}{1}{}
 
   % clock self association
   \draw[-]
   (Clock.east) --
   ++(3em, 0) -- 
   ++(0, -8em) -- 
-  (30em, -14.25em) -- % not janky at all
+  (30em, -25.5em) -- % not janky at all
   (Clock.south);
   \node [below] at (Clock.south) {0..1};
+
+  \sraw 
 
 \end{tikzpicture}
 \end{document}
