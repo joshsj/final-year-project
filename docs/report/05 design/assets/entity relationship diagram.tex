@@ -13,7 +13,7 @@
 
 \newcommand{\attributes}[1]
 {
-  \attribute{
+  \attribute {
     \centering
     \begin{tabular}{@{}lll@{}}
       #1
@@ -28,49 +28,67 @@
   \begin{object}[text width=20em]{Employee}{0,0}
     \attributes
     {
-      PK & Id	        & uniqueidentifier \\
-         & Name       & datetime2        \\
-         & ProviderId & nvarchar(30)
+      PK & Id	         & uniqueidentifier \\
+         & Name        & nvarchar(max) \\
+         & Email       & nvarchar(max) \\
+         & ProviderId  & nvarchar(30)
     }
   \end{object}
 
-  \begin{object}[text width=20em]{JobAssignment}{0,-11em}
+
+  \begin{object}[text width=20em]{Job}{60em,0}
+    \attributes
+    {
+      PK  & Id	         & uniqueidentifier \\
+          & Title        & nvarchar(100)    \\
+          & Longitude    & decimal          \\
+          & Latitude     & decimal          \\
+          & Radius       & decimal
+    }
+  \end{object}
+
+  \begin{object}[text width=20em]{Assignment}{30em,-1em}
     \attributes
     {
       PK & Id         & uniqueidentifier \\
-      FK & JobId      & uniqueidentifier \\
-      FK & EmployeeId & uniqueidentifier \\
-      FK & ClockInId  & uniqueidentifier \\
-      FK & ClockOutId & uniqueidentifier
+      FK & JobId      & uniqueidentifier \\ 
+      FK & EmployeeId & uniqueidentifier
     }
   \end{object}
 
-  \begin{object}[text width=20em]{Attendance}{28em,-12em}
+  \begin{object}[text width=20em]{Clock}{30em,-12em}
     \attributes
     {
-      PK & Id          & uniqueidentifier \\
-         & ExpectedAt  & datetime2        \\
-      ?  & ConfirmedAt & datetime2        \\
-      ?  & ConfirmedBy & datetime2
+      PK  & Id           & uniqueidentifier \\
+      FK  & AssignmentId & uniqueidentifier \\
+      FK? & ParentId   & uniqueidentifier \\
+          & Type       & nvarchar(3) \\
+          & ExpectedAt & datetime2 \\
+      ?   & ActualAt   & datetime2
     }
   \end{object}
 
-  \begin{object}[text width=25em]{Job}{28em,2em}
-    \attributes
-    {
-      PK  & Id	                & uniqueidentifier \\
-          & Title               & datetime2        \\
-          & Longitude           & decimal          \\
-          & Latitude            & decimal          \\
-          & Radius              & decimal          \\
-      FK? & PrincipleVerifierId & uniqueidentifier
-    }
-  \end{object}
+  \association{Employee}{1}{}{Assignment}{0..*}{}
+  \association{Job}{1}{}{Assignment}{0..*}{}
+  \association{Clock}{}{2}{Assignment}{1}{}
 
-  \association{Job}{}{}{Employee}{0..1}{}
-  \association{Job}{}{}{JobAssignment}{0..*}{}
-  \association{Employee}{1}{}{JobAssignment}{}{0..*}
-  \association{Attendance}{2}{}{JobAssignment}{}{}
+  % clock self association
+  \draw[-]
+  (Clock.east) --
+  ++(3em, 0) -- 
+  ++(0, -8em) -- 
+  (30em, -25.5em) -- % not janky at all
+  (Clock.south);
+  \node [below] at (Clock.south) {0..1};
+
+  \umlnote [text width=18em] (note) at (5em,-14em) 
+  {
+    ParentId identifies the clock (and by extension
+    Employee) which confirmed the clock.
+
+    A null value identifies the principle verifier.
+  };
+  \draw[-] (note.east) -- (Clock.west);
 
 \end{tikzpicture}
 \end{document}
