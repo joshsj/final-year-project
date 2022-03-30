@@ -24,6 +24,7 @@ public class RendezVousDbContext : DbContext, IRendezVousDbContext
     }
 
     public DbSet<Employee> Employees => Set<Employee>();
+    public DbSet<Job> Jobs => Set<Job>();
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {

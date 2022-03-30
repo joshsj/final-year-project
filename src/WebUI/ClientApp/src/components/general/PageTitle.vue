@@ -21,7 +21,7 @@ defineProps({
           circle
           @click="push(route({ name: 'home' }))" />
 
-        <h2>My {{ title }}</h2>
+        <h2>{{ title }}</h2>
       </el-row>
 
       <aside><slot /></aside>

@@ -13,7 +13,7 @@ const store: UnwrapNestedRefs<Store> = reactive<Store>({
     loading: false,
     load: (f) => {
       store.page.loading = true;
-
+      
       return f().finally(() => (store.page.loading = false));
     },
   },

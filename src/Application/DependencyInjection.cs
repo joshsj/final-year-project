@@ -13,16 +13,15 @@ public static class DependencyInjection
     {
         var assembly = Assembly.GetExecutingAssembly();
 
-        services.AddAutoMapper(assembly);
         services.AddValidatorsFromAssembly(assembly);
         services.AddMediatR(assembly);
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
 
-        // TODO move to more appropriate location
-        TypeAdapterConfig.GlobalSettings.RequireExplicitMapping = true;
-        TypeAdapterConfig.GlobalSettings.RequireDestinationMemberSource = true;
+        var typeAdapterConfig = new TypeAdapterConfig();
+        typeAdapterConfig.Scan(assembly);
+        services.AddSingleton(typeAdapterConfig);
 
         return services;
     }
