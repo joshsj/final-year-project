@@ -34,10 +34,10 @@ public class Program
             }
             
             var environment = services.GetRequiredService<IWebHostEnvironment>();
+            var seedOptions = services.GetRequiredService<IOptions<SeedOptions>>();
 
-            if (environment.IsDevelopment())
+            if (environment.IsDevelopment() && seedOptions.Value.Enabled)
             {
-                var seedOptions = services.GetRequiredService<IOptions<SeedOptions>>();
                 var dateTime = services.GetRequiredService<IDateTime>();
 
                 var seeder = new RendezVousDbContextSeeder(dbContext, seedOptions, dateTime);

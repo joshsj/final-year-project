@@ -53,7 +53,7 @@ public class RendezVousDbContextSeeder
         {
             Id = Guid.NewGuid(),
             Title = "Tank Nightclub",
-            Coordinates = _seedOptions.Coordinates,
+            Coordinates = new Coordinates(_seedOptions.Latitude, _seedOptions.Longitude),
             Radius = new Distance(25)
         };
         await _dbContext.Locations.AddAsync(location, cancellationToken);
