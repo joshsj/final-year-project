@@ -1,3 +1,6 @@
 ﻿namespace RendezVous.Domain.Models;
 
-public record Distance(double Meters);
+public record Distance(double Meters)
+{
+    public static Distance FromKilometers(double kilometers) => new Distance(kilometers * 1000);
+}
