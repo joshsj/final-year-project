@@ -89,7 +89,7 @@
       "protectedMethods": [],
       "configurationClass": null,
       "useTransformOptionsMethod": true,
-      "useTransformResultMethod": false,
+      "useTransformResultMethod": true,
       "generateDtoTypes": true,
       "operationGenerationMode": "MultipleClientsFromOperationId",
       "markOptionalProperties": false,

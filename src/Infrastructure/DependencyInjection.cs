@@ -9,6 +9,7 @@ using RendezVous.Domain.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Microsoft.Extensions.Options;
+using DateTime = RendezVous.Infrastructure.Services.DateTime;
 
 namespace RendezVous.Infrastructure;
 
@@ -25,7 +26,7 @@ public static class DependencyInjection
 
         services.AddScoped<IDomainEventService, DomainEventService>();
 
-        services.AddTransient<IDateTime, DateTimeService>();
+        services.AddTransient<IDateTime, DateTime>();
 
         var serviceProvider = services.BuildServiceProvider();
         var auth0Options =  serviceProvider.GetRequiredService<IOptions<Auth0Options>>().Value;

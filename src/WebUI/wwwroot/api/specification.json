@@ -43,6 +43,24 @@
             "properties": {
               "title": {
                 "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "start": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "end": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "locationTitle": {
+                "type": "string"
+              },
+              "assignmentCount": {
+                "type": "integer",
+                "format": "int32"
               }
             }
           }

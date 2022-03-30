@@ -5,19 +5,35 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RendezVous.Infrastructure.Persistence.Migrations
 {
-    public partial class AddJobAssigmentClock : Migration
+    public partial class 
+        CreateJobTables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_Employees",
+                table: "Employees");
+
+            migrationBuilder.RenameTable(
+                name: "Employees",
+                newName: "Employee");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_Employees_ProviderId",
+                table: "Employee",
+                newName: "IX_Employee_ProviderId");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_Employee",
+                table: "Employee",
+                column: "Id");
+
             migrationBuilder.CreateTable(
                 name: "Location",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Coordinates_Latitude = table.Column<double>(type: "float", nullable: false),
-                    Coordinates_Longitude = table.Column<double>(type: "float", nullable: false),
-                    Radius_Meters = table.Column<double>(type: "float", nullable: false)
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -25,7 +41,44 @@ namespace RendezVous.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Jobs",
+                name: "Coordinates",
+                columns: table => new
+                {
+                    LocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Latitude = table.Column<double>(type: "float", nullable: false),
+                    Longitude = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Coordinates", x => x.LocationId);
+                    table.ForeignKey(
+                        name: "FK_Coordinates_Location_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Location",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Distance",
+                columns: table => new
+                {
+                    LocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Meters = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Distance", x => x.LocationId);
+                    table.ForeignKey(
+                        name: "FK_Distance_Location_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Location",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Job",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -37,9 +90,9 @@ namespace RendezVous.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Jobs", x => x.Id);
+                    table.PrimaryKey("PK_Job", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Jobs_Location_LocationId",
+                        name: "FK_Job_Location_LocationId",
                         column: x => x.LocationId,
                         principalTable: "Location",
                         principalColumn: "Id",
@@ -58,15 +111,15 @@ namespace RendezVous.Infrastructure.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_Assignment", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Assignment_Employees_EmployeeId",
+                        name: "FK_Assignment_Employee_EmployeeId",
                         column: x => x.EmployeeId,
-                        principalTable: "Employees",
+                        principalTable: "Employee",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Assignment_Jobs_JobId",
+                        name: "FK_Assignment_Job_JobId",
                         column: x => x.JobId,
-                        principalTable: "Jobs",
+                        principalTable: "Job",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -119,8 +172,8 @@ namespace RendezVous.Infrastructure.Persistence.Migrations
                 column: "ParentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Jobs_LocationId",
-                table: "Jobs",
+                name: "IX_Job_LocationId",
+                table: "Job",
                 column: "LocationId");
         }
 
@@ -130,13 +183,37 @@ namespace RendezVous.Infrastructure.Persistence.Migrations
                 name: "Clock");
 
             migrationBuilder.DropTable(
+                name: "Coordinates");
+
+            migrationBuilder.DropTable(
+                name: "Distance");
+
+            migrationBuilder.DropTable(
                 name: "Assignment");
 
             migrationBuilder.DropTable(
-                name: "Jobs");
+                name: "Job");
 
             migrationBuilder.DropTable(
                 name: "Location");
+
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_Employee",
+                table: "Employee");
+
+            migrationBuilder.RenameTable(
+                name: "Employee",
+                newName: "Employees");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_Employee_ProviderId",
+                table: "Employees",
+                newName: "IX_Employees_ProviderId");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_Employees",
+                table: "Employees",
+                column: "Id");
         }
     }
 }

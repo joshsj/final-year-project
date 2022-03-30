@@ -96,7 +96,171 @@ namespace RendezVous.Infrastructure.Persistence.Migrations
                     b.HasIndex("ProviderId")
                         .IsUnique();
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employee");
+                });
+
+            modelBuilder.Entity("RendezVous.Domain.Entities.Job", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("End")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Start")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("Job");
+                });
+
+            modelBuilder.Entity("RendezVous.Domain.Entities.Location", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Location");
+                });
+
+            modelBuilder.Entity("RendezVous.Domain.Entities.Assignment", b =>
+                {
+                    b.HasOne("RendezVous.Domain.Entities.Employee", "Employee")
+                        .WithMany("Assignments")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RendezVous.Domain.Entities.Job", "Job")
+                        .WithMany("Assignments")
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("Job");
+                });
+
+            modelBuilder.Entity("RendezVous.Domain.Entities.Clock", b =>
+                {
+                    b.HasOne("RendezVous.Domain.Entities.Assignment", "Assignment")
+                        .WithMany("Clocks")
+                        .HasForeignKey("AssignmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RendezVous.Domain.Entities.Clock", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("Assignment");
+
+                    b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("RendezVous.Domain.Entities.Job", b =>
+                {
+                    b.HasOne("RendezVous.Domain.Entities.Location", "Location")
+                        .WithMany("Jobs")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Location");
+                });
+
+            modelBuilder.Entity("RendezVous.Domain.Entities.Location", b =>
+                {
+                    b.OwnsOne("RendezVous.Domain.Models.Coordinates", "Coordinates", b1 =>
+                        {
+                            b1.Property<Guid>("LocationId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<double>("Latitude")
+                                .HasColumnType("float");
+
+                            b1.Property<double>("Longitude")
+                                .HasColumnType("float");
+
+                            b1.HasKey("LocationId");
+
+                            b1.ToTable("Coordinates");
+
+                            b1.WithOwner()
+                                .HasForeignKey("LocationId");
+                        });
+
+                    b.OwnsOne("RendezVous.Domain.Models.Distance", "Radius", b1 =>
+                        {
+                            b1.Property<Guid>("LocationId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<double>("Meters")
+                                .HasColumnType("float");
+
+                            b1.HasKey("LocationId");
+
+                            b1.ToTable("Distance");
+
+                            b1.WithOwner()
+                                .HasForeignKey("LocationId");
+                        });
+
+                    b.Navigation("Coordinates")
+                        .IsRequired();
+
+                    b.Navigation("Radius")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RendezVous.Domain.Entities.Assignment", b =>
+                {
+                    b.Navigation("Clocks");
+                });
+
+            modelBuilder.Entity("RendezVous.Domain.Entities.Clock", b =>
+                {
+                    b.Navigation("Children");
+                });
+
+            modelBuilder.Entity("RendezVous.Domain.Entities.Employee", b =>
+                {
+                    b.Navigation("Assignments");
+                });
+
+            modelBuilder.Entity("RendezVous.Domain.Entities.Job", b =>
+                {
+                    b.Navigation("Assignments");
+                });
+
+            modelBuilder.Entity("RendezVous.Domain.Entities.Location", b =>
+                {
+                    b.Navigation("Jobs");
                 });
 
             modelBuilder.Entity("RendezVous.Domain.Entities.Job", b =>

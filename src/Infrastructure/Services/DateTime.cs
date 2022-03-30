@@ -2,7 +2,7 @@
 
 namespace RendezVous.Infrastructure.Services;
 
-public class DateTimeService : IDateTime
+public class DateTime : IDateTime
 {
-    public DateTime Now => DateTime.UtcNow;
+    public System.DateTime Now => System.DateTime.UtcNow;
 }
