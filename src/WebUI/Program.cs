@@ -1,5 +1,8 @@
 using RendezVous.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using RendezVous.Application.Common.Interfaces;
+using RendezVous.Domain.Options;
 
 namespace RendezVous.WebUI;
 
@@ -12,14 +15,13 @@ public class Program
         using (var scope = host.Services.CreateScope())
         {
             var services = scope.ServiceProvider;
+            var dbContext = services.GetRequiredService<RendezVousDbContext>();
 
             try
             {
-                var context = services.GetRequiredService<RendezVousDbContext>();
-
-                if (context.Database.IsSqlServer())
+                if (dbContext.Database.IsSqlServer())
                 {
-                    context.Database.Migrate();
+                    await dbContext.Database.MigrateAsync();
                 }
             }
             catch (Exception ex)
@@ -30,13 +32,25 @@ public class Program
 
                 throw;
             }
+            
+            var environment = services.GetRequiredService<IWebHostEnvironment>();
+
+            if (environment.IsDevelopment())
+            {
+                var seedOptions = services.GetRequiredService<IOptions<SeedOptions>>();
+                var dateTime = services.GetRequiredService<IDateTime>();
+
+                var seeder = new RendezVousDbContextSeeder(dbContext, seedOptions, dateTime);
+                await seeder.Wipe();
+                await seeder.Seed();
+            }
         }
 
         await host.RunAsync();
     }
 
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
+    private static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder =>
-                webBuilder.UseStartup<Startup>());
+            .ConfigureAppConfiguration(builder => builder.AddJsonFile("appsettings.Local.json"))
+            .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
 }

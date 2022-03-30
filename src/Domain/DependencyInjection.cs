@@ -8,13 +8,12 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddDomain(this IServiceCollection services, IConfiguration configuration)
     {
-        void ConfigureOptions<T>() where T : class => 
+        void ConfigureOptions<T>() where T : class =>
             services.Configure<T>(configuration.GetSection(typeof(T).Name.Replace("Options", "")));
 
         ConfigureOptions<Auth0Options>();
-        
+        ConfigureOptions<SeedOptions>();
+
         return services;
     }
-    
-    
 }

@@ -12,8 +12,8 @@ using RendezVous.Infrastructure.Persistence;
 namespace RendezVous.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(RendezVousDbContext))]
-    [Migration("20220329234514_AddJobAssigmentClock")]
-    partial class AddJobAssigmentClock
+    [Migration("20220330175006_CreateJobTables")]
+    partial class CreateJobTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -98,7 +98,7 @@ namespace RendezVous.Infrastructure.Persistence.Migrations
                     b.HasIndex("ProviderId")
                         .IsUnique();
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employee");
                 });
 
             modelBuilder.Entity("RendezVous.Domain.Entities.Job", b =>
@@ -130,7 +130,7 @@ namespace RendezVous.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.ToTable("Jobs");
+                    b.ToTable("Job");
                 });
 
             modelBuilder.Entity("RendezVous.Domain.Entities.Location", b =>
@@ -211,7 +211,7 @@ namespace RendezVous.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("LocationId");
 
-                            b1.ToTable("Location");
+                            b1.ToTable("Coordinates");
 
                             b1.WithOwner()
                                 .HasForeignKey("LocationId");
@@ -227,7 +227,7 @@ namespace RendezVous.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("LocationId");
 
-                            b1.ToTable("Location");
+                            b1.ToTable("Distance");
 
                             b1.WithOwner()
                                 .HasForeignKey("LocationId");

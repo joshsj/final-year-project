@@ -24,7 +24,10 @@ public class RendezVousDbContext : DbContext, IRendezVousDbContext
     }
 
     public DbSet<Employee> Employees => Set<Employee>();
+    public DbSet<Location> Locations => Set<Location>();
     public DbSet<Job> Jobs => Set<Job>();
+    public DbSet<Assignment> Assignments => Set<Assignment>();
+    public DbSet<Clock> Clocks => Set<Clock>();
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
@@ -64,6 +67,12 @@ public class RendezVousDbContext : DbContext, IRendezVousDbContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        
+        // use entity name (e.g., Job) as table name
+        foreach (var entity in builder.Model.GetEntityTypes())
+        {
+            entity.SetTableName(entity.DisplayName());
+        }
 
         base.OnModelCreating(builder);
     }

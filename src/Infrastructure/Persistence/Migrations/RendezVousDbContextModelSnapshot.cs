@@ -96,7 +96,7 @@ namespace RendezVous.Infrastructure.Persistence.Migrations
                     b.HasIndex("ProviderId")
                         .IsUnique();
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employee");
                 });
 
             modelBuilder.Entity("RendezVous.Domain.Entities.Job", b =>
@@ -128,7 +128,7 @@ namespace RendezVous.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.ToTable("Jobs");
+                    b.ToTable("Job");
                 });
 
             modelBuilder.Entity("RendezVous.Domain.Entities.Location", b =>
@@ -209,7 +209,7 @@ namespace RendezVous.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("LocationId");
 
-                            b1.ToTable("Location");
+                            b1.ToTable("Coordinates");
 
                             b1.WithOwner()
                                 .HasForeignKey("LocationId");
@@ -225,7 +225,7 @@ namespace RendezVous.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("LocationId");
 
-                            b1.ToTable("Location");
+                            b1.ToTable("Distance");
 
                             b1.WithOwner()
                                 .HasForeignKey("LocationId");
