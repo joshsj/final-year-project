@@ -1,13 +1,13 @@
 import "./styles.scss";
-import ElementPlus from "element-plus";
+import ElementPlus, {ElMessage} from "element-plus";
 import App from "@/App.vue";
 import { ComponentPublicInstance, createApp } from "vue";
 import { createRouter } from "@/router";
 import { createAuth0 } from "@auth0/auth0-vue";
 
-const app: ComponentPublicInstance = createApp(App)
+const app = createApp(App)
   .use(ElementPlus)
-  .use(createRouter(() => app))
+  .use(createRouter(() => instance))
   .use(
     createAuth0({
       domain: import.meta.env.VITE_AUTH0_DOMAIN,
@@ -16,6 +16,15 @@ const app: ComponentPublicInstance = createApp(App)
       redirect_uri: location.origin,
     })
   )
-  .mount("#app");
 
-console.log(import.meta.env);
+app.config.errorHandler = () => ElMessage({
+    type: "error",
+    message: "Sorry, an unknown error has occured.",
+    grouping: true,
+    showClose: true
+});
+
+const instance : ComponentPublicInstance = app.mount("#app");
+
+
+

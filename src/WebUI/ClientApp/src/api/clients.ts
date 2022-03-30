@@ -25,7 +25,7 @@ export class BaseClient {
   }
 }
 
-export class EmployeeClient extends BaseClient {
+export class JobClient extends BaseClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -36,46 +36,48 @@ export class EmployeeClient extends BaseClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    put(): Promise<FileResponse> {
-        let url_ = this.baseUrl + "/api/Employee";
+    get(): Promise<BriefJobDto[]> {
+        let url_ = this.baseUrl + "/api/Job";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
-            method: "PUT",
+            method: "GET",
             headers: {
-                "Accept": "application/octet-stream"
+                "Accept": "application/json"
             }
         };
 
         return this.transformOptions(options_).then(transformedOptions_ => {
             return this.http.fetch(url_, transformedOptions_);
         }).then((_response: Response) => {
-            return this.processPut(_response);
+            return this.processGet(_response);
         });
     }
 
-    protected processPut(response: Response): Promise<FileResponse> {
+    protected processGet(response: Response): Promise<BriefJobDto[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BriefJobDto[];
+            return result200;
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<FileResponse>(null as any);
+        return Promise.resolve<BriefJobDto[]>(null as any);
     }
 }
 
-export interface FileResponse {
-    data: Blob;
-    status: number;
-    fileName?: string;
-    headers?: { [name: string]: any };
+export interface EntityDto {
+    id: string;
+}
+
+export interface BriefJobDto extends EntityDto {
+    title: string;
 }
 
 export class SwaggerException extends Error {

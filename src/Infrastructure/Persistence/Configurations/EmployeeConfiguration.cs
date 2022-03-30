@@ -14,5 +14,11 @@ public class EmployeeConfiguration : EntityConfiguration<Employee>
         builder.Property(x => x.ProviderId).IsRequired();
 
         builder.HasIndex(x => x.ProviderId).IsUnique();
+
+        builder
+            .HasMany(x => x.Assignments)
+            .WithOne(x => x.Employee)
+            .HasForeignKey(x => x.EmployeeId)
+            .IsRequired();
     }
 }

@@ -6,20 +6,22 @@
     "version": "v1"
   },
   "paths": {
-    "/api/Employee": {
-      "put": {
+    "/api/Job": {
+      "get": {
         "tags": [
-          "Employee"
+          "Job"
         ],
-        "operationId": "Employee_Put",
+        "operationId": "Job_Get",
         "responses": {
           "200": {
             "description": "",
             "content": {
-              "application/octet-stream": {
+              "application/json": {
                 "schema": {
-                  "type": "string",
-                  "format": "binary"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BriefJobDto"
+                  }
                 }
               }
             }
@@ -28,5 +30,34 @@
       }
     }
   },
-  "components": {}
+  "components": {
+    "schemas": {
+      "BriefJobDto": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/EntityDto"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "title": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "EntityDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      }
+    }
+  }
 }
