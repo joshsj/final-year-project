@@ -67,9 +67,13 @@ public class RendezVousDbContext : DbContext, IRendezVousDbContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        
+
         // use entity name (e.g., Job) as table name
-        foreach (var entity in builder.Model.GetEntityTypes())
+        var entitiesToRename = builder.Model
+            .GetEntityTypes()
+            .Where(x => !x.IsOwned());
+        
+        foreach (var entity in entitiesToRename)
         {
             entity.SetTableName(entity.DisplayName());
         }

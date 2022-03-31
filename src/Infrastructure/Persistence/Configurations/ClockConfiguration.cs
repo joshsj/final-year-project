@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RendezVous.Domain.Entities;
+using RendezVous.Domain.Enums;
 
 namespace RendezVous.Infrastructure.Persistence.Configurations;
 
@@ -9,13 +10,10 @@ public class ClockConfiguration : EntityConfiguration<Clock>
     {
         base.Configure(builder);
 
-        builder.Property(x => x.Type)
+        builder.Property(x => x.At)
             .IsRequired();
 
-        builder.Property(x => x.ExpectedAt)
-            .IsRequired();
-
-        builder.Property(x => x.ActualAt);
+        builder.OwnsOne(x => x.Coordinates).WithOwner();
 
         builder
             .HasMany(x => x.Children)

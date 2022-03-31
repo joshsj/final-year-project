@@ -5,8 +5,8 @@ namespace RendezVous.Domain.Entities;
 public class Clock : Entity
 {
     public ClockType Type { get; set; }
-    public DateTime ExpectedAt { get; set; }
-    public DateTime? ActualAt { get; set; }
+    public DateTime At { get; set; }
+    public Coordinates Coordinates { get; set; } = null!;
 
     public Guid AssignmentId { get; set; }
     public Assignment Assignment { get; set; } = null!;

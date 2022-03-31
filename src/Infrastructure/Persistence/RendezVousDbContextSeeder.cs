@@ -31,16 +31,14 @@ public class RendezVousDbContextSeeder
         // TODO change to DbSet<>
         var entityTypes = new[]
         {
-            _dbContext.Locations.EntityType, 
-            _dbContext.Jobs.EntityType, 
-            _dbContext.Assignments.EntityType,
+            _dbContext.Locations.EntityType, _dbContext.Jobs.EntityType, _dbContext.Assignments.EntityType,
             _dbContext.Clocks.EntityType
         };
 
         foreach (var entityType in entityTypes)
         {
             await _dbContext.Database.ExecuteSqlRawAsync($"DELETE FROM {entityType.GetTableName()}", ct);
-        };
+        }
     }
 
     public async Task Seed(CancellationToken ct = new())
@@ -53,7 +51,7 @@ public class RendezVousDbContextSeeder
         {
             Id = Guid.NewGuid(),
             Title = "Tank Nightclub",
-            Coordinates = new Coordinates(_seedOptions.Latitude, _seedOptions.Longitude),
+            Coordinates = _seedOptions.Coordinates,
             Radius = new Distance(25)
         };
         await _dbContext.Locations.AddAsync(location, ct);
@@ -81,26 +79,15 @@ public class RendezVousDbContextSeeder
         };
         await _dbContext.Jobs.AddRangeAsync(new[] {job1, job2}, ct);
 
-        var assignment = new Assignment {Id = Guid.NewGuid(), EmployeeId = _seedOptions.EmployeeId, JobId = job1.Id};
+        var assignment = new Assignment
+        {
+            Id = Guid.NewGuid(), 
+            EmployeeId = _seedOptions.EmployeeId,
+            JobId = job1.Id,
+            Notes = "Probably on the bar tonight."
+        };
         await _dbContext.Assignments.AddAsync(assignment, ct);
-
-        var clockIn = new Clock
-        {
-            Id = Guid.NewGuid(),
-            Type = ClockType.In,
-            ExpectedAt = now.AddMinutes(5),
-            AssignmentId = assignment.Id
-        };
         
-        var clockOut = new Clock
-        {
-            Id = Guid.NewGuid(),
-            Type = ClockType.Out,
-            ExpectedAt = now.AddMinutes(60),
-            AssignmentId = assignment.Id
-        };
-        await _dbContext.Clocks.AddRangeAsync(new[] {clockIn, clockOut}, ct);
-
         await _dbContext.SaveChangesAsync(ct);
     }
 }

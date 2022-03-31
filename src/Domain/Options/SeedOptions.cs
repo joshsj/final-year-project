@@ -10,4 +10,6 @@ public class SeedOptions
     /// <summary>Coordinates of Job locations</summary>
     public double Latitude { get; set; }
     public double Longitude { get; set; }
+
+    public Coordinates Coordinates => new Coordinates(Latitude, Longitude);
 }
