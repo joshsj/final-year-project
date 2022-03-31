@@ -14,7 +14,7 @@ namespace RendezVous.Application.Clocks.Commands.CreateClock;
 public class SubmitClockCommand : IRequest
 {
     public Guid ClockId { get; set; }
-    public Coordinates Coordinates { get; set; }
+    public Coordinates Coordinates { get; set; } = null!;
 }
 
 public class SubmitClockCommandValidator : AbstractValidator<SubmitClockCommand>

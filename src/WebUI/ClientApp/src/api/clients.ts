@@ -143,6 +143,12 @@ export class JobClient extends BaseClient {
 
 export interface SubmitClockCommand {
     clockId: string;
+    coordinates: Coordinates;
+}
+
+export interface Coordinates {
+    latitude: number;
+    longitude: number;
 }
 
 export interface EntityDto {

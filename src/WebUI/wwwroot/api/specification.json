@@ -72,6 +72,23 @@
           "clockId": {
             "type": "string",
             "format": "guid"
+          },
+          "coordinates": {
+            "$ref": "#/components/schemas/Coordinates"
+          }
+        }
+      },
+      "Coordinates": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double"
           }
         }
       },
