@@ -5,6 +5,7 @@ import {
   RouteRecordRaw,
 } from "vue-router";
 import Home from "@/pages/Home.vue";
+import Job from "@/pages/Job.vue";
 import Jobs from "@/pages/Jobs.vue";
 import Account from "@/pages/Account.vue";
 import {store} from "@/store";
@@ -50,6 +51,13 @@ const routes = {
     path: "/",
     component: Home,
     meta: { authenticated: false },
+  }),
+    
+  job: route<{ jobId: string }>({
+      path: "/jobs/:jobId",
+      component: Job,
+      meta: {authenticated: true},
+      props: true
   }),
 
   jobs: route({

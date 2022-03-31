@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { store } from "@/store";
 import { useAuth0 } from "@auth0/auth0-vue";
-import {useAccessTokenBehavior, useAuth} from "@/plugins/auth";
-
-const { isLoading, isAuthenticated } = useAuth0();
+import { useAccessTokenBehavior } from "@/plugins/auth";
 
 useAccessTokenBehavior();
+const { isLoading } = useAuth0();
 </script>
 
 <template>

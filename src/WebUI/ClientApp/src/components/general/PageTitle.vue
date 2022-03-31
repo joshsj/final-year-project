@@ -3,7 +3,7 @@ import { Back } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
 import { route } from "@/router";
 
-const { push } = useRouter();
+const { back } = useRouter();
 
 defineProps({
   title: { type: String, required: true },
@@ -19,7 +19,7 @@ defineProps({
           type="primary"
           :icon="Back"
           circle
-          @click="push(route({ name: 'home' }))" />
+          @click="back" />
 
         <h2>{{ title }}</h2>
       </el-row>

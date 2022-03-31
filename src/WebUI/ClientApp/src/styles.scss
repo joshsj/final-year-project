@@ -26,6 +26,8 @@ body {
   flex: 1;
 }
 
-.el-descriptions__label {
+// bold things
+.el-descriptions__label,
+.el-collapse-item__header {
   font-weight: bold;
 }

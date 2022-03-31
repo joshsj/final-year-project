@@ -1,23 +1,36 @@
-import { reactive, UnwrapNestedRefs } from "vue";
+import {reactive, UnwrapNestedRefs} from "vue";
+import {BriefJobDto, JobClient} from "@/api/clients";
 
 type Store = {
-  page: {
-    loading: boolean;
-    load: <T>(f: () => Promise<T>) => Promise<T>;
-  };
-  accessToken: string | undefined;
+    readonly page: {
+        loading: boolean;
+        readonly load: <T>(f: () => Promise<T>) => Promise<T>;
+    };
+    accessToken: string | undefined;
+    readonly jobs: { 
+        items: BriefJobDto[]
+        readonly refresh: () => Promise<void>
+    }
 };
 
 const store: UnwrapNestedRefs<Store> = reactive<Store>({
-  page: {
-    loading: false,
-    load: (f) => {
-      store.page.loading = true;
-      
-      return f().finally(() => (store.page.loading = false));
+    page: {
+        loading: false,
+        load: (f) => {
+            store.page.loading = true;
+
+            return f().finally(() => (store.page.loading = false));
+        },
     },
-  },
-  accessToken: undefined,
+
+    accessToken: undefined,
+
+    jobs: {
+        items: [],
+        refresh: async () => {
+            store.jobs.items = await store.page.load(() => new JobClient().get())  
+        }
+    }
 });
 
-export { store };
+export {store};
