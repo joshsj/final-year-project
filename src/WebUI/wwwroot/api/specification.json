@@ -6,6 +6,39 @@
     "version": "v1"
   },
   "paths": {
+    "/api/Clock/submission": {
+      "post": {
+        "tags": [
+          "Clock"
+        ],
+        "operationId": "Clock_Submit",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitClockCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Job": {
       "get": {
         "tags": [
@@ -32,6 +65,16 @@
   },
   "components": {
     "schemas": {
+      "SubmitClockCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "clockId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
       "BriefJobDto": {
         "allOf": [
           {

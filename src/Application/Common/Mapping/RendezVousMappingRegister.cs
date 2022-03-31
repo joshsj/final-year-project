@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using RendezVous.Application.Common.Interfaces;
 using RendezVous.Application.Jobs.Queries.GetJobs;
 using RendezVous.Domain.Entities;
 
@@ -10,7 +11,7 @@ public class RendezVousMappingRegister: IRegister
     {
         config.ForType<Job, BriefJobDto>()
             .Map(
-                to => to.AssignmentCount, 
+                to => to.AssignmentCount,
                 from => from.Assignments.Count);
     }
 }
