@@ -19,9 +19,4 @@
         <ProjectReference Include="..\Domain\Domain.csproj" />
     </ItemGroup>
 
-     <Target Name="Mapster" AfterTargets="PostBuildEvent">
-        <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet tool restore" />
-        <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet mapster extension -n RendezVous.Application.Common.Mapping -o Common/Mapping -a &quot;$(TargetDir)$(AssemblyName).dll&quot;" />
-    </Target>
-
 </Project>
