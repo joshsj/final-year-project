@@ -7,7 +7,7 @@ import {
 import Home from "@/pages/Home.vue";
 import Jobs from "@/pages/Jobs.vue";
 import Account from "@/pages/Account.vue";
-import { ComponentPublicInstance } from "vue";
+import {store} from "@/store";
 
 declare module "vue-router" {
   interface RouteMeta {
@@ -55,13 +55,13 @@ const routes = {
   jobs: route({
     path: "/jobs",
     component: Jobs,
-    meta: { authenticated: false },
+    meta: { authenticated: true },
   }),
 
   account: route({
     path: "/account",
     component: Account,
-    meta: { authenticated: false },
+    meta: { authenticated: true },
   }),
 
   noPath: route({
@@ -75,20 +75,15 @@ const routeHelper = <T extends RouteName>(
   args: { name: T } & HelperArg<T>
 ): RouteLocationRaw => routes[args.name].helper(args as never);
 
-const createRouter = (_app: () => ComponentPublicInstance | undefined) => {
+const createRouter = () => {
   const router = createVueRouter({
     routes: Object.values(routes),
     history: createWebHistory(),
   });
 
-  router.beforeEach(({ meta: { authenticated } }) => {
-    const app = _app();
-
-    // ensure homepage if app is unavailable
-    return !authenticated || (app && app.$auth0.isAuthenticated.value)
-      ? undefined
-      : "/";
-  });
+  // ensure homepage if app is unavailable
+  router.beforeEach(({ meta: { authenticated } }) => 
+     !authenticated || store.accessToken ? undefined : "/");
 
   return router;
 };

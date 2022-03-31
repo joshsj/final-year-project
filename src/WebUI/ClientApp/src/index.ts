@@ -1,13 +1,13 @@
 import "./styles.scss";
 import ElementPlus, {ElMessage} from "element-plus";
 import App from "@/App.vue";
-import { ComponentPublicInstance, createApp } from "vue";
+import { createApp } from "vue";
 import { createRouter } from "@/router";
 import { createAuth0 } from "@auth0/auth0-vue";
 
 const app = createApp(App)
   .use(ElementPlus)
-  .use(createRouter(() => instance))
+  .use(createRouter())
   .use(
     createAuth0({
       domain: import.meta.env.VITE_AUTH0_DOMAIN,
@@ -24,7 +24,7 @@ app.config.errorHandler = () => ElMessage({
     showClose: true
 });
 
-const instance : ComponentPublicInstance = app.mount("#app");
+app.mount("#app");
 
 
 

@@ -15,12 +15,14 @@ onMounted(async () => (jobs.value = await store.page.load(() => jobClient.get())
 <template>
   <rv-page-title title="Jobs"/>
 
-  <article v-for="({title, locationTitle, start, end, description}, i) in jobs" :key="title">
-    <el-descriptions :title="title">
+  <article v-for="({title, locationTitle, start, end, description, assignmentCount}, i) in jobs" :key="start">
+    <el-descriptions :title="title" :column="2">
         <el-descriptions-item label="Location">{{ locationTitle }}</el-descriptions-item>
         <el-descriptions-item label="Start">{{ display.date(start) }}</el-descriptions-item>
         <el-descriptions-item label="End">{{ display.date(end) }}</el-descriptions-item>
-        <el-descriptions-item label="Description">{{ description }}</el-descriptions-item>
+        <el-descriptions-item label="Staff">{{ assignmentCount }}</el-descriptions-item>
+        
+        <el-descriptions-item label="Description" :span="2">{{ description }}</el-descriptions-item>
     </el-descriptions>
       
     <el-divider v-if="i !== jobs.length - 1"/>

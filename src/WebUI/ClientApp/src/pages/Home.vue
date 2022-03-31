@@ -1,36 +1,13 @@
 <script setup lang="ts">
-import { store } from "@/store";
 import { useAuth0 } from "@auth0/auth0-vue";
 import { ArrowDownBold } from "@element-plus/icons-vue";
 import { route } from "@/router";
 import { useRouter } from "vue-router";
-import { onMounted } from "vue";
+import {useAuth} from "@/plugins/auth";
 
 const { push } = useRouter();
-const {
-  isLoading,
-  isAuthenticated,
-  loginWithPopup,
-  logout: _logout,
-  getAccessTokenSilently,
-} = useAuth0();
-
-const login = () =>
-  store.page
-    .load(loginWithPopup)
-    .then(saveAccessToken)
-    .catch(() => void 0);
-
-const logout = () => {
-  store.page.loading = true;
-  _logout({ returnTo: location.origin });
-};
-
-const saveAccessToken = async () => {
-  store.accessToken = await getAccessTokenSilently();
-};
-
-onMounted(saveAccessToken);
+const { isAuthenticated } = useAuth0();
+const { login, logout} = useAuth();
 </script>
 
 <template>
@@ -62,7 +39,7 @@ onMounted(saveAccessToken);
         </el-dropdown>
       </template>
 
-      <el-button v-else type="primary" round @click="login"> Login </el-button>
+      <el-button v-else type="primary" round @click="login">Login</el-button>
     </nav>
   </header>
 </template>
