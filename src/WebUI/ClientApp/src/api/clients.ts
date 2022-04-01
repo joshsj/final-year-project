@@ -54,7 +54,7 @@ export class ClockClient extends BaseClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    submit(request: SubmitClockCommand): Promise<FileResponse> {
+    submit(request: SubmitClockCommand): Promise<void> {
         let url_ = this.baseUrl + "/api/Clock/submission";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -65,7 +65,6 @@ export class ClockClient extends BaseClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/octet-stream"
             }
         };
 
@@ -76,20 +75,19 @@ export class ClockClient extends BaseClient {
         });
     }
 
-    protected processSubmit(response: Response): Promise<FileResponse> {
+    protected processSubmit(response: Response): Promise<void> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<FileResponse>(null as any);
+        return Promise.resolve<void>(null as any);
     }
 }
 
@@ -213,13 +211,6 @@ export interface AssignmentDto extends EntityDto {
     employeeName: string;
     hasClockedIn: boolean;
     hasClockedOut: boolean;
-}
-
-export interface FileResponse {
-    data: Blob;
-    status: number;
-    fileName?: string;
-    headers?: { [name: string]: any };
 }
 
 export class ApiException extends Error {

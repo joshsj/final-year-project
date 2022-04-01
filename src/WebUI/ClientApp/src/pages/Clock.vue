@@ -1,5 +1,5 @@
 ﻿<script setup lang="ts">
-import {computed, onMounted, Prop, PropType, readonly, } from "vue";
+import {computed, onMounted, Prop, PropType, readonly,} from "vue";
 import {store} from "@/store";
 import PageTitle from "@/components/general/PageTitle.vue";
 import {useGeoLocation} from "@/plugins/geoLocation";
@@ -29,9 +29,9 @@ const confirm = async () => {
   await store.page.load(() => new ClockClient().submit(request));
 
   store.page.result = {
-      icon: "success",
-      title: "Success",
-      subTitle: `You're clocked ${typeText.toLowerCase()}.`
+    icon: "success",
+    title: "Success",
+    subTitle: `You're clocked ${typeText.toLowerCase()}.`
   }
 };
 
@@ -48,20 +48,30 @@ onMounted(getGeolocation);
       Retry
     </el-button>
   </page-title>
-  
-  <template v-if="position">
-    <el-descriptions title="Location">
+
+  <el-descriptions title="Location" v-if="position">
+    <template >
       <el-descriptions-item label="Latitude">{{ position.coords.latitude }}</el-descriptions-item>
       <el-descriptions-item label="Longitude">{{ position.coords.longitude }}</el-descriptions-item>
-    </el-descriptions>
+    </template>
+  </el-descriptions>
 
-    <el-button type="success" round @click="confirm" d>Confirm</el-button>
-  </template>
-
-  <el-alert
-      v-if="errorMessages?.length"
-      type="error"
-      :closable="false">
-    <p v-for="msg in errorMessages" :key="msg">{{ msg }}</p>
+  <el-alert v-if="errorMessages?.length" type="error" :closable="false">
+      <p v-for="msg in errorMessages" :key="msg">{{ msg }}</p>
   </el-alert>
+
+  <el-button
+      type="success"
+      round
+      :disabled="errorMessages?.length"
+      @click="confirm">
+    Confirm
+  </el-button>
 </template>
+
+<style scoped>
+.el-alert {
+    bottom: 1rem;
+}
+</style>
+
