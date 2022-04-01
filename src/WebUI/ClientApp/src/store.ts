@@ -9,6 +9,12 @@ type Store = {
     readonly page: {
         loading: boolean;
         readonly load: <T>(f: () => Promise<T>) => Promise<T>;
+        
+        result?: {
+            icon: "success" | "error",
+            title: string,
+            subTitle?: string
+        }
     };
     accessToken: string | undefined;
     readonly jobs: { 

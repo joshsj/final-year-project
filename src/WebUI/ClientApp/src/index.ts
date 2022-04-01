@@ -1,7 +1,7 @@
 import "./styles.scss";
 import ElementPlus, {ElMessage} from "element-plus";
 import App from "@/App.vue";
-import {createApp, createVNode} from "vue";
+import {createApp} from "vue";
 import {createRouter} from "@/router";
 import {createAuth0} from "@auth0/auth0-vue";
 import {ApiException} from "@/api/clients";

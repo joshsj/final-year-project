@@ -1,11 +1,11 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import PageTitle from "@/components/general/PageTitle.vue";
 import JobDetails from "@/components/jobs/JobDetails.vue";
 import {computed, onMounted, readonly} from "vue";
 import {store} from "@/store";
 import {display} from "@/utilities/display";
 import {useAuth0} from "@auth0/auth0-vue";
-import {AssignmentDto} from "@/api/clients";
+import {AssignmentDto, ClockType} from "@/api/clients";
 import {useRouter} from "vue-router";
 import {route} from "@/router";
 
@@ -20,6 +20,12 @@ const job = readonly(store.jobs.items.find(x => x.id === props.jobId)!);
 
 const userAssignment = computed(() => job.assignments?.find(isUserAssigment));
 
+const clock = (type: ClockType) => userAssignment.value && push(route({
+  name: 'clock',
+  assignmentId: userAssignment.value.id,
+  type
+}));
+
 onMounted(() => store.jobs.fetchAssignments(props.jobId));
 </script>
 
@@ -33,37 +39,38 @@ onMounted(() => store.jobs.fetchAssignments(props.jobId));
     <el-collapse-item title="Staff">
       <el-table :data="job.assignments">
         <el-table-column
-            label="Name"
-            #="{row: assignment}">
+            #="{row: assignment}"
+            label="Name">
           {{ isUserAssigment(assignment) ? "You" : assignment.employeeName }}
         </el-table-column>
 
         <el-table-column
-            prop="hasClockedIn"
-            label="Clocked In"
-            :formatter="({}, {}, value) => display.bool(value)"/>
+            :formatter="({}, {}, value) => display.bool(value)"
+            label="Clock In"
+            prop="hasClockedIn"/>
 
         <el-table-column
-            prop="hasClockedOut"
-            label="Clocked Out"
-            :formatter="({}, {}, value) => display.bool(value)"/>
+            :formatter="({}, {}, value) => display.bool(value)"
+            label="Clock Out"
+            prop="hasClockedOut"/>
 
-        <el-table-column label="Actions" v-if="userAssignment">
+        <el-table-column label="Actions">
           <el-button
-              type="success"
-              size="small"
+              v-if="!userAssignment?.hasClockedIn"
               round
-              v-if="!userAssignment.hasClockedIn"
-              @click="push(route({name: 'clockIn', assignmentId : userAssignment.id}))">
+              size="small"
+              type="success"
+              @click="clock(ClockType.In)">
             Clock In
           </el-button>
 
           <el-button
-              type="success"
-              size="small"
+              v-if="userAssignment?.hasClockedIn && !userAssignment?.hasClockedOut"
               round
-              v-if="userAssignment.hasClockedIn && !userAssignment.hasClockedOut">
-            Clock Out
+              size="small"
+              type="success"
+              @click="clock(ClockType.Out)">
+          Clock Out
           </el-button>
         </el-table-column>
       </el-table>

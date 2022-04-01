@@ -1,38 +1,17 @@
 ﻿<script setup lang="ts">
-import {computed, onMounted, readonly} from "vue";
+import {computed, onMounted, Prop, PropType, readonly, } from "vue";
 import {store} from "@/store";
 import PageTitle from "@/components/general/PageTitle.vue";
 import {useGeoLocation} from "@/plugins/geoLocation";
 import {ClockClient, ClockType, SubmitClockCommand} from "@/api/clients";
-import {ElMessage} from "element-plus";
 
-const props = defineProps({assignmentId: {type: String, required: true}});
-
-const {supported, position, error, getGeolocation} = useGeoLocation();
-
-const clockClient = readonly(new ClockClient());
-
-// https://developer.mozilla.org/en-US/docs/Web/API/GeolocationPositionError/code
-const codeMessages: { [_: number]: string[] } = {
-  1: [
-    "You must allow access to your location to clock in.",
-    "It can be enabled in the address bar of you browser."
-  ],
-  2: ["Failed to determine your location."],
-  3: ["Failed to determine your location."]
-};
-
-const errorMessages = computed((): string[] | undefined => {
-  if (!supported) {
-    return ["You cannot clock in with this device, as it does not have support for retrieving your location."]
-  }
-
-  if (error.value) {
-    return codeMessages[error.value.code];
-  }
-
-  return undefined;
+const props = defineProps({
+  assignmentId: {type: String, required: true},
+  type: {type: String as PropType<"0" | "1">, required: true,}
 });
+
+const {supported, position, error, getGeolocation, errorMessages} = useGeoLocation();
+const typeText = ClockType[props.type]!;
 
 const confirm = async () => {
   if (!position.value) {
@@ -43,20 +22,24 @@ const confirm = async () => {
 
   const request: SubmitClockCommand = {
     assignmentId: props.assignmentId,
-    clockType: ClockType.In,
-    coordinates: {latitude, longitude}
+    coordinates: {latitude, longitude},
+    clockType: parseInt(props.type)
   }
 
-  await store.page.load(() => clockClient.submit(request));
-  
-  ElMessage.success("Clock in successful!");
+  await store.page.load(() => new ClockClient().submit(request));
+
+  store.page.result = {
+      icon: "success",
+      title: "Success",
+      subTitle: `You're clocked ${typeText.toLowerCase()}.`
+  }
 };
 
 onMounted(getGeolocation);
 </script>
 
 <template>
-  <page-title title="Clock In">
+  <page-title :title="`Clock ${typeText}`">
     <el-button
         v-if="errorMessages?.length"
         round
@@ -65,7 +48,7 @@ onMounted(getGeolocation);
       Retry
     </el-button>
   </page-title>
-
+  
   <template v-if="position">
     <el-descriptions title="Location">
       <el-descriptions-item label="Latitude">{{ position.coords.latitude }}</el-descriptions-item>

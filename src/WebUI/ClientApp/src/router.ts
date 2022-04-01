@@ -7,9 +7,10 @@ import {
 import Home from "@/pages/Home.vue";
 import Job from "@/pages/Job.vue";
 import Jobs from "@/pages/Jobs.vue";
-import ClockIn from "@/pages/ClockIn.vue";
+import Clock from "@/pages/Clock.vue";
 import Account from "@/pages/Account.vue";
 import {store} from "@/store";
+import {ClockType} from "@/api/clients";
 
 declare module "vue-router" {
     interface RouteMeta {
@@ -65,12 +66,12 @@ const routes = {
         meta: {authenticated: true},
     }),
 
-    clockIn: route<{ assignmentId: string }>(
+    clock: route<{ assignmentId: string, type: ClockType}>(
         {
-            path: "/clock-in/:assignmentId",
-            component: ClockIn,
+            path: "/clock/:type/:assignmentId",
+            component: Clock,
             meta: {authenticated: true},
-            props:true
+            props: true
         }
     ),
 
