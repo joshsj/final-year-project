@@ -1,21 +1,26 @@
 <script setup lang="ts">
 import PageTitle from "@/components/general/PageTitle.vue";
 import JobDetails from "@/components/jobs/JobDetails.vue";
-import {computed, readonly} from "vue";
+import {computed, onMounted, readonly} from "vue";
 import {store} from "@/store";
 import {display} from "@/utilities/display";
 import {useAuth0} from "@auth0/auth0-vue";
 import {AssignmentDto} from "@/api/clients";
+import {useRouter} from "vue-router";
+import {route} from "@/router";
 
 const props = defineProps({jobId: {type: String, required: true}});
 
 const {user} = useAuth0();
+const {push} = useRouter();
 
 const isUserAssigment = ({employeeProviderId: id}: AssignmentDto): boolean => id === user.value.sub;
 
 const job = readonly(store.jobs.items.find(x => x.id === props.jobId)!);
 
 const userAssignment = computed(() => job.assignments?.find(isUserAssigment));
+
+onMounted(() => store.jobs.fetchAssignments(props.jobId));
 </script>
 
 <template>
@@ -24,12 +29,8 @@ const userAssignment = computed(() => job.assignments?.find(isUserAssigment));
   <job-details :job="job"/>
 
   <!-- only fetch assignments once  -->
-  <el-collapse @change.once="store.jobs.fetchAssignments(jobId)">
-    <el-collapse-item>
-      <template #title>
-        <span><b>Staff</b> ({{ job.assignmentCount }})</span>
-      </template>
-
+  <el-collapse v-if="job.assignmentCount">
+    <el-collapse-item title="Staff">
       <el-table :data="job.assignments">
         <el-table-column
             label="Name"
@@ -52,7 +53,8 @@ const userAssignment = computed(() => job.assignments?.find(isUserAssigment));
               type="success"
               size="small"
               round
-              v-if="!userAssignment.hasClockedIn">
+              v-if="!userAssignment.hasClockedIn"
+              @click="push(route({name: 'clockIn', assignmentId : userAssignment.id}))">
             Clock In
           </el-button>
 

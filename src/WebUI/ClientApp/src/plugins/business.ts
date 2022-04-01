@@ -1,0 +1,5 @@
+﻿const useClockBusiness = () => {
+     
+}
+
+export { useClockBusiness }

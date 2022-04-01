@@ -15,7 +15,7 @@ class BaseClient {
         response: Response,
         defaultCallback: (res: Response) => Promise<any>) {
         return await (response.status < 400
-            ? response.text().then(text => JSON.parse(text, this.dateReviver))
+            ? response.text().then(text => text ? JSON.parse(text, this.dateReviver) : undefined)
             : defaultCallback(response));
     }
 
