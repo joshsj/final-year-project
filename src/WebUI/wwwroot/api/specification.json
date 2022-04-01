@@ -61,6 +61,40 @@
           }
         }
       }
+    },
+    "/api/Job/assignment": {
+      "get": {
+        "tags": [
+          "Job"
+        ],
+        "operationId": "Job_GetAssignments",
+        "parameters": [
+          {
+            "name": "JobId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AssignmentDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -69,14 +103,29 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "clockId": {
+          "assignmentId": {
             "type": "string",
             "format": "guid"
+          },
+          "clockType": {
+            "$ref": "#/components/schemas/ClockType"
           },
           "coordinates": {
             "$ref": "#/components/schemas/Coordinates"
           }
         }
+      },
+      "ClockType": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "In",
+          "Out"
+        ],
+        "enum": [
+          0,
+          1
+        ]
       },
       "Coordinates": {
         "type": "object",
@@ -135,6 +184,31 @@
             "format": "guid"
           }
         }
+      },
+      "AssignmentDto": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/EntityDto"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "employeeProviderId": {
+                "type": "string"
+              },
+              "employeeName": {
+                "type": "string"
+              },
+              "hasClockedIn": {
+                "type": "boolean"
+              },
+              "hasClockedOut": {
+                "type": "boolean"
+              }
+            }
+          }
+        ]
       }
     }
   }

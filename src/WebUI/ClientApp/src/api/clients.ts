@@ -9,7 +9,6 @@
 // ReSharper disable InconsistentNaming
 
 import {store} from "@/store";
-import {BriefJobDto} from "@/api/clients";
 export class BaseClient {
     private readonly IsoDateRegex = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)$/ 
     
@@ -23,7 +22,7 @@ export class BaseClient {
     protected async transformResult(
         _url: string,
         response: Response,
-        defaultCallback: (res: Response) => Promise<BriefJobDto[]>) {
+        defaultCallback: (res: Response) => Promise<any>) {
         return await (response.status < 400
             ? response.text().then(text => JSON.parse(text, this.dateReviver))
             : defaultCallback(response));
@@ -139,11 +138,56 @@ export class JobClient extends BaseClient {
         }
         return Promise.resolve<BriefJobDto[]>(null as any);
     }
+
+    getAssignments(jobId: string | undefined): Promise<AssignmentDto[]> {
+        let url_ = this.baseUrl + "/api/Job/assignment?";
+        if (jobId === null)
+            throw new Error("The parameter 'jobId' cannot be null.");
+        else if (jobId !== undefined)
+            url_ += "JobId=" + encodeURIComponent("" + jobId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processGetAssignments(_response));
+        });
+    }
+
+    protected processGetAssignments(response: Response): Promise<AssignmentDto[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as AssignmentDto[];
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<AssignmentDto[]>(null as any);
+    }
 }
 
 export interface SubmitClockCommand {
-    clockId: string;
+    assignmentId: string;
+    clockType: ClockType;
     coordinates: Coordinates;
+}
+
+export enum ClockType {
+    In = 0,
+    Out = 1,
 }
 
 export interface Coordinates {
@@ -162,6 +206,13 @@ export interface BriefJobDto extends EntityDto {
     end: Date;
     locationTitle: string;
     assignmentCount: number;
+}
+
+export interface AssignmentDto extends EntityDto {
+    employeeProviderId: string;
+    employeeName: string;
+    hasClockedIn: boolean;
+    hasClockedOut: boolean;
 }
 
 export interface FileResponse {

@@ -8,7 +8,7 @@ import {route} from "@/router";
 
 const {push} = useRouter();
 
-onMounted(store.jobs.refresh);
+onMounted(store.jobs.fetch);
 </script>
 
 <template>

@@ -1,5 +1,9 @@
-import {reactive, UnwrapNestedRefs} from "vue";
-import {BriefJobDto, JobClient} from "@/api/clients";
+import { reactive, UnwrapNestedRefs } from "vue";
+import {AssignmentDto, BriefJobDto, JobClient} from "@/api/clients";
+
+type Job = BriefJobDto & {
+    assignments?: AssignmentDto[]
+}
 
 type Store = {
     readonly page: {
@@ -8,8 +12,9 @@ type Store = {
     };
     accessToken: string | undefined;
     readonly jobs: { 
-        items: BriefJobDto[]
-        readonly refresh: () => Promise<void>
+        items: Job[]
+        readonly fetch: () => Promise<void>
+        readonly fetchAssignments: (jobId: string) => Promise<void>
     }
 };
 
@@ -27,8 +32,13 @@ const store: UnwrapNestedRefs<Store> = reactive<Store>({
 
     jobs: {
         items: [],
-        refresh: async () => {
+        fetch: async () => {
             store.jobs.items = await store.page.load(() => new JobClient().get())  
+        },
+        fetchAssignments: async (jobId: string) => {
+            const job = store.jobs.items.find(x => x.id === jobId);
+            
+            job && (job.assignments =  await store.page.load(() => new JobClient().getAssignments(jobId)));
         }
     }
 });
