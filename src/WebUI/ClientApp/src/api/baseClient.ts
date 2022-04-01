@@ -1,5 +1,4 @@
 import {store} from "@/store";
-import {BriefJobDto} from "@/api/clients";
 
 class BaseClient {
     private readonly IsoDateRegex = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)$/ 
@@ -14,9 +13,9 @@ class BaseClient {
     protected async transformResult(
         _url: string,
         response: Response,
-        defaultCallback: (res: Response) => Promise<BriefJobDto[]>) {
+        defaultCallback: (res: Response) => Promise<any>) {
         return await (response.status < 400
-            ? response.text().then(text => JSON.parse(text, this.dateReviver))
+            ? response.text().then(text => text ? JSON.parse(text, this.dateReviver) : undefined)
             : defaultCallback(response));
     }
 

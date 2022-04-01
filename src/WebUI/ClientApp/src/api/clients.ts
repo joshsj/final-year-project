@@ -9,7 +9,6 @@
 // ReSharper disable InconsistentNaming
 
 import {store} from "@/store";
-import {BriefJobDto} from "@/api/clients";
 export class BaseClient {
     private readonly IsoDateRegex = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)$/ 
     
@@ -23,9 +22,9 @@ export class BaseClient {
     protected async transformResult(
         _url: string,
         response: Response,
-        defaultCallback: (res: Response) => Promise<BriefJobDto[]>) {
+        defaultCallback: (res: Response) => Promise<any>) {
         return await (response.status < 400
-            ? response.text().then(text => JSON.parse(text, this.dateReviver))
+            ? response.text().then(text => text ? JSON.parse(text, this.dateReviver) : undefined)
             : defaultCallback(response));
     }
 
@@ -41,6 +40,56 @@ export class BaseClient {
         ).authorization = `Bearer ${accessToken}`;
 
         return options;
+    }
+}
+
+export class ClockClient extends BaseClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super();
+        this.http = http ? http : window as any;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    submit(request: SubmitClockCommand): Promise<FileResponse> {
+        let url_ = this.baseUrl + "/api/Clock/submission";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/octet-stream"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processSubmit(_response));
+        });
+    }
+
+    protected processSubmit(response: Response): Promise<FileResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<FileResponse>(null as any);
     }
 }
 
@@ -89,6 +138,61 @@ export class JobClient extends BaseClient {
         }
         return Promise.resolve<BriefJobDto[]>(null as any);
     }
+
+    getAssignments(jobId: string | undefined): Promise<AssignmentDto[]> {
+        let url_ = this.baseUrl + "/api/Job/assignment?";
+        if (jobId === null)
+            throw new Error("The parameter 'jobId' cannot be null.");
+        else if (jobId !== undefined)
+            url_ += "JobId=" + encodeURIComponent("" + jobId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processGetAssignments(_response));
+        });
+    }
+
+    protected processGetAssignments(response: Response): Promise<AssignmentDto[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as AssignmentDto[];
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<AssignmentDto[]>(null as any);
+    }
+}
+
+export interface SubmitClockCommand {
+    assignmentId: string;
+    clockType: ClockType;
+    coordinates: Coordinates;
+}
+
+export enum ClockType {
+    In = 0,
+    Out = 1,
+}
+
+export interface Coordinates {
+    latitude: number;
+    longitude: number;
 }
 
 export interface EntityDto {
@@ -104,7 +208,21 @@ export interface BriefJobDto extends EntityDto {
     assignmentCount: number;
 }
 
-export class SwaggerException extends Error {
+export interface AssignmentDto extends EntityDto {
+    employeeProviderId: string;
+    employeeName: string;
+    hasClockedIn: boolean;
+    hasClockedOut: boolean;
+}
+
+export interface FileResponse {
+    data: Blob;
+    status: number;
+    fileName?: string;
+    headers?: { [name: string]: any };
+}
+
+export class ApiException extends Error {
     message: string;
     status: number;
     response: string;
@@ -121,16 +239,13 @@ export class SwaggerException extends Error {
         this.result = result;
     }
 
-    protected isSwaggerException = true;
+    protected isApiException = true;
 
-    static isSwaggerException(obj: any): obj is SwaggerException {
-        return obj.isSwaggerException === true;
+    static isApiException(obj: any): obj is ApiException {
+        return obj.isApiException === true;
     }
 }
 
 function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): any {
-    if (result !== null && result !== undefined)
-        throw result;
-    else
-        throw new SwaggerException(message, status, response, headers, null);
+    throw new ApiException(message, status, response, headers, result);
 }

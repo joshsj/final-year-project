@@ -9,6 +9,10 @@ public class AssignmentConfiguration : EntityConfiguration<Assignment>
     {
         base.Configure(builder);
 
+        builder.Property(x => x.Notes)
+            .HasMaxLength(500)
+            .IsRequired();
+
         builder
             .HasMany(x => x.Clocks)
             .WithOne(x => x.Assignment)

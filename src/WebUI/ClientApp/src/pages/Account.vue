@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import RvPageTitle from "@/components/general/PageTitle.vue";
+import PageTitle from "@/components/general/PageTitle.vue";
 import { RemoveIndex } from "@/utilities/types";
 import { User } from "@auth0/auth0-spa-js";
 import { useAuth0 } from "@auth0/auth0-vue";
@@ -24,7 +24,7 @@ const prettyKey = (k: Key): string =>
 </script>
 
 <template>
-  <rv-page-title title="Account" />
+  <page-title title="Account" />
 
   <p v-for="k in keys" :key="k">
     <b>{{ prettyKey(k) }}:</b> {{ user[k] }}

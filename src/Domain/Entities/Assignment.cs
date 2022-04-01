@@ -2,6 +2,8 @@
 
 public class Assignment : Entity
 {
+    public string Notes { get; set; } = null!;
+    
     public Guid JobId { get; set; }
     public Job Job { get; set; } = null!;
     

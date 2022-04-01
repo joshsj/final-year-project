@@ -13,6 +13,7 @@ public static class DependencyInjection
 
         ConfigureOptions<Auth0Options>();
         ConfigureOptions<SeedOptions>();
+        ConfigureOptions<BusinessOptions>();
 
         return services;
     }

@@ -19,7 +19,7 @@ public class LocationConfiguration : EntityConfiguration<Location>
             .HasForeignKey(x => x.LocationId)
             .IsRequired();
 
-        builder.OwnsOne(x => x.Coordinates);
-        builder.OwnsOne(x => x.Radius);
+        builder.OwnsOne(x => x.Coordinates).WithOwner();
+        builder.OwnsOne(x => x.Radius).WithOwner();
     }
 }

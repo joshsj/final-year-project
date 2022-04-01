@@ -26,24 +26,22 @@ public class RendezVousDbContextSeeder
         _dateTime = dateTime;
     }
 
-    public async Task Wipe(CancellationToken cancellationToken = new())
+    public async Task Wipe(CancellationToken ct = new())
     {
         // TODO change to DbSet<>
         var entityTypes = new[]
         {
-            _dbContext.Locations.EntityType, 
-            _dbContext.Jobs.EntityType, 
-            _dbContext.Assignments.EntityType,
+            _dbContext.Locations.EntityType, _dbContext.Jobs.EntityType, _dbContext.Assignments.EntityType,
             _dbContext.Clocks.EntityType
         };
 
         foreach (var entityType in entityTypes)
         {
-            await _dbContext.Database.ExecuteSqlRawAsync($"DELETE FROM {entityType.GetTableName()}", cancellationToken);
-        };
+            await _dbContext.Database.ExecuteSqlRawAsync($"DELETE FROM {entityType.GetTableName()}", ct);
+        }
     }
 
-    public async Task Seed(CancellationToken cancellationToken = new())
+    public async Task Seed(CancellationToken ct = new())
     {
         string Lines(params string[] s) => string.Join(Environment.NewLine, s);
 
@@ -53,10 +51,10 @@ public class RendezVousDbContextSeeder
         {
             Id = Guid.NewGuid(),
             Title = "Tank Nightclub",
-            Coordinates = new Coordinates(_seedOptions.Latitude, _seedOptions.Longitude),
+            Coordinates = _seedOptions.Coordinates,
             Radius = new Distance(25)
         };
-        await _dbContext.Locations.AddAsync(location, cancellationToken);
+        await _dbContext.Locations.AddAsync(location, ct);
 
         var job1 = new Job
         {
@@ -79,12 +77,17 @@ public class RendezVousDbContextSeeder
             End = now.AddMinutes(90),
             LocationId = location.Id
         };
-        await _dbContext.Jobs.AddRangeAsync(new[] {job1, job2}, cancellationToken);
+        await _dbContext.Jobs.AddRangeAsync(new[] {job1, job2}, ct);
 
-        var assignment1 = new Assignment {Id = Guid.NewGuid(), EmployeeId = _seedOptions.EmployeeId, JobId = job1.Id};
-        var assignment2 = new Assignment {Id = Guid.NewGuid(), EmployeeId = _seedOptions.EmployeeId, JobId = job2.Id};
-        await _dbContext.Assignments.AddRangeAsync(new[] {assignment1, assignment2}, cancellationToken);
-
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        var assignment = new Assignment
+        {
+            Id = Guid.NewGuid(), 
+            EmployeeId = _seedOptions.EmployeeId,
+            JobId = job1.Id,
+            Notes = "Probably on the bar tonight."
+        };
+        await _dbContext.Assignments.AddAsync(assignment, ct);
+        
+        await _dbContext.SaveChangesAsync(ct);
     }
 }

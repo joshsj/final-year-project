@@ -29,6 +29,7 @@ public class EmployeeUpsertFilterAttribute : ActionFilterAttribute
         var currentProviderId = _currentUserService.ProviderId;
         if (currentProviderId is null)
         {
+            await next();
             return;
         }
 
