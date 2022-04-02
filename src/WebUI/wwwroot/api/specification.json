@@ -126,9 +126,8 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "assignmentId": {
-            "type": "string",
-            "format": "guid"
+          "confirmationTokenValue": {
+            "type": "string"
           },
           "clockType": {
             "$ref": "#/components/schemas/ClockType"

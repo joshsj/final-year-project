@@ -66,6 +66,9 @@ const useQrScanner = (
     const stop = () => {
         active.value = false;
         canvas.value?.setAttribute("hidden", "hidden");
+        // do or do not, there is no stop() method for video elements
+        video.value.pause();
+        video.value.currentTime = 0;
     }
 
     const update = () => {

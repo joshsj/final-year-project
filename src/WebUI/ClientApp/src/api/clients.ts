@@ -217,7 +217,7 @@ export class JobClient extends BaseClient {
 }
 
 export interface SubmitClockCommand {
-    assignmentId: string;
+    confirmationTokenValue: string;
     clockType: ClockType;
     coordinates: Coordinates;
 }

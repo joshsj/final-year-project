@@ -12,17 +12,17 @@ const props = defineProps({
 });
 
 const coordinates = ref<Coordinates | undefined>(undefined);
-const tokenId = ref<string | undefined>(undefined);
+const token = ref<string | undefined>(undefined);
 
 const typeText = ClockType[props.type]!;
 
 const submit = async () => {
-  if (!(coordinates.value && tokenId.value)) {
+  if (!(coordinates.value && token.value)) {
     return;
   }
 
   const request: SubmitClockCommand = {
-    assignmentId: props.assignmentId,
+    confirmationTokenValue: token.value,
     coordinates: coordinates.value,
     clockType: parseInt(props.type)
   }
@@ -41,12 +41,12 @@ const submit = async () => {
   <page-title :title="`Clock ${typeText}`"/>
 
   <location-step v-model:coordinates="coordinates"/>
-  <confirmation-step v-if="coordinates" v-model:token-id="tokenId"/>
+  <confirmation-step v-if="coordinates" v-model:token="token"/>
 
   <el-button
       type="success"
       round
-      v-show="coordinates && tokenId"
+      :disabled="!(coordinates && token)"
       @click="submit">
     Submit
   </el-button>

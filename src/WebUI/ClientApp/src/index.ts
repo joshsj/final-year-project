@@ -5,7 +5,6 @@ import {createApp} from "vue";
 import {createRouter} from "@/router";
 import {createAuth0} from "@auth0/auth0-vue";
 import {ApiException} from "@/api/clients";
-import {store} from "@/store";
 
 const app = createApp(App)
     .use(ElementPlus)
@@ -21,7 +20,7 @@ const app = createApp(App)
 
 type Errors = {
     errors?: {
-        [_: string]: string[]
+        [field: string]: string[]
     }
 }
 
@@ -40,10 +39,10 @@ const getErrorMessage = (err: any): string => {
             return defaultMessage;
         }
 
-        const messages = Object.values(errors).flatMap(x => x.flatMap(x => x));
-        
-        return `<ul>${messages.map(x => `<li>${x}</li>`)}</ul>`
-    } catch(_) {
+        return Object.values(errors)
+            .flatMap(x => x.flatMap(x => `<p>${x}</p>`))
+            .join("");
+    } catch (_) {
     }
 
     return defaultMessage;

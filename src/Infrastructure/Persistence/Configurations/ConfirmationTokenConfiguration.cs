@@ -12,6 +12,9 @@ public class ConfirmationTokenConfiguration : EntityConfiguration<ConfirmationTo
         builder.Property(x => x.Value)
             .IsRequired();
 
+        builder.HasIndex(x => x.Value)
+            .IsUnique();
+
         builder.Property(x => x.ExpiresAt)
             .IsRequired();
 

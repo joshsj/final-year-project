@@ -5,9 +5,9 @@ import {useQrScanner} from "@/plugins/qrScanner";
 import {onMounted, ref, watch} from "vue";
 import {store} from "@/store";
 
-defineProps({tokenId: {type: String, required: true}});
+defineProps({token: {type: String, required: true}});
 
-const emit = defineEmits(["update:tokenId"]);
+const emit = defineEmits(["update:token"]);
 
 const {getStream, stream, errorMessages} = useUserMedia({
   audio: false,
@@ -29,7 +29,7 @@ watch(data, x => {
   }
 
   stop();
-  emit("update:tokenId", x);
+  emit("update:token", x);
 });
 
 onMounted(() => store.page.load(getStream));
@@ -38,12 +38,12 @@ onMounted(() => store.page.load(getStream));
 <template>
   <step
       title="Confirmation"
-      :state="!!tokenId"
+      :state="!!token"
       :error-messages="errorMessages"
       @retry="getStream">
     <div :ref="containerProvider"/>
 
-    <el-alert v-if="tokenId" type="success" :closable="false">Scan succsesful.</el-alert>
+    <el-alert v-if="token" type="success" :closable="false">Scan successful.</el-alert>
   </step>
 </template>
 
