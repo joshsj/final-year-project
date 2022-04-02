@@ -20,7 +20,7 @@ const getConfirmationCode = async () => {
       () => new ClockClient().getConfirmationCode(props.assignmentId));
 
   svgSource.value = dto.svgSource
-  countdown.start(10);
+  countdown.start(dto.timeRemaining);
 };
 
 onMounted(getConfirmationCode);
@@ -28,12 +28,12 @@ onMounted(getConfirmationCode);
 // ensure counter stops to destroy component
 onBeforeRouteLeave(countdown.stop);
 watch(countdown.current, (x) => {
-    if (x > 0) {
-        return;
-    }
+  if (x > 0) {
+    return;
+  }
 
-    ElMessage.info("Confirmation code expired.");
-    back();
+  ElMessage.info("Confirmation code expired.");
+  back();
 });
 </script>
 
