@@ -21,7 +21,7 @@ defineProps({
           circle
           @click="back" />
 
-        <h2>{{ title }}</h2>
+        <h1>{{ title }}</h1>
       </el-row>
 
       <aside><slot /></aside>
@@ -34,7 +34,7 @@ header {
   margin-bottom: 1.5rem;
 }
 
-h2 {
+h1 {
   margin: 0;
 }
 
