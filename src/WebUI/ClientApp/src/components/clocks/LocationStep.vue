@@ -2,46 +2,31 @@
 import {useGeoLocation} from "@/plugins/geoLocation";
 import {onMounted, PropType, watch} from "vue";
 import {Coordinates} from "@/api/clients";
+import Step from "./Step.vue";
 
 defineProps({
-  location: Object as PropType<Coordinates>
+  coordinates: Object as PropType<Coordinates>
 });
 
-const emit = defineEmits(["update:location"])
+const emit = defineEmits(["update:coordinates"])
 
 const {position, getGeolocation, errorMessages} = useGeoLocation();
 
 watch(position, (p) => emit(
-    'update:location',
+    'update:coordinates',
     p ? {latitude: p.coords.latitude, longitude: p.coords.longitude} : undefined));
 
 onMounted(getGeolocation);
 </script>
 
 <template>
-  <h2>Location</h2>
-
-  <el-descriptions v-if="location">
-    <el-descriptions-item label="Latitude">{{ location.latitude }}</el-descriptions-item>
-    <el-descriptions-item label="Longitude">{{ location.longitude }}</el-descriptions-item>
-  </el-descriptions>
-
-  <el-alert v-if="errorMessages?.length" type="error" :closable="false">
-    <p v-for="msg in errorMessages" :key="msg">{{ msg }}</p>
-
-    <el-button
-        round
-        size="small"
-        type="primary"
-        @click="getGeolocation">
-      Retry
-    </el-button>
-  </el-alert>
+  <step
+      title="Location"
+      :state="!!coordinates"
+      :error-messages="errorMessages"
+      @retry="getGeolocation">
+    <el-alert v-if="coordinates" type="success" :closable="false">
+      {{ coordinates.latitude }}, {{ coordinates.longitude }}
+    </el-alert>
+  </step>
 </template>
-
-
-<style scoped>
-.el-alert {
-  margin-bottom: 1rem;
-}
-</style>

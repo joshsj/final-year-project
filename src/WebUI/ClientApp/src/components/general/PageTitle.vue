@@ -11,7 +11,7 @@ defineProps({
 </script>
 
 <template>
-  <header>
+  <header class="page-title">
     <el-row justify="space-between" align="middle">
       <el-row align="middle">
         <el-button
@@ -30,8 +30,8 @@ defineProps({
 </template>
 
 <style scoped>
-header {
-  margin-bottom: 1.5rem;
+.page-title {
+    margin-bottom: 1rem;
 }
 
 h1 {

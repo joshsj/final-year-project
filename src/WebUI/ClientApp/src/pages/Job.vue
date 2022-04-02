@@ -4,7 +4,7 @@ import JobDetails from "@/components/jobs/JobDetails.vue";
 import {onMounted, readonly} from "vue";
 import {store} from "@/store";
 import {display} from "@/utilities/display";
-import {AssignmentDto, ClockClient, ClockType} from "@/api/clients";
+import {AssignmentDto, ClockType} from "@/api/clients";
 import {useRouter} from "vue-router";
 import {route} from "@/router";
 import {useAssignmentBusiness} from "@/plugins/business";
@@ -14,11 +14,12 @@ const job = readonly(store.jobs.items.find(x => x.id === props.jobId)!);
 
 const {push} = useRouter();
 const {
-    isUserAssigment,
-    userAssignment,
-    canClockOut,
-    canClockIn,
-  canConfirm} = useAssignmentBusiness(job);
+  isUserAssigment,
+  userAssignment,
+  canClockOut,
+  canClockIn,
+  canConfirm
+} = useAssignmentBusiness(job);
 
 const clock = (type: ClockType) => userAssignment.value && push(route({
   name: 'clock',

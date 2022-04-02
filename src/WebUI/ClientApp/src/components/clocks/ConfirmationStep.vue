@@ -1,0 +1,49 @@
+﻿<script setup lang="ts">
+import Step from "./Step.vue";
+import {useUserMedia} from "@/plugins/userMedia";
+import {useQrScanner} from "@/plugins/qrScanner";
+import {onMounted, ref, watch} from "vue";
+import {store} from "@/store";
+
+defineProps({tokenId: {type: String, required: true}});
+
+const emit = defineEmits(["update:tokenId"]);
+
+const {getStream, stream, errorMessages} = useUserMedia({
+  audio: false,
+  video: {
+    width: {ideal: 1600},
+    height: {ideal: 1200},
+    facingMode: "environment",
+    aspectRatio: 4 / 3,
+    frameRate: {ideal: 30}
+  },
+});
+
+const {containerProvider, start, stop, data} = useQrScanner(stream, ref("fit"));
+
+watch(stream, x => x && start());
+watch(data, x => {
+  if (!x) {
+    return;
+  }
+
+  stop();
+  emit("update:tokenId", x);
+});
+
+onMounted(() => store.page.load(getStream));
+</script>
+
+<template>
+  <step
+      title="Confirmation"
+      :state="!!tokenId"
+      :error-messages="errorMessages"
+      @retry="getStream">
+    <div :ref="containerProvider"/>
+
+    <el-alert v-if="tokenId" type="success" :closable="false">Scan succsesful.</el-alert>
+  </step>
+</template>
+

@@ -3,7 +3,7 @@
 // https://developer.mozilla.org/en-US/docs/Web/API/GeolocationPositionError/code
 const codeMessages: { [_: number]: string[] } = Object.freeze({
     1: [
-        "You must allow access to your location to clock in.",
+        "You must allow access to your location.",
         "It can be enabled in the address bar of you browser."
     ],
     2: ["Failed to determine your location."],
