@@ -17,7 +17,7 @@ onMounted(store.jobs.fetch);
   <article
       v-for="(job, i) in store.jobs.items"
       :key="job.id">
-    <job-details :job="job"/>
+    <job-details :job="job" :use-title="true"/>
 
     <el-button
         round

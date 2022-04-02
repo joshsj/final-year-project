@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RendezVous.Infrastructure.Persistence;
 
@@ -11,9 +12,10 @@ using RendezVous.Infrastructure.Persistence;
 namespace RendezVous.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(RendezVousDbContext))]
-    partial class RendezVousDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220402000256_CreateConfirmationToken")]
+    partial class CreateConfirmationToken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

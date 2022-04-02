@@ -10,5 +10,6 @@ public interface IRendezVousDbContext
     DbSet<Job> Jobs { get; }
     DbSet<Assignment> Assignments { get; }
     DbSet<Clock> Clocks { get; }
+    DbSet<ConfirmationToken> ConfirmationTokens { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

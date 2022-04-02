@@ -36,3 +36,8 @@ body {
 .el-collapse-item__header {
   font-weight: bold;
 }
+
+// scoped styles don't work with v-html
+.confirmation-code > svg {
+  max-height: 75vh;
+}

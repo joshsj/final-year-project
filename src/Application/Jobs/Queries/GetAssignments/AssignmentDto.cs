@@ -7,6 +7,6 @@ public class AssignmentDto : EntityDto
     public string EmployeeProviderId { get; set; } = null!;
     public string EmployeeName { get; set; } = null!;
     
-    public bool HasClockedIn { get; set; }
-    public bool HasClockedOut { get; set; }
+    public bool ClockedIn { get; set; }
+    public bool ClockedOut { get; set; }
 }

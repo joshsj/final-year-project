@@ -6,6 +6,7 @@ type Job = BriefJobDto & {
 }
 
 type Store = {
+    accessToken: string | undefined;
     readonly page: {
         loading: boolean;
         readonly load: <T>(f: () => Promise<T>) => Promise<T>;
@@ -16,7 +17,7 @@ type Store = {
             subTitle?: string
         }
     };
-    accessToken: string | undefined;
+    
     readonly jobs: { 
         items: Job[]
         readonly fetch: () => Promise<void>
@@ -25,6 +26,8 @@ type Store = {
 };
 
 const store: UnwrapNestedRefs<Store> = reactive<Store>({
+    accessToken: undefined,
+    
     page: {
         loading: false,
         load: (f) => {
@@ -33,8 +36,6 @@ const store: UnwrapNestedRefs<Store> = reactive<Store>({
             return f().finally(() => (store.page.loading = false));
         },
     },
-
-    accessToken: undefined,
 
     jobs: {
         items: [],
@@ -49,4 +50,4 @@ const store: UnwrapNestedRefs<Store> = reactive<Store>({
     }
 });
 
-export {store};
+export {store, Job};

@@ -5,6 +5,7 @@ import {createApp} from "vue";
 import {createRouter} from "@/router";
 import {createAuth0} from "@auth0/auth0-vue";
 import {ApiException} from "@/api/clients";
+import {store} from "@/store";
 
 const app = createApp(App)
     .use(ElementPlus)

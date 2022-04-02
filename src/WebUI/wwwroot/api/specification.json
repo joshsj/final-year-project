@@ -31,6 +31,37 @@
         }
       }
     },
+    "/api/Clock/confirmation-code": {
+      "get": {
+        "tags": [
+          "Clock"
+        ],
+        "operationId": "Clock_GetConfirmationCode",
+        "parameters": [
+          {
+            "name": "AssignmentId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfirmationCodeDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Job": {
       "get": {
         "tags": [
@@ -133,6 +164,19 @@
           }
         }
       },
+      "ConfirmationCodeDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "svgSource": {
+            "type": "string"
+          },
+          "timeRemaining": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "BriefJobDto": {
         "allOf": [
           {
@@ -192,10 +236,10 @@
               "employeeName": {
                 "type": "string"
               },
-              "hasClockedIn": {
+              "clockedIn": {
                 "type": "boolean"
               },
-              "hasClockedOut": {
+              "clockedOut": {
                 "type": "boolean"
               }
             }

@@ -27,6 +27,7 @@ public static class DependencyInjection
         services.AddScoped<IDomainEventService, DomainEventService>();
 
         services.AddTransient<IDateTime, DateTime>();
+        services.AddSingleton<IBarcodeService, QrBarcodeService>();
 
         var serviceProvider = services.BuildServiceProvider();
         var auth0Options =  serviceProvider.GetRequiredService<IOptions<Auth0Options>>().Value;

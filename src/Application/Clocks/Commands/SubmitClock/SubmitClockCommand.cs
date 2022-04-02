@@ -1,5 +1,4 @@
-﻿using System.Net.Mime;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +10,7 @@ using RendezVous.Domain.Enums;
 using RendezVous.Domain.Models;
 using RendezVous.Domain.Options;
 
-namespace RendezVous.Application.Clocks.Commands.CreateClock;
+namespace RendezVous.Application.Clocks.Commands.SubmitClock;
 
 public class SubmitClockCommand : IRequest
 {
@@ -80,13 +79,10 @@ public class SubmitClockCommandValidator : AbstractValidator<SubmitClockCommand>
         Assignment assignment,
         ValidationContext<SubmitClockCommand> context)
     {
-        var isClockedIn = assignment.Clocks.Any(x => x.Type == ClockType.In);
-        var isClockedOut = assignment.Clocks.Any(x => x.Type == ClockType.Out);
-
         if (context.InstanceToValidate.ClockType == ClockType.In)
         {
             context.AddFailureIf(
-                isClockedIn,
+                assignment.ClockIn is not null,
                 "You have already clocked in for this job.");
 
             context.AddFailureIf(
@@ -100,11 +96,11 @@ public class SubmitClockCommandValidator : AbstractValidator<SubmitClockCommand>
         else
         {
             context.AddFailureIf(
-                !isClockedIn,
+                assignment.ClockIn is null,
                 "You must clock in before clocking out.");
 
             context.AddFailureIf(
-                isClockedOut,
+                assignment.ClockOut is not null,
                 "You have already clocked out of this job");
 
             context.AddFailureIf(

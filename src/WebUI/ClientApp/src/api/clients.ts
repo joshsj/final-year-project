@@ -89,6 +89,45 @@ export class ClockClient extends BaseClient {
         }
         return Promise.resolve<void>(null as any);
     }
+
+    getConfirmationCode(assignmentId: string | undefined): Promise<ConfirmationCodeDto> {
+        let url_ = this.baseUrl + "/api/Clock/confirmation-code?";
+        if (assignmentId === null)
+            throw new Error("The parameter 'assignmentId' cannot be null.");
+        else if (assignmentId !== undefined)
+            url_ += "AssignmentId=" + encodeURIComponent("" + assignmentId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processGetConfirmationCode(_response));
+        });
+    }
+
+    protected processGetConfirmationCode(response: Response): Promise<ConfirmationCodeDto> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ConfirmationCodeDto;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<ConfirmationCodeDto>(null as any);
+    }
 }
 
 export class JobClient extends BaseClient {
@@ -193,6 +232,11 @@ export interface Coordinates {
     longitude: number;
 }
 
+export interface ConfirmationCodeDto {
+    svgSource: string;
+    timeRemaining: number;
+}
+
 export interface EntityDto {
     id: string;
 }
@@ -209,8 +253,8 @@ export interface BriefJobDto extends EntityDto {
 export interface AssignmentDto extends EntityDto {
     employeeProviderId: string;
     employeeName: string;
-    hasClockedIn: boolean;
-    hasClockedOut: boolean;
+    clockedIn: boolean;
+    clockedOut: boolean;
 }
 
 export class ApiException extends Error {

@@ -1,29 +1,34 @@
 <script lang="ts" setup>
 import PageTitle from "@/components/general/PageTitle.vue";
 import JobDetails from "@/components/jobs/JobDetails.vue";
-import {computed, onMounted, readonly} from "vue";
+import {onMounted, readonly} from "vue";
 import {store} from "@/store";
 import {display} from "@/utilities/display";
-import {useAuth0} from "@auth0/auth0-vue";
-import {AssignmentDto, ClockType} from "@/api/clients";
+import {AssignmentDto, ClockClient, ClockType} from "@/api/clients";
 import {useRouter} from "vue-router";
 import {route} from "@/router";
+import {useAssignmentBusiness} from "@/plugins/business";
 
 const props = defineProps({jobId: {type: String, required: true}});
-
-const {user} = useAuth0();
-const {push} = useRouter();
-
-const isUserAssigment = ({employeeProviderId: id}: AssignmentDto): boolean => id === user.value.sub;
-
 const job = readonly(store.jobs.items.find(x => x.id === props.jobId)!);
 
-const userAssignment = computed(() => job.assignments?.find(isUserAssigment));
+const {push} = useRouter();
+const {
+    isUserAssigment,
+    userAssignment,
+    canClockOut,
+    canClockIn,
+  canConfirm} = useAssignmentBusiness(job);
 
 const clock = (type: ClockType) => userAssignment.value && push(route({
   name: 'clock',
   assignmentId: userAssignment.value.id,
   type
+}));
+
+const confirm = ({id}: AssignmentDto) => push(route({
+  name: 'confirm',
+  assignmentId: id
 }));
 
 onMounted(() => store.jobs.fetchAssignments(props.jobId));
@@ -34,7 +39,6 @@ onMounted(() => store.jobs.fetchAssignments(props.jobId));
 
   <job-details :job="job"/>
 
-  <!-- only fetch assignments once  -->
   <el-collapse v-if="job.assignmentCount">
     <el-collapse-item title="Staff">
       <el-table :data="job.assignments">
@@ -47,16 +51,18 @@ onMounted(() => store.jobs.fetchAssignments(props.jobId));
         <el-table-column
             :formatter="({}, {}, value) => display.bool(value)"
             label="Clock In"
-            prop="hasClockedIn"/>
+            prop="clockedIn"/>
 
         <el-table-column
             :formatter="({}, {}, value) => display.bool(value)"
             label="Clock Out"
-            prop="hasClockedOut"/>
+            prop="clockedOut"/>
 
-        <el-table-column label="Actions">
+        <el-table-column
+            label="Actions"
+            #="{row: assignment}">
           <el-button
-              v-if="!userAssignment?.hasClockedIn"
+              v-if="canClockIn(assignment)"
               round
               size="small"
               type="success"
@@ -65,12 +71,21 @@ onMounted(() => store.jobs.fetchAssignments(props.jobId));
           </el-button>
 
           <el-button
-              v-if="userAssignment?.hasClockedIn && !userAssignment?.hasClockedOut"
+              v-if="canClockOut(assignment)"
               round
               size="small"
               type="success"
               @click="clock(ClockType.Out)">
-          Clock Out
+            Clock Out
+          </el-button>
+
+          <el-button
+              v-if="canConfirm(assignment)"
+              round
+              size="small"
+              type="primary"
+              @click="confirm(assignment)">
+            Confirm
           </el-button>
         </el-table-column>
       </el-table>
