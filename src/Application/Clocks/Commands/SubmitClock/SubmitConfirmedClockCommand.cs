@@ -14,8 +14,7 @@ public class SubmitConfirmedClockCommand : BaseSubmitClockCommand
     public string ConfirmationTokenValue { get; set; } = null!;
 }
 
-public class SubmitConfirmedClockCommandValidator
-    : BaseSubmitClockCommandValidator<SubmitConfirmedClockCommand>
+public class SubmitConfirmedClockCommandValidator : BaseSubmitClockCommandValidator<SubmitConfirmedClockCommand>
 {
     public SubmitConfirmedClockCommandValidator(
         ICurrentUserService currentUserService,
@@ -49,7 +48,7 @@ public class SubmitConfirmedClockCommandValidator
             "This confirmation token was created for another employee.");
 
         context.AddFailureIf(
-            _dateTime.Now < confirmationToken.ExpiresAt,
+            _dateTime.Now > confirmationToken.ExpiresAt,
             "The confirmation token has expired.");
     }
 }
@@ -71,7 +70,9 @@ public class SubmitConfirmedClockCommandHandler : IRequestHandler<SubmitConfirme
     {
         var confirmationToken = await _dbContext.ConfirmationTokens
             .Include(x => x.ConfirmerAssignment)
+            .ThenInclude(x => x.Clocks)
             .SingleAsync(x => x.Value == request.ConfirmationTokenValue, ct);
+        _dbContext.ConfirmationTokens.Remove(confirmationToken); // single use
 
         var parent = confirmationToken.ConfirmerAssignment.ClockIn;
         

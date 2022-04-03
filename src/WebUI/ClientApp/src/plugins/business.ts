@@ -3,9 +3,6 @@ import {useAuth0} from "@auth0/auth0-vue";
 import {computed} from "vue";
 import {Job} from "@/store";
 
-const requiresConfirmation = (assignments: AssignmentDto[]) =>
-    assignments.some(x => x.clockedIn);
-
 const useAssignmentBusiness = (job: Job) => {
     const {user} = useAuth0();
 
@@ -13,17 +10,20 @@ const useAssignmentBusiness = (job: Job) => {
         employeeProviderId === user.value?.sub;
     const userAssignment = computed(() => job.assignments?.find(isUserAssigment));
 
-    const canClockIn = ({employeeProviderId, clockedIn}: AssignmentDto): boolean =>
-        !clockedIn && isUserAssigment({employeeProviderId} as AssignmentDto);
+    const canClockIn = ({employeeProviderId, clockIn}: AssignmentDto): boolean =>
+        !clockIn && isUserAssigment({employeeProviderId} as AssignmentDto);
     
-    const canClockOut = ({employeeProviderId, clockedIn, clockedOut}: AssignmentDto): boolean =>
-        clockedIn && !clockedOut && isUserAssigment({employeeProviderId} as AssignmentDto);
+    const canClockOut = ({employeeProviderId, clockIn, clockOut}: AssignmentDto): boolean =>
+        !!clockIn && !clockOut && isUserAssigment({employeeProviderId} as AssignmentDto);
     
     const canConfirm = (ass : AssignmentDto) : boolean =>
-        isUserAssigment(ass)
-            ? false 
-            : (ass.clockedIn || !ass.clockedOut) && (userAssignment.value?.clockedIn ?? false);
-
+        !isUserAssigment(ass)
+            // user has clocked in, other user hasn't clocked out 
+            ? !!userAssignment.value?.clockIn && !ass.clockOut 
+            : false;
+    
+    const requiresConfirmation = (assignments: AssignmentDto[]) =>
+        assignments.some(x => x.employeeProviderId != user.value.sub && x.clockIn);
     return {isUserAssigment, userAssignment, canClockIn, canClockOut, canConfirm, requiresConfirmation};
 }
 

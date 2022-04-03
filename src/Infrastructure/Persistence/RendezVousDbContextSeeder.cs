@@ -28,8 +28,11 @@ public class RendezVousDbContextSeeder
         // TODO change to DbSet<>
         var entityTypes = new[]
         {
-            _dbContext.Locations.EntityType, _dbContext.Jobs.EntityType, _dbContext.Assignments.EntityType,
-            _dbContext.Clocks.EntityType
+            _dbContext.ConfirmationTokens.EntityType,
+            _dbContext.Clocks.EntityType,
+            _dbContext.Assignments.EntityType,
+            _dbContext.Jobs.EntityType,
+            _dbContext.Locations.EntityType,
         };
 
         foreach (var entityType in entityTypes)

@@ -57,14 +57,14 @@ onMounted(() => store.jobs.fetchAssignments(props.jobId));
         </el-table-column>
 
         <el-table-column
-            :formatter="({}, {}, value) => display.bool(value)"
             label="Clock In"
-            prop="clockedIn"/>
+            prop="clockIn.at"
+            :formatter="({}, {}, d) => d && display.date(d, 'time')"/>
 
         <el-table-column
-            :formatter="({}, {}, value) => display.bool(value)"
             label="Clock Out"
-            prop="clockedOut"/>
+            prop="clockOut.at"
+            :formatter="({}, {}, d) => d && display.date(d, 'time')"/>
 
         <el-table-column
             label="Actions"
