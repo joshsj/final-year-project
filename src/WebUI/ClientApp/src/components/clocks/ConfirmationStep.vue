@@ -29,6 +29,7 @@ watch(data, x => {
   }
 
   stop();
+  stream.value?.getTracks().forEach(x => x.stop());
   emit("update:token", x);
 });
 
