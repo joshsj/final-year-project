@@ -6,18 +6,18 @@
     "version": "v1"
   },
   "paths": {
-    "/api/Clock/submission": {
+    "/api/Clock/submission/unconfirmed": {
       "post": {
         "tags": [
           "Clock"
         ],
-        "operationId": "Clock_Submit",
+        "operationId": "Clock_SubmitUnconfirmed",
         "requestBody": {
           "x-name": "request",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SubmitClockCommand"
+                "$ref": "#/components/schemas/SubmitUnconfirmedClockCommand"
               }
             }
           },
@@ -27,6 +27,62 @@
         "responses": {
           "200": {
             "description": ""
+          }
+        }
+      }
+    },
+    "/api/Clock/submission/confirmed": {
+      "post": {
+        "tags": [
+          "Clock"
+        ],
+        "operationId": "Clock_SubmitConfirmed",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitConfirmedClockCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Clock/confirmation-code": {
+      "get": {
+        "tags": [
+          "Clock"
+        ],
+        "operationId": "Clock_GetConfirmationCode",
+        "parameters": [
+          {
+            "name": "ConfirmeeAssignmentId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfirmationCodeDto"
+                }
+              }
+            }
           }
         }
       }
@@ -91,7 +147,18 @@
   },
   "components": {
     "schemas": {
-      "SubmitClockCommand": {
+      "SubmitUnconfirmedClockCommand": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSubmitClockCommand"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "BaseSubmitClockCommand": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -130,6 +197,35 @@
           "longitude": {
             "type": "number",
             "format": "double"
+          }
+        }
+      },
+      "SubmitConfirmedClockCommand": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSubmitClockCommand"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "confirmationTokenValue": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "ConfirmationCodeDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "svgSource": {
+            "type": "string"
+          },
+          "timeRemaining": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -192,10 +288,10 @@
               "employeeName": {
                 "type": "string"
               },
-              "hasClockedIn": {
+              "clockedIn": {
                 "type": "boolean"
               },
-              "hasClockedOut": {
+              "clockedOut": {
                 "type": "boolean"
               }
             }

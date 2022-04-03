@@ -4,12 +4,12 @@ public class SeedOptions
 {
     public bool Enabled { get; set; }
     
-    /// <summary>Employee to assign Jobs</summary>
-    public Guid EmployeeId { get; set; }
+    public Guid YourEmployeeId { get; set; }
+    public Guid OtherEmployeeId { get; set; }
 
     /// <summary>Coordinates of Job locations</summary>
     public double Latitude { get; set; }
     public double Longitude { get; set; }
 
-    public Coordinates Coordinates => new Coordinates(Latitude, Longitude);
+    public Coordinates Coordinates => new (Latitude, Longitude);
 }

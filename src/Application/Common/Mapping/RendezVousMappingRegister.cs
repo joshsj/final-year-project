@@ -20,10 +20,10 @@ public class RendezVousMappingRegister: IRegister
 
         config.ForType<Assignment, AssignmentDto>()
             .Map(
-                to => to.HasClockedIn,
-                from => from.Clocks.Any(x => x.Type == ClockType.In))
+                to => to.ClockedIn,
+                from => from.ClockIn != null)
             .Map(
-                to => to.HasClockedOut,
-                from => from.Clocks.Any(x => x.Type == ClockType.Out));
+                to => to.ClockedOut,
+                from => from.ClockOut != null);
     }
 }

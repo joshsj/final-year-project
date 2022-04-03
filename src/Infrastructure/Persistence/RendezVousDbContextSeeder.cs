@@ -1,10 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Options;
 using RendezVous.Application.Common.Interfaces;
-using RendezVous.Domain.Common;
 using RendezVous.Domain.Entities;
-using RendezVous.Domain.Enums;
 using RendezVous.Domain.Models;
 using RendezVous.Domain.Options;
 
@@ -79,15 +76,21 @@ public class RendezVousDbContextSeeder
         };
         await _dbContext.Jobs.AddRangeAsync(new[] {job1, job2}, ct);
 
-        var assignment = new Assignment
+        var yourAssignment = new Assignment
         {
-            Id = Guid.NewGuid(), 
-            EmployeeId = _seedOptions.EmployeeId,
+            Id = Guid.NewGuid(),
+            EmployeeId = _seedOptions.YourEmployeeId,
             JobId = job1.Id,
-            Notes = "Probably on the bar tonight."
+            Notes = "Probably on bar 1"
         };
-        await _dbContext.Assignments.AddAsync(assignment, ct);
-        
+        var otherAssignment = new Assignment
+        {
+            Id = Guid.NewGuid(), EmployeeId = _seedOptions.OtherEmployeeId, JobId = job1.Id, Notes = "On bar 1"
+        };
+        await _dbContext.Assignments.AddRangeAsync(
+            new[] {yourAssignment, otherAssignment},
+            ct);
+
         await _dbContext.SaveChangesAsync(ct);
     }
 }

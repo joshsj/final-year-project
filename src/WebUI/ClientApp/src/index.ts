@@ -20,7 +20,7 @@ const app = createApp(App)
 
 type Errors = {
     errors?: {
-        [_: string]: string[]
+        [field: string]: string[]
     }
 }
 
@@ -39,10 +39,10 @@ const getErrorMessage = (err: any): string => {
             return defaultMessage;
         }
 
-        const messages = Object.values(errors).flatMap(x => x.flatMap(x => x));
-        
-        return `<ul>${messages.map(x => `<li>${x}</li>`)}</ul>`
-    } catch(_) {
+        return Object.values(errors)
+            .flatMap(x => x.flatMap(x => `<p>${x}</p>`))
+            .join("");
+    } catch (_) {
     }
 
     return defaultMessage;

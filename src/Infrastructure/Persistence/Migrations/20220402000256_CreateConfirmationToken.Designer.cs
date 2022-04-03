@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RendezVous.Infrastructure.Persistence;
 
@@ -11,9 +12,10 @@ using RendezVous.Infrastructure.Persistence;
 namespace RendezVous.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(RendezVousDbContext))]
-    partial class RendezVousDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220402000256_CreateConfirmationToken")]
+    partial class CreateConfirmationToken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,10 +83,7 @@ namespace RendezVous.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ConfirmeeAssignmentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ConfirmerAssignmentId")
+                    b.Property<Guid>("AssignmentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("ExpiresAt")
@@ -92,16 +91,11 @@ namespace RendezVous.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("Value")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ConfirmeeAssignmentId");
-
-                    b.HasIndex("ConfirmerAssignmentId");
-
-                    b.HasIndex("Value")
-                        .IsUnique();
+                    b.HasIndex("AssignmentId");
 
                     b.ToTable("ConfirmationToken");
                 });
@@ -240,21 +234,13 @@ namespace RendezVous.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("RendezVous.Domain.Entities.ConfirmationToken", b =>
                 {
-                    b.HasOne("RendezVous.Domain.Entities.Assignment", "ConfirmeeAssignment")
+                    b.HasOne("RendezVous.Domain.Entities.Assignment", "Assignment")
                         .WithMany()
-                        .HasForeignKey("ConfirmeeAssignmentId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("AssignmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RendezVous.Domain.Entities.Assignment", "ConfirmerAssignment")
-                        .WithMany()
-                        .HasForeignKey("ConfirmerAssignmentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("ConfirmeeAssignment");
-
-                    b.Navigation("ConfirmerAssignment");
+                    b.Navigation("Assignment");
                 });
 
             modelBuilder.Entity("RendezVous.Domain.Entities.Job", b =>

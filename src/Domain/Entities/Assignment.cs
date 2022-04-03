@@ -11,4 +11,7 @@ public class Assignment : Entity
     public Employee Employee { get; set; } = null!;
 
     public ICollection<Clock> Clocks { get; } = new List<Clock>();
+
+    public Clock? ClockIn => Clocks.SingleOrDefault(x => x.Type == ClockType.In);
+    public Clock? ClockOut => Clocks.SingleOrDefault(x => x.Type == ClockType.Out);
 }

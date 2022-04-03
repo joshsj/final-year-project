@@ -54,8 +54,8 @@ export class ClockClient extends BaseClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    submit(request: SubmitClockCommand): Promise<void> {
-        let url_ = this.baseUrl + "/api/Clock/submission";
+    submitUnconfirmed(request: SubmitUnconfirmedClockCommand): Promise<void> {
+        let url_ = this.baseUrl + "/api/Clock/submission/unconfirmed";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -71,11 +71,11 @@ export class ClockClient extends BaseClient {
         return this.transformOptions(options_).then(transformedOptions_ => {
             return this.http.fetch(url_, transformedOptions_);
         }).then((_response: Response) => {
-            return this.transformResult(url_, _response, (_response: Response) => this.processSubmit(_response));
+            return this.transformResult(url_, _response, (_response: Response) => this.processSubmitUnconfirmed(_response));
         });
     }
 
-    protected processSubmit(response: Response): Promise<void> {
+    protected processSubmitUnconfirmed(response: Response): Promise<void> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -88,6 +88,81 @@ export class ClockClient extends BaseClient {
             });
         }
         return Promise.resolve<void>(null as any);
+    }
+
+    submitConfirmed(request: SubmitConfirmedClockCommand): Promise<void> {
+        let url_ = this.baseUrl + "/api/Clock/submission/confirmed";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processSubmitConfirmed(_response));
+        });
+    }
+
+    protected processSubmitConfirmed(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    getConfirmationCode(confirmeeAssignmentId: string | undefined): Promise<ConfirmationCodeDto> {
+        let url_ = this.baseUrl + "/api/Clock/confirmation-code?";
+        if (confirmeeAssignmentId === null)
+            throw new Error("The parameter 'confirmeeAssignmentId' cannot be null.");
+        else if (confirmeeAssignmentId !== undefined)
+            url_ += "ConfirmeeAssignmentId=" + encodeURIComponent("" + confirmeeAssignmentId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processGetConfirmationCode(_response));
+        });
+    }
+
+    protected processGetConfirmationCode(response: Response): Promise<ConfirmationCodeDto> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ConfirmationCodeDto;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<ConfirmationCodeDto>(null as any);
     }
 }
 
@@ -177,10 +252,13 @@ export class JobClient extends BaseClient {
     }
 }
 
-export interface SubmitClockCommand {
+export interface BaseSubmitClockCommand {
     assignmentId: string;
     clockType: ClockType;
     coordinates: Coordinates;
+}
+
+export interface SubmitUnconfirmedClockCommand extends BaseSubmitClockCommand {
 }
 
 export enum ClockType {
@@ -191,6 +269,15 @@ export enum ClockType {
 export interface Coordinates {
     latitude: number;
     longitude: number;
+}
+
+export interface SubmitConfirmedClockCommand extends BaseSubmitClockCommand {
+    confirmationTokenValue: string;
+}
+
+export interface ConfirmationCodeDto {
+    svgSource: string;
+    timeRemaining: number;
 }
 
 export interface EntityDto {
@@ -209,8 +296,8 @@ export interface BriefJobDto extends EntityDto {
 export interface AssignmentDto extends EntityDto {
     employeeProviderId: string;
     employeeName: string;
-    hasClockedIn: boolean;
-    hasClockedOut: boolean;
+    clockedIn: boolean;
+    clockedOut: boolean;
 }
 
 export class ApiException extends Error {

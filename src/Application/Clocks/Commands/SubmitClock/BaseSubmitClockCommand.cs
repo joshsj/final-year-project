@@ -1,5 +1,4 @@
-﻿using System.Net.Mime;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,23 +10,24 @@ using RendezVous.Domain.Enums;
 using RendezVous.Domain.Models;
 using RendezVous.Domain.Options;
 
-namespace RendezVous.Application.Clocks.Commands.CreateClock;
+namespace RendezVous.Application.Clocks.Commands.SubmitClock;
 
-public class SubmitClockCommand : IRequest
+public class BaseSubmitClockCommand : IRequest
 {
     public Guid AssignmentId { get; set; }
     public ClockType ClockType { get; set; }
     public Coordinates Coordinates { get; set; } = null!;
 }
 
-public class SubmitClockCommandValidator : AbstractValidator<SubmitClockCommand>
+public abstract class BaseSubmitClockCommandValidator<T> 
+    : AbstractValidator<T> where T : BaseSubmitClockCommand
 {
-    private readonly ICurrentUserService _currentUserService;
-    private readonly IRendezVousDbContext _dbContext;
-    private readonly IDateTime _dateTime;
-    private readonly BusinessOptions _businessOptions;
+    protected readonly ICurrentUserService _currentUserService;
+    protected readonly IRendezVousDbContext _dbContext;
+    protected readonly IDateTime _dateTime;
+    protected readonly BusinessOptions _businessOptions;
 
-    public SubmitClockCommandValidator(
+    public BaseSubmitClockCommandValidator(
         ICurrentUserService currentUserService,
         IRendezVousDbContext dbContext,
         IDateTime dateTime,
@@ -40,25 +40,21 @@ public class SubmitClockCommandValidator : AbstractValidator<SubmitClockCommand>
 
         RuleFor(x => x.AssignmentId)
             .NotNull();
-
+        
         RuleFor(x => x.Coordinates)
             .NotNull();
     }
 
-    public override async Task<ValidationResult> ValidateAsync(
-        ValidationContext<SubmitClockCommand> context,
-        CancellationToken ct = new())
+    public override async Task<ValidationResult> ValidateAsync(ValidationContext<T> context, CancellationToken ct = new())
     {
         var result = await base.ValidateAsync(context, ct);
-
         if (!result.IsValid) { return result; }
 
         var request = context.InstanceToValidate;
 
-        var employee = await _dbContext.Employees
-            .SingleAsync(x => x.ProviderId == _currentUserService.ProviderId, ct);
+        var employee = await _dbContext.Employees.SingleAsync(x => x.ProviderId == _currentUserService.ProviderId, ct);
 
-        var assignment = await GetAssignment(request, ct);
+        var assignment = await GetAssignment(context, ct);
 
         if (assignment is null)
         {
@@ -70,23 +66,26 @@ public class SubmitClockCommandValidator : AbstractValidator<SubmitClockCommand>
             assignment.EmployeeId != employee.Id,
             "You cannot clock in/out for another employee.");
 
+        await EnsureConfirmation(assignment, employee, context, ct);
         EnsureTimings(assignment, context);
         EnsureDistanceFromJob(assignment, context);
 
         return result;
     }
 
-    private void EnsureTimings(
+    /// <summary>Checks confirmation token or principle confirmation</summary>
+    protected abstract Task EnsureConfirmation(
         Assignment assignment,
-        ValidationContext<SubmitClockCommand> context)
-    {
-        var isClockedIn = assignment.Clocks.Any(x => x.Type == ClockType.In);
-        var isClockedOut = assignment.Clocks.Any(x => x.Type == ClockType.Out);
+        Employee employee,
+        ValidationContext<T> context,
+        CancellationToken ct);
 
+    private void EnsureTimings(Assignment assignment, ValidationContext<T> context)
+    {
         if (context.InstanceToValidate.ClockType == ClockType.In)
         {
             context.AddFailureIf(
-                isClockedIn,
+                assignment.ClockIn is not null,
                 "You have already clocked in for this job.");
 
             context.AddFailureIf(
@@ -100,11 +99,11 @@ public class SubmitClockCommandValidator : AbstractValidator<SubmitClockCommand>
         else
         {
             context.AddFailureIf(
-                !isClockedIn,
+                assignment.ClockIn is null,
                 "You must clock in before clocking out.");
 
             context.AddFailureIf(
-                isClockedOut,
+                assignment.ClockOut is not null,
                 "You have already clocked out of this job");
 
             context.AddFailureIf(
@@ -113,9 +112,7 @@ public class SubmitClockCommandValidator : AbstractValidator<SubmitClockCommand>
         }
     }
 
-    private void EnsureDistanceFromJob(
-        Assignment assignment,
-        ValidationContext<SubmitClockCommand> context)
+    private void EnsureDistanceFromJob(Assignment assignment, ValidationContext<T> context)
     {
         var jobLocation = assignment.Job.Location;
         var distanceFromJob = jobLocation.Coordinates.Distance(context.InstanceToValidate.Coordinates);
@@ -125,43 +122,12 @@ public class SubmitClockCommandValidator : AbstractValidator<SubmitClockCommand>
             $"Your current location does not match the location for this job ({jobLocation.Title})");
     }
 
-    private Task<Assignment?> GetAssignment(SubmitClockCommand request, CancellationToken ct)
+    private async Task<Assignment?> GetAssignment( ValidationContext<T> context, CancellationToken ct = new())
     {
-        return _dbContext.Assignments
+        return await _dbContext.Assignments
             .Include(x => x.Job)
             .ThenInclude(x => x.Location)
             .Include(x => x.Clocks)
-            .SingleOrDefaultAsync(x => x.Id == request.AssignmentId, ct);
-    }
-}
-
-public class SubmitClockCommandHandler : IRequestHandler<SubmitClockCommand>
-{
-    private readonly IRendezVousDbContext _rendezVousDbContext;
-    private readonly IDateTime _dateTime;
-
-    public SubmitClockCommandHandler(
-        IRendezVousDbContext rendezVousDbContext,
-        IDateTime dateTime)
-    {
-        _rendezVousDbContext = rendezVousDbContext;
-        _dateTime = dateTime;
-    }
-
-    public async Task<Unit> Handle(SubmitClockCommand request, CancellationToken ct)
-    {
-        var clock = new Clock
-        {
-            Id = Guid.NewGuid(),
-            At = _dateTime.Now,
-            Type = request.ClockType,
-            Coordinates = request.Coordinates,
-            AssignmentId = request.AssignmentId
-        };
-
-        await _rendezVousDbContext.Clocks.AddAsync(clock, ct);
-        await _rendezVousDbContext.SaveChangesAsync(ct);
-
-        return Unit.Value;
+            .SingleOrDefaultAsync(x => x.Id == context.InstanceToValidate.AssignmentId, ct);
     }
 }

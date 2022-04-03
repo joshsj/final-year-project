@@ -11,7 +11,7 @@ defineProps({
 </script>
 
 <template>
-  <header>
+  <header class="page-title">
     <el-row justify="space-between" align="middle">
       <el-row align="middle">
         <el-button
@@ -21,7 +21,7 @@ defineProps({
           circle
           @click="back" />
 
-        <h2>{{ title }}</h2>
+        <h1>{{ title }}</h1>
       </el-row>
 
       <aside><slot /></aside>
@@ -30,11 +30,11 @@ defineProps({
 </template>
 
 <style scoped>
-header {
-  margin-bottom: 1.5rem;
+.page-title {
+    margin-bottom: 1rem;
 }
 
-h2 {
+h1 {
   margin: 0;
 }
 
