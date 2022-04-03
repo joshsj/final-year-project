@@ -1,9 +1,8 @@
 ﻿<script setup lang="ts">
 import PageTitle from "@/components/general/PageTitle.vue";
 import LocationStep from "@/components/clocks/LocationStep.vue";
-import ConfirmationStep from "@/components/clocks/ConfirmationStep.vue";
 import {PropType, ref} from "vue";
-import {ClockClient, ClockType, Coordinates, SubmitClockCommand} from "@/api/clients";
+import {ClockClient, ClockType, Coordinates, SubmitUnconfirmedClockCommand} from "@/api/clients";
 import {store} from "@/store";
 
 const props = defineProps({
@@ -12,22 +11,20 @@ const props = defineProps({
 });
 
 const coordinates = ref<Coordinates | undefined>(undefined);
-const token = ref<string | undefined>(undefined);
-
 const typeText = ClockType[props.type]!;
 
 const submit = async () => {
-  if (!(coordinates.value && token.value)) {
+  if (!coordinates.value) {
     return;
   }
 
-  const request: SubmitClockCommand = {
-    confirmationTokenValue: token.value,
+  const request: SubmitUnconfirmedClockCommand = {
+    assignmentId: props.assignmentId,
     coordinates: coordinates.value,
     clockType: parseInt(props.type)
   }
 
-  await store.page.load(() => new ClockClient().submit(request));
+  await store.page.load(() => new ClockClient().submitUnconfirmed(request));
 
   store.page.result = {
     icon: "success",
@@ -41,12 +38,11 @@ const submit = async () => {
   <page-title :title="`Clock ${typeText}`"/>
 
   <location-step v-model:coordinates="coordinates"/>
-  <confirmation-step v-if="coordinates" v-model:token="token"/>
 
   <el-button
       type="success"
       round
-      :disabled="!(coordinates && token)"
+      :disabled="!coordinates"
       @click="submit">
     Submit
   </el-button>

@@ -12,7 +12,7 @@ namespace RendezVous.Application.Clocks.Commands.CreateClockConfirmationCode;
 
 public class CreateClockConfirmationCodeCommand : IRequest<ConfirmationCodeDto>
 {
-    public Guid AssignmentId { get; set; }
+    public Guid ConfirmeeAssignmentId { get; set; }
 }
 
 public class CreateClockConfirmationCodeCommandValidator
@@ -28,7 +28,7 @@ public class CreateClockConfirmationCodeCommandValidator
         _dbContext = dbContext;
         _currentUserService = currentUserService;
 
-        RuleFor(x => x.AssignmentId)
+        RuleFor(x => x.ConfirmeeAssignmentId)
             .NotNull();
     }
 
@@ -37,24 +37,20 @@ public class CreateClockConfirmationCodeCommandValidator
         CancellationToken ct = new())
     {
         var result = await base.ValidateAsync(context, ct);
-
         if (!result.IsValid) { return result; }
 
         var request = context.InstanceToValidate;
 
         var confirmer = await _dbContext.Employees.SingleAsync(
-            x => x.ProviderId == _currentUserService.ProviderId,
-            ct);
+            x => x.ProviderId == _currentUserService.ProviderId, ct);
 
         var confirmeeAssignment = await _dbContext.Assignments
             .Include(x => x.Clocks)
-            .SingleOrDefaultAsync(
-                x => x.Id == request.AssignmentId,
-                ct);
+            .SingleOrDefaultAsync(x => x.Id == request.ConfirmeeAssignmentId, ct);
 
         if (confirmeeAssignment is null)
         {
-            context.AddMissingEntityFailure(nameof(Assignment), request.AssignmentId);
+            context.AddMissingEntityFailure(nameof(Assignment), request.ConfirmeeAssignmentId);
             return result;
         }
 
@@ -102,21 +98,23 @@ public class CreateClockConfirmationCodeCommandValidator
     }
 }
 
-public class
-    CreateConfirmationBarcodeCommandHandler : IRequestHandler<CreateClockConfirmationCodeCommand, ConfirmationCodeDto>
+public class CreateConfirmationBarcodeCommandHandler : IRequestHandler<CreateClockConfirmationCodeCommand, ConfirmationCodeDto>
 {
     private readonly IRendezVousDbContext _dbContext;
+    private readonly ICurrentUserService _currentUserService;
     private readonly IDateTime _dateTime;
     private readonly IBarcodeService _barcodeService;
     private readonly BusinessOptions _businessOptions;
 
     public CreateConfirmationBarcodeCommandHandler(
         IRendezVousDbContext dbContext,
+        ICurrentUserService currentUserService,
         IDateTime dateTime,
         IBarcodeService barcodeService,
         IOptions<BusinessOptions> businessOptions)
     {
         _dbContext = dbContext;
+        _currentUserService = currentUserService;
         _dateTime = dateTime;
         _barcodeService = barcodeService;
         _businessOptions = businessOptions.Value;
@@ -124,12 +122,22 @@ public class
 
     public async Task<ConfirmationCodeDto> Handle(CreateClockConfirmationCodeCommand request, CancellationToken ct)
     {
+        var confirmer = await _dbContext.Employees.SingleAsync(
+            x => x.ProviderId == _currentUserService.ProviderId, ct);
+        
+        var confirmeeAssignment = await _dbContext.Assignments
+            .SingleAsync(x => x.Id == request.ConfirmeeAssignmentId, ct);
+
+        var confirmerAssignment = await _dbContext.Assignments
+            .SingleAsync(x => x.JobId == confirmeeAssignment.JobId && x.EmployeeId == confirmer.Id , ct);
+        
         var confirmationToken = new ConfirmationToken
         {
             Id = Guid.NewGuid(),
             Value = Guid.NewGuid().ToString(),
             ExpiresAt = _dateTime.Now.Add(_businessOptions.ConfirmationTokenWindow),
-            AssignmentId = request.AssignmentId
+            ConfirmerAssignmentId = confirmerAssignment.Id,
+            ConfirmeeAssignmentId = request.ConfirmeeAssignmentId
         };
 
         await _dbContext.ConfirmationTokens.AddAsync(confirmationToken, ct);
@@ -140,6 +148,5 @@ public class
             SvgSource = _barcodeService.CreateSvg(confirmationToken.Value),
             TimeRemaining = (int) _businessOptions.ConfirmationTokenWindow.TotalSeconds
         };
-        
     }
 }

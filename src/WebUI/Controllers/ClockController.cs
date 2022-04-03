@@ -10,9 +10,18 @@ namespace RendezVous.WebUI.Controllers;
 [Authorize]
 public class ClockController : RendezVousControllerBase
 {
-    [HttpPost("submission")]
+    [HttpPost("submission/unconfirmed")]
     [SwaggerResponse(typeof(void))]
-    public async Task<ActionResult> Submit(SubmitClockCommand request)
+    public async Task<ActionResult> SubmitUnconfirmed(SubmitUnconfirmedClockCommand request)
+    {
+        await Mediator.Send(request);
+
+        return NoContent();
+    }
+    
+    [HttpPost("submission/confirmed")]
+    [SwaggerResponse(typeof(void))]
+    public async Task<ActionResult> SubmitConfirmed(SubmitConfirmedClockCommand request)
     {
         await Mediator.Send(request);
 

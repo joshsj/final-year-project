@@ -7,7 +7,8 @@ import {
 import Home from "@/pages/Home.vue";
 import Job from "@/pages/Job.vue";
 import Jobs from "@/pages/Jobs.vue";
-import Clock from "@/pages/Clock.vue";
+import ConfirmedClock from "@/pages/ConfirmedClock.vue";
+import UnconfirmedClock from "@/pages/UnconfirmedClock.vue";
 import Confirm from "@/pages/Confirm.vue";
 import Account from "@/pages/Account.vue";
 import {store} from "@/store";
@@ -67,10 +68,19 @@ const routes = {
         meta: {authenticated: true},
     }),
 
-    clock: route<{ assignmentId: string, type: ClockType}>(
+    confirmedClock: route<{ assignmentId: string, type: ClockType }>(
+    {
+            path: "/confirmed-clock/:type/:assignmentId",
+            component: ConfirmedClock,
+            meta: {authenticated: true},
+            props: true
+        }
+    ),
+
+    unconfirmedClock: route<{ assignmentId: string, type: ClockType }>(
         {
-            path: "/clock/:type/:assignmentId",
-            component: Clock,
+            path: "/unconfirmed-clock/:type/:assignmentId",
+            component: UnconfirmedClock,
             meta: {authenticated: true},
             props: true
         }

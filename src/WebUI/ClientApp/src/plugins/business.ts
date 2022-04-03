@@ -3,6 +3,9 @@ import {useAuth0} from "@auth0/auth0-vue";
 import {computed} from "vue";
 import {Job} from "@/store";
 
+const requiresConfirmation = (assignments: AssignmentDto[]) =>
+    assignments.some(x => x.clockedIn);
+
 const useAssignmentBusiness = (job: Job) => {
     const {user} = useAuth0();
 
@@ -21,7 +24,7 @@ const useAssignmentBusiness = (job: Job) => {
             ? false 
             : (ass.clockedIn || !ass.clockedOut) && (userAssignment.value?.clockedIn ?? false);
 
-    return {isUserAssigment, userAssignment, canClockIn, canClockOut, canConfirm};
+    return {isUserAssigment, userAssignment, canClockIn, canClockOut, canConfirm, requiresConfirmation};
 }
 
 export {useAssignmentBusiness}

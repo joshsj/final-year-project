@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RendezVous.Domain.Entities;
 
 namespace RendezVous.Infrastructure.Persistence.Configurations;
@@ -19,9 +20,17 @@ public class ConfirmationTokenConfiguration : EntityConfiguration<ConfirmationTo
             .IsRequired();
 
         builder
-            .HasOne(x => x.Assignment)
+            .HasOne(x => x.ConfirmeeAssignment)
             .WithMany()
-            .HasForeignKey(x => x.AssignmentId)
-            .IsRequired();
+            .HasForeignKey(x => x.ConfirmeeAssignmentId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder
+            .HasOne(x => x.ConfirmerAssignment)
+            .WithMany()
+            .HasForeignKey(x => x.ConfirmerAssignmentId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

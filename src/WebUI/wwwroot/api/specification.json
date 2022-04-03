@@ -6,18 +6,43 @@
     "version": "v1"
   },
   "paths": {
-    "/api/Clock/submission": {
+    "/api/Clock/submission/unconfirmed": {
       "post": {
         "tags": [
           "Clock"
         ],
-        "operationId": "Clock_Submit",
+        "operationId": "Clock_SubmitUnconfirmed",
         "requestBody": {
           "x-name": "request",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SubmitClockCommand"
+                "$ref": "#/components/schemas/SubmitUnconfirmedClockCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Clock/submission/confirmed": {
+      "post": {
+        "tags": [
+          "Clock"
+        ],
+        "operationId": "Clock_SubmitConfirmed",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitConfirmedClockCommand"
               }
             }
           },
@@ -39,7 +64,7 @@
         "operationId": "Clock_GetConfirmationCode",
         "parameters": [
           {
-            "name": "AssignmentId",
+            "name": "ConfirmeeAssignmentId",
             "in": "query",
             "schema": {
               "type": "string",
@@ -122,12 +147,24 @@
   },
   "components": {
     "schemas": {
-      "SubmitClockCommand": {
+      "SubmitUnconfirmedClockCommand": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSubmitClockCommand"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "BaseSubmitClockCommand": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "confirmationTokenValue": {
-            "type": "string"
+          "assignmentId": {
+            "type": "string",
+            "format": "guid"
           },
           "clockType": {
             "$ref": "#/components/schemas/ClockType"
@@ -162,6 +199,22 @@
             "format": "double"
           }
         }
+      },
+      "SubmitConfirmedClockCommand": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSubmitClockCommand"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "confirmationTokenValue": {
+                "type": "string"
+              }
+            }
+          }
+        ]
       },
       "ConfirmationCodeDto": {
         "type": "object",

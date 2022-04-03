@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import PageTitle from "@/components/general/PageTitle.vue";
 import JobDetails from "@/components/jobs/JobDetails.vue";
-import {onMounted, readonly} from "vue";
+import {onMounted, ref} from "vue";
 import {store} from "@/store";
 import {display} from "@/utilities/display";
 import {AssignmentDto, ClockType} from "@/api/clients";
@@ -10,7 +10,7 @@ import {route} from "@/router";
 import {useAssignmentBusiness} from "@/plugins/business";
 
 const props = defineProps({jobId: {type: String, required: true}});
-const job = readonly(store.jobs.items.find(x => x.id === props.jobId)!);
+const job = ref(store.jobs.items.find(x => x.id === props.jobId)!);
 
 const {push} = useRouter();
 const {
@@ -18,14 +18,21 @@ const {
   userAssignment,
   canClockOut,
   canClockIn,
-  canConfirm
-} = useAssignmentBusiness(job);
+  canConfirm,
+  requiresConfirmation
+} = useAssignmentBusiness(job.value);
 
-const clock = (type: ClockType) => userAssignment.value && push(route({
-  name: 'clock',
-  assignmentId: userAssignment.value.id,
-  type
-}));
+const clock = (type: ClockType) => {
+  if (!(userAssignment.value && job.value.assignments)) {
+    return;
+  }
+
+  push(route({
+    name: requiresConfirmation(job.value.assignments) ? 'confirmedClock' : "unconfirmedClock",
+    assignmentId: userAssignment.value.id,
+    type
+  }));
+};
 
 const confirm = ({id}: AssignmentDto) => push(route({
   name: 'confirm',
