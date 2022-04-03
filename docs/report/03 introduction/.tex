@@ -34,18 +34,23 @@ complications; a festival can have tens of tents, stages,
 and bars, each of which may change every day.
 
 This project looks at reducing/eliminating the
-responsibility placed on individuals to monitor employee
-attendance in these environments with a software
+responsibility placed on managing \& supervising employees
+to monitor attendance in these environments with a software
 application named \enquote{\projectname}.
 
 The use-case of the system also presents an intrinsic
 problem, in that \hyperref[s:userAuth]{conventional
   authentication techniques} do not account for
-\gls{conspiring-users}.
-Given that \glsdisp{clock-in}{clocking into} work can
-directly result in an assignment of wages, it is a fair
-assumption that users of \projectname{} may pose as another
-user to obtain additional wages.
+\enquote{\gls{conspiring-users}}.
+Normally, user authentication is implemented to secure an
+individual's private information and restrict access to it
+exclusively to the user.
+Conversely, a system which handles
+\glsdisp{clock-in}{clocking in} and
+\glsdisp{clock-out}{clocking out} of jobs may instead
+motivate employees to widen access to their account,
+allowing other employees to clock in/out on their behalf
+and collect additional, false pay.
 % TODO link to discussion on future potential for the system
 As such, the application must minimise/eliminate the
 ability to imitate other users.
@@ -54,9 +59,9 @@ ability to imitate other users.
 
 \subsection{Goal} \label{ss:goal}
 The goal of this project is to implement a process for
-employees to \gls{clock-in}/\gls{clock-out} of a job, which
-concerns the critical functionality of the application: the
-verification of an employee's identity and location.
+employees to clock-in/out of a job, which concerns the
+critical functionality of the application: the verification
+of an employee's identity and location.
 
 As a guideline, the process should be as 'universal' as
 possible; specifically:
@@ -69,8 +74,8 @@ possible; specifically:
         human abilities
   \item Platform agnostic --- no restriction to specific
         hardware/software
-  \item Independent --- a shared system for companies to
-        buy into
+  \item Independent --- no reliance on existing business
+        applications
 \end{itemize}
 
 \subsection{Aims}
@@ -89,7 +94,6 @@ addressed:
         verification methodology
   \item Produce a set of functional and technical
         requirements for the system
-  \item Produce technical and practical test plans
   \item Setup the required tools for the development and
         testing phases, plus the project management tools
         for both
