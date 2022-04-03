@@ -28,17 +28,21 @@ public class SubmitUnconfirmedClockCommandValidator
     {
     }
 
-    protected override Task EnsureConfirmation(
+    protected override async Task EnsureConfirmation(
         Assignment assignment,
         Employee employee,
         ValidationContext<SubmitUnconfirmedClockCommand> context,
         CancellationToken ct)
     {
-        context.AddFailureIf(
-            assignment.Clocks.Any(),
-            "Clocking in/out of this job requires confirmation with another employee.");
+        var anyClocks = await _dbContext.Assignments
+            .Where(x => x.Id != assignment.Id && x.JobId == assignment.JobId)
+            .Include(x => x.Clocks)
+            .SelectMany(x => x.Clocks)
+            .AnyAsync(ct);
         
-        return Task.CompletedTask;
+        context.AddFailureIf(
+            anyClocks,
+            "Clocking in/out of this job requires confirmation with another employee.");
     }
 }
 

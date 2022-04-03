@@ -296,8 +296,13 @@ export interface BriefJobDto extends EntityDto {
 export interface AssignmentDto extends EntityDto {
     employeeProviderId: string;
     employeeName: string;
-    clockedIn: boolean;
-    clockedOut: boolean;
+    clockIn: ClockDto | undefined;
+    clockOut: ClockDto | undefined;
+}
+
+export interface ClockDto extends EntityDto {
+    at: Date;
+    parentId: string | undefined;
 }
 
 export class ApiException extends Error {

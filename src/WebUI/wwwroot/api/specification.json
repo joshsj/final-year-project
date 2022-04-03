@@ -288,11 +288,43 @@
               "employeeName": {
                 "type": "string"
               },
-              "clockedIn": {
-                "type": "boolean"
+              "clockIn": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/ClockDto"
+                  }
+                ]
               },
-              "clockedOut": {
-                "type": "boolean"
+              "clockOut": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/ClockDto"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "ClockDto": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/EntityDto"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "parentId": {
+                "type": "string",
+                "format": "guid",
+                "nullable": true
               }
             }
           }

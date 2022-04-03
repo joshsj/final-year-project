@@ -11,19 +11,14 @@ public class RendezVousMappingRegister: IRegister
     public void Register(TypeAdapterConfig config)
     {
         config.RequireExplicitMapping = true;
-        config.RequireDestinationMemberSource = true;
+        // config.RequireDestinationMemberSource = true;
         
         config.ForType<Job, BriefJobDto>()
             .Map(
                 to => to.AssignmentCount,
                 from => from.Assignments.Count);
 
-        config.ForType<Assignment, AssignmentDto>()
-            .Map(
-                to => to.ClockedIn,
-                from => from.ClockIn != null)
-            .Map(
-                to => to.ClockedOut,
-                from => from.ClockOut != null);
+        config.ForType<Assignment, AssignmentDto>();
+        config.ForType<Clock, ClockDto>();
     }
 }
