@@ -1,4 +1,5 @@
 @import "element-plus/dist/index.css";
+@import "v-network-graph/lib/style.css";
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap");
 
 :root {
@@ -11,8 +12,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+// reset user agent styles
 body {
-  // user agent styles
   margin: 0;
 }
 
@@ -40,4 +41,10 @@ body {
 // scoped styles don't work with v-html
 .confirmation-code > svg {
   max-height: 75vh;
+}
+
+// takes over the page
+.v-canvas {
+  width: auto !important;
+  height: auto !important;
 }

@@ -10,6 +10,7 @@ import Jobs from "@/pages/Jobs.vue";
 import ConfirmedClock from "@/pages/ConfirmedClock.vue";
 import UnconfirmedClock from "@/pages/UnconfirmedClock.vue";
 import Confirm from "@/pages/Confirm.vue";
+import Confirmations from "@/pages/Confirmations.vue";
 import Account from "@/pages/Account.vue";
 import {store} from "@/store";
 import {ClockType} from "@/api/clients";
@@ -90,6 +91,15 @@ const routes = {
         {
             path: "/confirm/:assignmentId",
             component: Confirm,
+            meta: {authenticated: true},
+            props: true
+        }
+    ),
+
+    confirmations: route<{ jobId: string }>(
+        {
+            path: "/confirmations/:jobId",
+            component: Confirmations,
             meta: {authenticated: true},
             props: true
         }

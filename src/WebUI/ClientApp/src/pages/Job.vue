@@ -97,6 +97,20 @@ onMounted(() => store.jobs.fetchAssignments(props.jobId));
           </el-button>
         </el-table-column>
       </el-table>
+
+      <el-button
+              id="view-chain"
+          round
+          type="success"
+          @click="push(route({name: 'confirmations', jobId: jobId}))">
+        View Chain
+      </el-button>
     </el-collapse-item>
   </el-collapse>
 </template>
+
+<style scoped>
+#view-chain {
+    margin-top: 1rem;
+}
+</style>
