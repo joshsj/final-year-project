@@ -1,0 +1,30 @@
+\newcommand{\epic}[2]
+{
+  \begin{tabular}{p{0.2\linewidth}p{0.8\linewidth}}
+    \textbf{Title}       & #1 \\
+    \textbf{Description} & #2 \\
+  \end{tabular}
+}
+
+\epic{Initiation}
+{
+  The development and configuration of all subsystems to
+  prepare the application for feature work.
+
+  As this is a technical task, its user stories will not
+  follow the \enquote{as a\ldots{} I want\ldots{} so
+    that\ldots{}} template.
+} \hline
+
+\epic{Jobs}
+{
+  Functionality to interact with Jobs (e.g, viewing)
+  plus directly associated data (e.g., assignments)
+} \hline
+
+\epic{Clocking}
+{
+  Functionality to implement the clocking feature: rules
+  and user interface for location \& identity
+  verification
+}

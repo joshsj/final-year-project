@@ -1,26 +1,22 @@
+\section{Specification}
+
 \subsection{Requirements} \label{ss:requirements}
 
 \paragraph{Functional}
-Using \projectname{}, employees (i.e., people who \gls{clock-in} and
-\gls{clock-out}) should be able to:
 
 \begin{itemize}
   \item Log into their account
-  \item View assigned jobs
-  \item View expected \& confirmed clock-ins \&
-        clock-outs
-  \item Verify attendance at jobs
-\end{itemize}
-
-In addition to the requirements for employees, managers
-(i.e., people in charge of employees) should be able to:
-
-\begin{itemize}
+  \item View their saved account information
+  \item View the jobs within their organisation
+  \item View a job's assigned employees with their
+        confirmed clock ins/outs
   \item View the verification chain for a job
+  \item Clock in/out for their assignments
+  \item Access a confirmation code for a job
 \end{itemize}
 
 \paragraph{Non-functional}
-% TODO
+% TODO improve
 
 In essence, the non-functional requirements are encompassed
 by the \enquote{universal} guideline in the
@@ -30,9 +26,20 @@ by the \enquote{universal} guideline in the
 
 See Figures \ref{fig:erd}.
 
-\begin{figure}[h]
+% TODO add architecture overview
+
+\begin{figure}[H]
   \centering
-  \includegraphics[width=\linewidth]{05 design/assets/entity relationship diagram.pdf}
+  \includegraphics[width=\linewidth]
+  {05 design/assets/entity relationship diagram.pdf}
   \caption{Entity Relationship Diagram}
   \label{fig:erd}
 \end{figure}
+
+\subsection{Epics} \label{ss:epics}
+
+\input{05 design/assets/epics tabular.tex}
+
+\subsection{User Stories} \label{ss:stories}
+
+\input{05 design/assets/user stories tabular.tex}

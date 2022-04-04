@@ -95,27 +95,23 @@ one available account.
         services with which to authenticate
 
   \item Once signed in, they are redirected back to the
-        \projectname{} site
+        \projectname{} site, storing their authentication
+        information in the frontend app
 
-  \item[{}] In the background:
-    \begin{enumerate}
-      \item An API call from the frontend notifies the
-            backend to update the employee's
-            personal data
+  \item The frontend retrieves an access token from Auth0,
+        containing any user details required by
+        \projectname{}
 
-      \item The API retrieves the employee's
-            information from Auth0 and persists it
-    \end{enumerate}
+        By sending this token within API requests, employees can be
+        identified and their details persisted in the database
 
-  \item The employee can now use the website
-\end{enumerate}
+\end{enumerate} 
 
-% TODO sequence diagram
-
-\subsection{Location}
+\subsection{Location} 
 
 The core of location verification is the storage of jobs
 and their locations.
+% TODO sequence diagram
 In addition to a latitude and longitude, a job location
 will also include a accuracy radius to identify the
 physical size of the job site.
@@ -213,5 +209,3 @@ More complex approaches may be more appropriate in a
 business context, but they would inherently be a business
 decision which is not of concern for the scope of this
 project.
-
-% TODO ER diagram
