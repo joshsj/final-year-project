@@ -1,5 +1,6 @@
 import "./styles.scss";
 import ElementPlus, {ElMessage} from "element-plus";
+import {VNetworkGraph} from "v-network-graph";
 import App from "@/App.vue";
 import {createApp} from "vue";
 import {createRouter} from "@/router";
