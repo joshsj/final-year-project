@@ -1,0 +1,114 @@
+\section{Project Setup}
+
+\subsection{Backend}
+The architecture of the backend project is built around the
+\gls{cqrs} pattern.
+As described by \cite{cqrs}, it's ideally suited for a
+\enquote{task-based UI} making it appropriate for
+\projectname{} due to its focus on processes (e.g.,
+clocking in, clocking out).
+
+I chose Jason Taylor's \enquote{Clean Architecture}
+template as a starting point, as I have previous
+professional experience using it, it implements the
+\gls{cqrs} pattern, and it is designed to serve an SPA
+frontend using the latest .NET 6 technologies.
+After removing some unneeded features and swapping
+Automapper for Mapster (familiarity), the API was set up.
+
+Each request is logged, additionally so if it causes
+performance issues; exceptions are handled elegantly, and
+response data is automatically mapped to DTOs to prevent
+secure information being exposed unintentionally.
+The process for handling requests is as follows:
+
+\begin{enumerate} 
+
+  \item A request is made: 
+
+        {\small \lstinputlisting{06 implementation/assets/request
+          process/request.txt} } 
+
+  \item An endpoint is resolved, authenticated if required,
+        and forwards the request to the CQRS implementation:
+
+        {\small \lstinputlisting[language={[Sharp]C}]{06
+          implementation/assets/request process/endpoint.cs} }
+
+  \item The request is validated and authorized:
+
+        {\small \lstinputlisting[language={[Sharp]C}] {06
+          implementation/assets/request process/validation.cs} }
+
+  \item A handler performs the actual functionality for the
+        request: 
+
+        {\small \lstinputlisting[language={[Sharp]C}] {06
+          implementation/assets/request process/handler.cs}}
+\end{enumerate} 
+
+With the API project implemented, the
+\enquote{\hyperref[ss:stories]{Backend Setup}} user story
+is completed.
+
+\subsection{Frontend}
+
+The project architecture in the frontend is more simple
+than the backend, as the application itself is
+comparatively simpler and Vue has a decided way of doing
+things.
+
+Navigation between pages is handled by Vue Router by
+resolving routes in the same fashion as the API, also
+guarding authenticated pages.
+Global state managements is contained within a store
+object, and complex functionality is  extracted from
+components into plugins using the Composition API offered
+in Vue 3.
+
+\subsection{Communication}
+
+Getting the two applications to talk to each other is made
+much easier thanks to NSwag; a toolchain designed for the
+.NET platform to generate OpenAPI schemas and HTTP clients
+for C# and Typescript \parencite{nswag}.
+As show in Figure \ref{fig:nswag}, every endpoint exposed
+by the API has a corresponding class/method in Typescript
+for use in the Vue app.
+
+\begin{figure}[h]
+  \centering
+
+  \begin{subfigure}{\linewidth}
+    \centering
+    {\small\lstinputlisting[language={[Sharp]C}]{06
+        implementation/assets/nswag/.cs}}
+    \caption{API Endpoint}
+  \end{subfigure}
+
+  \begin{subfigure}{\linewidth}
+    \centering
+    {\small
+      \lstinputlisting{06
+        implementation/assets/nswag/.ts}}
+    \caption{Generated Typescript client}
+  \end{subfigure}
+
+  \caption{NSwag Demonstration}
+  \label{fig:nswag}
+\end{figure}
+
+The generated code is also extensible, which was required
+to configure date parsing and the
+\lstinline{authentication} header.
+
+Another useful aspect of the .NET 6 ecosystem is first-hand
+support to host \glspl{spa}.
+Generally, a web app is hosted separately to the API it
+serves which requires additional configuration for HTTPS
+and CORS.
+To negate these issues, .NET MVC can execute and
+expose an \gls{SPA} within the same server.
+Microsoft documentation only explains the process for
+Angular and React, but \cite{viteInDotnet} demonstrates
+this functionality for any application using Vite.
