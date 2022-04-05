@@ -1,0 +1,51 @@
+\section{Backend Setup}
+
+The architecture of the backend project is built around the
+\gls{cqrs} pattern.
+As described by \cite{cqrs}, it's ideally suited for a
+\enquote{task-based UI} making it appropriate for
+\projectname{} due to its focus on processes (e.g.,
+clocking in, clocking out).
+
+I chose Jason Taylor's \enquote{Clean Architecture}
+template as a starting point, as I have previous
+professional experience using it, it implements the
+\gls{cqrs} pattern, and it is designed to serve an SPA
+frontend using the latest .NET 6 technologies.
+After removing some unnecessary features and replacing some
+libraries for those with which I am more familiar, a
+request to the API follows this structure:
+
+\begin{enumerate} 
+
+  \item A request is made: 
+
+        {\small \lstinputlisting{06 implementation/assets/request
+          process/request.txt} } 
+
+  \item An endpoint is resolved, authenticated if required,
+        and forwards the request to the CQRS implementation:
+
+        {\small \lstinputlisting[language={[Sharp]C}]{06
+          implementation/assets/request process/endpoint.cs} }
+
+  \item The request is validated and authorized:
+
+        {\small \lstinputlisting[language={[Sharp]C}] {06
+          implementation/assets/request process/validation.cs} }
+
+  \item A handler performs the actual functionality for the
+        request: 
+
+        {\small \lstinputlisting[language={[Sharp]C}] {06
+          implementation/assets/request process/handler.cs}}
+\end{enumerate} 
+
+Each request is logged, additionally so if it causes
+performance issues; exceptions are handled elegantly, and
+exposed data is automatically mapped to DTOs to prevent
+secure information being exposed unintentionally.
+
+With the API project implemented, the
+\enquote{\hyperref[ss:stories]{Backend Setup}} user story
+is completed.
