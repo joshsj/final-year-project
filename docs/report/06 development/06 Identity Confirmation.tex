@@ -1,0 +1,38 @@
+\section{Confirmation}
+
+\subsection{Displaying Codes}
+
+Instead of using the library in application code directly,
+barcode functionality is abstracted behind an
+\lstinline{IBarcodeService} to swap to different formats
+and standards to replace QR if necessary.
+
+Generation is handled using the QRCoder library, chosen for
+its comprehensive range of configuration options and data
+types for which it generates.
+The barcode service uses the SVG format for two main
+reasons: vector images render accurately across all devices
+and displays, ensuring the confirmation process is reliable
+and fast; and browsers have first-hand support for SVGs
+which keeps their sizing and styling in the frontend.
+See Figure \ref{fig:confirmationCode} for an example.
+
+\begin{figure}[h]
+  \centering
+  \frame{
+    \includegraphics[width=0.9\linewidth]{06
+      development/assets/identity/confirmation page.png}}
+  \caption{Confirmation page}
+  \ref{fig:confirmationCode}
+\end{figure} 
+
+\subsection{Scanning Codes}
+
+When a clock requires confirmation, the 
+\hyperref[s:providingLocation]{location process} is
+followed as normal. The scanning process is feature below as
+an additional step, seen in Figure \ref{fig:scanCode}. 
+
+Also like the location process, it makes use of the 
+Media Streams API in the browser to access the camera on the
+employee's device. 

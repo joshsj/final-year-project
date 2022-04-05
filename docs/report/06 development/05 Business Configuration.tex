@@ -1,0 +1,16 @@
+\section{Business Configuration}
+
+Some business rules surrounding clocking in \& out are not
+black and white. The \enquote{providing location}
+\hyperref[ss:stores]{user story} specifies employees should
+not be able to clock in too early, or clock out too late;
+confirmation codes also have a specified lifetime, as
+defined in \enquote{Confirming Location \& Identity}. 
+
+The options pattern in .NET allows the values for these rule
+sets to be configured at runtime, both on the initial
+startup and throughout the uptime of the application. Loaded
+from configuration files, the \lstinline{BusinessOptions}
+class stores these values to inject where required; see
+the \hyperref[requestProcess]{request process} for usage of
+the \lstinline{ConfirmationTokenWindow} value.

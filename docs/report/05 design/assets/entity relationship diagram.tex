@@ -85,10 +85,22 @@
     }
   \end{object}
 
+  \begin{object}[text width=25em]{ConfirmationToken}{58em,-14.5em}
+    \attributes
+    {
+      PK & Id                    & uniqueidentifier \\
+      FK & ConfirmeeAssignmentId & uniqueidentifier \\ 
+      FK & ConfirmerAssignmentId & uniqueidentifier \\
+        & Value                 & nvarchar(50) \\
+        & ExpiresAt             & datetime2
+    }
+  \end{object}
+
   \association{Location}{1}{}{Job}{0..*}{}
   \association{Employee}{1}{}{Assignment}{0..*}{}
   \association{Job}{\wb{1}}{}{Assignment}{}{\wb{1..*}}
   \association{Clock}{}{\wb{0..*}}{Assignment}{\wb{1}}{}
+  \association{ConfirmationToken}{0..*}{}{Assignment}{2}{}
 
   % clock self association
   \draw[-]
