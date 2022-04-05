@@ -26,25 +26,25 @@ The process for handling requests is as follows:
 
   \item A request is made: 
 
-        {\small \lstinputlisting{06 implementation/assets/request
+        {\small \lstinputlisting{06 development/assets/request
           process/request.txt} } 
 
   \item An endpoint is resolved, authenticated if required,
         and forwards the request to the CQRS implementation:
 
         {\small \lstinputlisting[language={[Sharp]C}]{06
-          implementation/assets/request process/endpoint.cs} }
+          development/assets/request process/endpoint.cs} }
 
   \item The request is validated and authorized:
 
         {\small \lstinputlisting[language={[Sharp]C}] {06
-          implementation/assets/request process/validation.cs} }
+          development/assets/request process/validation.cs} }
 
   \item A handler performs the actual functionality for the
         request: 
 
         {\small \lstinputlisting[language={[Sharp]C}] {06
-          implementation/assets/request process/handler.cs}}
+          development/assets/request process/handler.cs}}
 \end{enumerate} 
 
 With the API project implemented, the
@@ -78,19 +78,19 @@ for use in the Vue app.
 
 \begin{figure}[h]
   \centering
+  \small
 
   \begin{subfigure}{\linewidth}
     \centering
-    {\small\lstinputlisting[language={[Sharp]C}]{06
-        implementation/assets/nswag/.cs}}
+    \lstinputlisting[language={[Sharp]C}]{06
+      development/assets/nswag/.cs}
     \caption{API Endpoint}
   \end{subfigure}
 
   \begin{subfigure}{\linewidth}
     \centering
-    {\small
-      \lstinputlisting{06
-        implementation/assets/nswag/.ts}}
+    \lstinputlisting{06
+      development/assets/nswag/.ts}
     \caption{Generated Typescript client}
   \end{subfigure}
 
@@ -107,12 +107,11 @@ support to host \glspl{spa}.
 Generally, a web app is hosted separately to the API it
 serves which requires additional configuration for HTTPS
 and CORS.
-To negate these issues, .NET MVC can execute and
-expose an \gls{spa} within the same server.
+To negate these issues, .NET MVC can execute and expose an
+\gls{spa} within the same server.
 Microsoft documentation only explains the process for
 Angular and React, but \cite{viteInDotnet} demonstrates
 this functionality for any application using Vite.
 
-With the frontend and backend project's set up, 
-their \hyperref[ss:stories]{user stories} are done.
-
+With the frontend and backend project's set up, their
+\hyperref[ss:stories]{user stories} are done.
