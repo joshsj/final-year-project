@@ -24,15 +24,27 @@ See Figure \ref{fig:confirmationCode} for an example.
       development/assets/identity/confirmation page.png}}
   \caption{Confirmation page}
   \ref{fig:confirmationCode}
-\end{figure} 
+\end{figure}
 
 \subsection{Scanning Codes}
 
-When a clock requires confirmation, the 
+When a clock requires confirmation, the
 \hyperref[s:providingLocation]{location process} is
-followed as normal. The scanning process is feature below as
-an additional step, seen in Figure \ref{fig:scanCode}. 
+followed as normal.
+The scanning process is feature below as an additional
+step, seen in Figure \ref{fig:scanCode}.
 
-Also like the location process, it makes use of the 
-Media Streams API in the browser to access the camera on the
-employee's device. 
+Also like the location process, it makes use of the Media
+Streams API in the browser to access the camera on the
+employee's device.
+The jsQR library attempts to read a QR code in each frame
+of the video and the clock can be submitted once scanned.
+
+\begin{figure}[h]
+  \centering
+  \frame{\includegraphics{06
+      development/assets/identity/clock page with camera
+      feed.png}}
+  \caption{QR scanning on the clock in/out page}
+  \label{fig:scanCode}
+\end{figure}
