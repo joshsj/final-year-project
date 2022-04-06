@@ -9,13 +9,13 @@ namespace RendezVous.WebUI.Controllers;
 public class JobController : RendezVousControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<BriefJobDto>>> Get()
+    public async Task<ActionResult<IList<BriefJobDto>>> Get()
     {
         return Ok(await Mediator.Send(new GetJobsQuery()));
     }
 
     [HttpGet("assignment")]
-    public async Task<ActionResult<IEnumerable<AssignmentDto>>> GetAssignments(
+    public async Task<ActionResult<IList<AssignmentDto>>> GetAssignments(
         [FromQuery] GetAssignmentsQuery request)
     {
         return Ok(await Mediator.Send(request));

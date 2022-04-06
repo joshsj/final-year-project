@@ -39,8 +39,9 @@ public abstract class BaseSubmitClockCommandValidator<T>
         _businessOptions = businessOptions.Value;
 
         RuleFor(x => x.AssignmentId)
-            .NotNull();
-        
+            .NotNull()
+            .NotEmpty();
+
         RuleFor(x => x.Coordinates)
             .NotNull();
     }

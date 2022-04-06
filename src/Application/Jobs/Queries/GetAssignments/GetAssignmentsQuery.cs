@@ -9,7 +9,7 @@ using RendezVous.Domain.Entities;
 
 namespace RendezVous.Application.Jobs.Queries.GetAssignments;
 
-public class GetAssignmentsQuery : IRequest<IEnumerable<AssignmentDto>>
+public class GetAssignmentsQuery : IRequest<IList<AssignmentDto>>
 {
     public Guid JobId { get; set; }
 }
@@ -23,7 +23,8 @@ public class GetAssignmentsQueryValidator : AbstractValidator<GetAssignmentsQuer
         _dbContext = dbContext;
 
         RuleFor(x => x.JobId)
-            .NotNull();
+            .NotNull()
+            .NotEqual(Guid.Empty);
     }
 
     public override async Task<ValidationResult> ValidateAsync(
@@ -32,7 +33,7 @@ public class GetAssignmentsQueryValidator : AbstractValidator<GetAssignmentsQuer
     {
         var result = await base.ValidateAsync(context, ct);
 
-        if (result.IsValid) { return result; }
+        if (!result.IsValid) { return result; }
 
         var job = await _dbContext.Jobs.SingleOrDefaultAsync(
             x => x.Id == context.InstanceToValidate.JobId,
@@ -47,7 +48,7 @@ public class GetAssignmentsQueryValidator : AbstractValidator<GetAssignmentsQuer
     }
 }
 
-public class GetAssignmentsQueryHandler : IRequestHandler<GetAssignmentsQuery, IEnumerable<AssignmentDto>>
+public class GetAssignmentsQueryHandler : IRequestHandler<GetAssignmentsQuery, IList<AssignmentDto>>
 {
     private readonly IRendezVousDbContext _dbContext;
     private readonly TypeAdapterConfig _typeAdapterConfig;
@@ -60,14 +61,13 @@ public class GetAssignmentsQueryHandler : IRequestHandler<GetAssignmentsQuery, I
         _typeAdapterConfig = typeAdapterConfig;
     }
 
-    public Task<IEnumerable<AssignmentDto>> Handle(GetAssignmentsQuery request, CancellationToken ct)
+    public async Task<IList<AssignmentDto>> Handle(GetAssignmentsQuery request, CancellationToken ct)
     {
-        return Task.FromResult(
-            _dbContext.Assignments.AsNoTracking()
-                .Where(x => x.JobId == request.JobId)
-                .Include(x => x.Employee)
-                .Include(x => x.Clocks)
-                .ProjectToType<AssignmentDto>(_typeAdapterConfig)
-                .AsEnumerable());
+        return await _dbContext.Assignments.AsNoTracking()
+            .Where(x => x.JobId == request.JobId)
+            .Include(x => x.Employee)
+            .Include(x => x.Clocks)
+            .ProjectToType<AssignmentDto>(_typeAdapterConfig)
+            .ToListAsync(ct);
     }
 }

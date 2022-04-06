@@ -6,8 +6,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Moq;
 using NUnit.Framework;
+using RendezVous.Domain.Common;
+using RendezVous.Domain.Entities;
 using Respawn;
 
 namespace RendezVous.Application.IntegrationTests;
@@ -16,12 +19,16 @@ namespace RendezVous.Application.IntegrationTests;
 public class Testing
 {
     private static IConfigurationRoot _configuration = null!;
-    private static IServiceScopeFactory _scopeFactory = null!;
-    private static Checkpoint _checkpoint = null!;
-    private static Guid? _currentUserId;
 
+    private static IServiceScopeFactory _scopeFactory = null!;
+
+    private static Checkpoint _checkpoint = null!;
+
+    private static string? _currentUserProviderId;
+    private static readonly Random _random = new ();
+    
     [OneTimeSetUp]
-    public void RunBeforeAnyTests()
+    public async Task RunBeforeAnyTests()
     {
         var builder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
@@ -31,52 +38,66 @@ public class Testing
         _configuration = builder.Build();
 
         var startup = new Startup(_configuration);
-
         var services = new ServiceCollection();
 
+        services.AddLogging();
         services.AddSingleton(Mock.Of<IWebHostEnvironment>(w =>
             w.EnvironmentName == "Development" &&
             w.ApplicationName == "RendezVous.WebUI"));
 
-        services.AddLogging();
-
         startup.ConfigureServices(services);
 
-        // Replace service registration for ICurrentUserService
-        // Remove existing registration
-        var currentUserServiceDescriptor = services.FirstOrDefault(d =>
-            d.ServiceType == typeof(ICurrentUserService));
-
-        if (currentUserServiceDescriptor != null)
-        {
-            services.Remove(currentUserServiceDescriptor);
-        }
-
-        // Register testing version
-        // TODO fix
-        // services.AddTransient(provider =>
-        // Mock.Of<ICurrentUserService>(s => s. == _currentUserId));
+        // Replace current user service with testing version
+        services.RemoveAll<ICurrentUserService>();
+        services.AddTransient(_ => Mock.Of<ICurrentUserService>(s => s.ProviderId == _currentUserProviderId));
 
         _scopeFactory = services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
-
+        
+        // Prevent rerun of migrations
         _checkpoint = new Checkpoint
         {
             TablesToIgnore = new[] { "__EFMigrationsHistory" }
         };
 
-        EnsureDatabase();
+        await EnsureDatabase();
     }
 
-    private static void EnsureDatabase()
+    private static async Task EnsureDatabase()
     {
         using var scope = _scopeFactory.CreateScope();
 
         var context = scope.ServiceProvider.GetRequiredService<RendezVousDbContext>();
 
-        context.Database.Migrate();
+        await context.Database.MigrateAsync();
+    }
+    
+    public static async Task ResetState()
+    {
+        await _checkpoint.Reset(_configuration.GetConnectionString("DefaultConnection"));
+
+        _currentUserProviderId = null;
     }
 
-    public static async Task<TResponse> SendAsync<TResponse>(IRequest<TResponse> request)
+    public static string CreateProviderId() => $"testing-oauth2:{_random.Next(int.MaxValue / 100, int.MaxValue)}";
+    public static async Task<(string ProviderId, Guid Id)> RunAsUser()
+    {
+        // mimics an Auth0 user_id
+        _currentUserProviderId = CreateProviderId();
+
+        var employee = new Employee
+        {
+            Id = Guid.NewGuid(),
+            Name = "Test Employee",
+            Email = "testEmployee@email.com",
+            ProviderId = _currentUserProviderId
+        };
+
+        await Add(employee);
+
+        return (_currentUserProviderId, employee.Id);
+    }
+
+    public static async Task<TResponse> Send<TResponse>(IRequest<TResponse> request)
     {
         using var scope = _scopeFactory.CreateScope();
 
@@ -85,88 +106,32 @@ public class Testing
         return await mediator.Send(request);
     }
 
-    public static async Task<string> RunAsDefaultUserAsync()
-    {
-        return await RunAsUserAsync("test@local", "Testing1234!", Array.Empty<string>());
-    }
-
-    public static async Task<string> RunAsAdministratorAsync()
-    {
-        return await RunAsUserAsync("administrator@local", "Administrator1234!", new[] { "Administrator" });
-    }
-
-    public static async Task<string> RunAsUserAsync(string userName, string password, string[] roles)
-    {
-        // TODO fix
-        throw new NotImplementedException();
-        // using var scope = _scopeFactory.CreateScope();
-
-        // var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-
-        // var user = new ApplicationUser { UserName = userName, Email = userName };
-
-        // var result = await userManager.CreateAsync(user, password);
-
-        // if (roles.Any())
-        // {
-        //     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-
-        //     foreach (var role in roles)
-        //     {
-        //         await roleManager.CreateAsync(new IdentityRole(role));
-        //     }
-
-        //     await userManager.AddToRolesAsync(user, roles);
-        // }
-
-        // if (result.Succeeded)
-        // {
-        //     _currentUserId = user.Id;
-
-        //     return _currentUserId;
-        // }
-
-        // var errors = string.Join(Environment.NewLine, result.ToApplicationResult().Errors);
-
-        // throw new Exception($"Unable to create {userName}.{Environment.NewLine}{errors}");
-    }
-
-    public static async Task ResetState()
-    {
-        await _checkpoint.Reset(_configuration.GetConnectionString("DefaultConnection"));
-
-        _currentUserId = null;
-    }
-
-    public static async Task<TEntity?> FindAsync<TEntity>(params object[] keyValues)
-        where TEntity : class
+    public static async Task<T?> Find<T>(params object[] keyValues) where T : Entity
     {
         using var scope = _scopeFactory.CreateScope();
 
         var context = scope.ServiceProvider.GetRequiredService<RendezVousDbContext>();
 
-        return await context.FindAsync<TEntity>(keyValues);
+        return await context.FindAsync<T>(keyValues);
     }
 
-    public static async Task AddAsync<TEntity>(TEntity entity)
-        where TEntity : class
+    public static async Task Add<T>(params T[] entities) where T : Entity
     {
         using var scope = _scopeFactory.CreateScope();
 
         var context = scope.ServiceProvider.GetRequiredService<RendezVousDbContext>();
 
-        context.Add(entity);
-
+        await context.AddRangeAsync(entities);
         await context.SaveChangesAsync();
     }
 
-    public static async Task<int> CountAsync<TEntity>() where TEntity : class
+    public static async Task<int> Count<T>() where T : Entity
     {
         using var scope = _scopeFactory.CreateScope();
 
         var context = scope.ServiceProvider.GetRequiredService<RendezVousDbContext>();
 
-        return await context.Set<TEntity>().CountAsync();
+        return await context.Set<T>().CountAsync();
     }
 
     [OneTimeTearDown]

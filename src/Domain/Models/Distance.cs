@@ -2,5 +2,5 @@
 
 public record Distance(double Meters)
 {
-    public static Distance FromKilometers(double kilometers) => new Distance(kilometers * 1000);
+    public static Distance FromKilometers(double kilometers) => new (kilometers * 1000);
 }

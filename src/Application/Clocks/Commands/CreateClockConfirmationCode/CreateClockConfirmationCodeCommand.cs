@@ -29,7 +29,8 @@ public class CreateClockConfirmationCodeCommandValidator
         _currentUserService = currentUserService;
 
         RuleFor(x => x.ConfirmeeAssignmentId)
-            .NotNull();
+            .NotNull()
+            .NotEmpty();
     }
 
     public override async Task<ValidationResult> ValidateAsync(
@@ -98,7 +99,7 @@ public class CreateClockConfirmationCodeCommandValidator
     }
 }
 
-public class CreateConfirmationBarcodeCommandHandler : IRequestHandler<CreateClockConfirmationCodeCommand, ConfirmationCodeDto>
+public class CreateClockConfirmationCodeCommandHandler : IRequestHandler<CreateClockConfirmationCodeCommand, ConfirmationCodeDto>
 {
     private readonly IRendezVousDbContext _dbContext;
     private readonly ICurrentUserService _currentUserService;
@@ -106,7 +107,7 @@ public class CreateConfirmationBarcodeCommandHandler : IRequestHandler<CreateClo
     private readonly IBarcodeService _barcodeService;
     private readonly BusinessOptions _businessOptions;
 
-    public CreateConfirmationBarcodeCommandHandler(
+    public CreateClockConfirmationCodeCommandHandler(
         IRendezVousDbContext dbContext,
         ICurrentUserService currentUserService,
         IDateTime dateTime,
