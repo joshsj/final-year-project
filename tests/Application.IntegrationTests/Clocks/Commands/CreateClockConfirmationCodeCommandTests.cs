@@ -123,7 +123,7 @@ public class CreateClockConfirmationCodeCommandTests : UserTestBase
     }
 
     [Test]
-    public async Task FailsWhenConfirmerIsNotClockedIn()
+    public async Task FailsWhenConfirmeeIsClockedOut()
     {
         var confirmee = new Employee
         {
@@ -142,7 +142,7 @@ public class CreateClockConfirmationCodeCommandTests : UserTestBase
             EmployeeId = CurrentUser.Id,
             JobId = job.Id,
             Notes = "",
-            // clocked in
+            // clocked in to confirm
             Clocks = {new() {Id = Guid.NewGuid(), Type = ClockType.In,}}
         };
         var confirmeeAssignment = new Assignment
@@ -166,7 +166,7 @@ public class CreateClockConfirmationCodeCommandTests : UserTestBase
     }
 
     [Test]
-    public async Task FailsWhenConfirmeeIsClockedOut()
+    public async Task FailsWhenConfirmerIsNotClockedIn()
     {
         var confirmee = new Employee
         {

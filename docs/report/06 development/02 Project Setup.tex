@@ -26,24 +26,24 @@ The process for handling requests is as follows:
 
   \item A request is made: 
 
-        {\small \lstinputlisting{06 development/assets/request
+        {\codesize \lstinputlisting{06 development/assets/request
           process/request.txt} } 
 
   \item An endpoint is resolved, authenticated if required,
         and forwards the request to the CQRS implementation:
 
-        {\small \lstinputlisting[language={[Sharp]C}]{06
+        {\codesize \lstinputlisting[language={[Sharp]C}]{06
           development/assets/request process/endpoint.cs} }
 
   \item The request is validated and authorized:
 
-        {\small \lstinputlisting[language={[Sharp]C}] {06
+        {\codesize \lstinputlisting[language={[Sharp]C}] {06
           development/assets/request process/validation.cs} }
 
   \item A handler performs the actual functionality for the
         request: 
 
-        {\small \lstinputlisting[language={[Sharp]C}] {06
+        {\codesize \lstinputlisting[language={[Sharp]C}] {06
           development/assets/request process/handler.cs}}
 \end{enumerate} 
 \label{requestProcess}
@@ -75,7 +75,7 @@ for use in the Vue app.
 
 \begin{figure}[h]
   \centering
-  \small
+  \codesize
 
   \begin{subfigure}{\linewidth}
     \centering

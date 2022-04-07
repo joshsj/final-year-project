@@ -6,7 +6,6 @@ using RendezVous.Application.Jobs.Queries.GetJobs;
 
 namespace RendezVous.WebUI.Controllers;
 
-[Authorize]
 public class JobController : RendezVousControllerBase
 {
     public JobController(ISender sender) : base(sender)

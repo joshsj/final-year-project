@@ -7,7 +7,6 @@ using RendezVous.Application.Clocks.Commands.SubmitClock;
 
 namespace RendezVous.WebUI.Controllers;
 
-[Authorize]
 public class ClockController : RendezVousControllerBase
 {
     public ClockController(ISender sender) : base(sender)
