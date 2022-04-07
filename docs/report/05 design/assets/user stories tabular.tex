@@ -1,12 +1,13 @@
-\newcommand{\story}[4]
+\newcommand{\designs}[1]{\textbf{Designs} & Figures #1}
+
+\newcommand{\story}[5]
 {
   \begin{tabular}{p{0.2\linewidth}p{0.8\linewidth}}
-
     \textbf{Title}               & #1 \\
     \textbf{Epic}                & #2 \\
     \textbf{Description}         & #3 \\
     \textbf{Acceptance Criteria} & #4 \\
-     % TODO add ui designs
+    #5
   \end{tabular}
 }
 
@@ -16,33 +17,37 @@
 }
 {
   Ready to implement business functionality
-} \hrule
+}{} \hrule
 
 \story{Frontend Setup}{Initiation}
 {
-  Development and configuration of the web client
+Development and configuration of the web client
 }
 {
-  \begin{itemize}[leftmargin=*]
-    \item Ready to implement business functionality
-    \item Able to send requests and handles responses with
-          the API
-  \end{itemize}
-} \hrule
+\begin{itemize}[leftmargin=*]
+  \item Ready to implement business functionality
+  \item Able to send requests and handles responses with
+        the API
+\end{itemize}
+}{} \hrule
 
 \story{Authentication}{Initiation}
 {
-  As a user, I want to log into the application, so that
-  I can use its services
+As a user, I want to log into the application, so that
+I can use its services
 }
 {
-  \begin{itemize}[leftmargin=*]
+\begin{itemize}[leftmargin=*]
   \item The frontend displays a page to login when opened
   \item Users can login via Auth0 using social providers
   \item API routes and web pages which require auth cannot
-  be accessed without logging in
+        be accessed without logging in
   \item New user details are persisted in the database
-  \end{itemize}
+\end{itemize}
+}
+{
+\designs{\ref{fig:homePageNoAuth},
+  \ref{fig:homePageWithAuth}}
 } \hrule
 
 \story{Viewing Jobs}{Jobs}
@@ -54,11 +59,13 @@
   \begin{itemize}[leftmargin=*]
     \item Users can view the jobs in the system, showing
           its principle details
-    \item Users can filter the view to only their jobs
     \item Viewing a Job individually shows the employees
           assigned
   \end{itemize}
-}\hrule
+}
+{
+  \designs{\ref{fig:jobsPage}, \ref{fig:jobPage}}
+} \hrule
 
 \story{Providing Location}{Confirmation}
 {
@@ -87,6 +94,9 @@
     \item Cannot clock out too late
   \end{itemize}
 }
+{
+  \designs{\ref{fig:jobPage}, \ref{fig:clockPage}}
+} \hrule
 
 \story{Confirming Location \& Identity}{Confirmation}
 {
@@ -110,6 +120,9 @@
     \item Jobs with one assigned employee require no
           confirmation
   \end{itemize}
+}
+{
+  \designs{\ref{fig:clockPage}, \ref{fig:confirmPage}}
 } \hrule
 
 \story{Viewing Verification Chain}{Confirmation}
@@ -119,4 +132,7 @@
 }
 {
   Each job has a diagram displaying its clock ins and outs
+}
+{
+  \designs{\ref{fig:confirmationsPage}}
 }
