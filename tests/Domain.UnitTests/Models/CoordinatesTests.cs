@@ -3,7 +3,7 @@ using RendezVous.Domain.Models;
 
 namespace RendezVous.Domain.UnitTests.Models;
 
-public class CoordinatesTestes
+public class CoordinatesTests
 {
     
     /// <summary>1 Millimeter</summary>

@@ -35,6 +35,6 @@ public class GetJobsQueryTests : UserTestBase
         var result = await Send(new GetJobsQuery());
 
         Assert.That(result, Is.Not.Null);
-        Assert.That(result, Has.Count.EqualTo(1));
+        Assert.That(result, Has.Count.EqualTo(2));
     }
 }

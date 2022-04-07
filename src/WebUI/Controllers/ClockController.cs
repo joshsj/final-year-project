@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
-using RendezVous.Application.Clocks.Commands;
 using RendezVous.Application.Clocks.Commands.CreateClockConfirmationCode;
 using RendezVous.Application.Clocks.Commands.SubmitClock;
 
@@ -10,6 +10,10 @@ namespace RendezVous.WebUI.Controllers;
 [Authorize]
 public class ClockController : RendezVousControllerBase
 {
+    public ClockController(ISender sender) : base(sender)
+    {
+    }
+    
     [HttpPost("submission/unconfirmed")]
     [SwaggerResponse(typeof(void))]
     public async Task<ActionResult> SubmitUnconfirmed(SubmitUnconfirmedClockCommand request)

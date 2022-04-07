@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RendezVous.Application.Jobs.Queries.GetAssignments;
 using RendezVous.Application.Jobs.Queries.GetJobs;
@@ -8,6 +9,10 @@ namespace RendezVous.WebUI.Controllers;
 [Authorize]
 public class JobController : RendezVousControllerBase
 {
+    public JobController(ISender sender) : base(sender)
+    {
+    }
+
     [HttpGet]
     public async Task<ActionResult<IList<BriefJobDto>>> Get()
     {

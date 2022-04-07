@@ -12,6 +12,7 @@ public class GetAssignmentsQueryTests : UserTestBase
         {
             Id = Guid.NewGuid(),
             Notes = "notes",
+            EmployeeId = CurrentUser.Id,
             Job = new Job
             {
                 Id = Guid.NewGuid(),
